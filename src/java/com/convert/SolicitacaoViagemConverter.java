@@ -1,13 +1,19 @@
 package com.convert;
 
+import com.google.gson.Gson;
 import com.model.entity.Entity;
+import com.model.entity.Passageiro;
 import com.model.entity.SolicitacaoViagem;
 import com.model.entity.StatusSolicitacaoViagem;
 import com.model.entity.Usuario;
 import com.model.entity.Veiculo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -89,6 +95,14 @@ public class SolicitacaoViagemConverter implements Converter {
             v.setIdVeiculo(Integer.parseInt(idVeiculo));
             solicitacaoViagem.setVeiculo(v);
         }
+        solicitacaoViagem.setPassageiros(this.retrievePassageiros(request));
         return solicitacaoViagem;
+    }
+    
+    public List<Passageiro> retrievePassageiros(HttpServletRequest request) {
+        Passageiro[] passageiros = new Gson().fromJson(request.getParameter("passageiros"), Passageiro[].class);
+        List<Passageiro> listaPassageiros = new ArrayList<Passageiro>();
+        listaPassageiros.addAll(Arrays.asList(passageiros));
+        return listaPassageiros;
     }
 }
