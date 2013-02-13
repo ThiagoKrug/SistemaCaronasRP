@@ -1,7 +1,11 @@
 package com.model.dao;
 
+import com.jdbc.ConnectionFactory;
 import com.model.entity.Passageiro;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,6 +21,8 @@ import static org.junit.Assert.*;
  */
 public class PassageiroDAOTest {
 
+    Connection connection;
+
     public PassageiroDAOTest() {
     }
 
@@ -30,10 +36,20 @@ public class PassageiroDAOTest {
 
     @Before
     public void setUp() {
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @After
     public void tearDown() {
+        try {
+            this.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -43,18 +59,22 @@ public class PassageiroDAOTest {
     public void testInserir() {
         System.out.println("inserir");
 
-        System.out.println("Testando a criação de Intâcia: 'Passageiro'");
+        System.out.println("Testando a criação de Instâcia: 'Passageiro'");
         Passageiro passageiro = new Passageiro();
         assertNotNull(">>> A instância da Classe 'Passageiro' não pode ser criada! <<<", passageiro);
 
-        System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        System.out.println("Testando a criação de Instâcia: 'PassageiroDAO'");
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
 
         /**
          * Forçando erro, pois não existem dado na instância.
          */
-        instance.inserir(passageiro);
+        assertEquals(1, instance.inserir(passageiro));
+        for (Iterator<Passageiro> it = instance.getPassageiros().iterator(); it.hasNext();) {
+            Passageiro passageiro1 = it.next();
+            assertEquals(1, instance.deletar(passageiro1));
+        }
     }
 
     /**
@@ -64,13 +84,42 @@ public class PassageiroDAOTest {
     public void testGetPassageiros() {
         System.out.println("getPassageiros");
 
-        System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        System.out.println("Testando a criação de Instâcia: 'PassageiroDAO'");
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
+        List<Passageiro> passageiros = instance.getPassageiros();
+        for (Iterator<Passageiro> it = passageiros.iterator(); it.hasNext();) {
+            Passageiro passageiro = it.next();
+            instance.deletar(passageiro);
+        }
 
-        List expResult = null;
-        List result = instance.getPassageiros();
-        assertEquals(expResult, result);
+        Passageiro pUm = new Passageiro();
+        pUm.setNome("p1");
+        pUm.setRg("12345");
+        pUm.setTelefone("54321");
+        instance.inserir(pUm);
+
+        Passageiro pDois = new Passageiro();
+        pDois.setNome("p2");
+        pDois.setRg("11111");
+        pDois.setTelefone("22222");
+        instance.inserir(pDois);
+
+        List<Passageiro> result = instance.getPassageiros();
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        Passageiro p1 = result.get(0);
+        Passageiro p2 = result.get(1);
+        assertNotNull(p1.getIdPassageiro());
+        assertEquals(pUm.getNome(), p1.getNome());
+        assertEquals(pUm.getRg(), p1.getRg());
+        assertEquals(pUm.getTelefone(), p1.getTelefone());
+        assertEquals(1, instance.deletar(p1));
+        assertNotNull(p2);
+        assertEquals(pDois.getNome(), p2.getNome());
+        assertEquals(pDois.getRg(), p2.getRg());
+        assertEquals(pDois.getTelefone(), p2.getTelefone());
+        assertEquals(1, instance.deletar(p2));
     }
 
     /**
@@ -85,13 +134,20 @@ public class PassageiroDAOTest {
         assertNotNull(">>> A instância da Classe 'Passageiro' não pode ser criada! <<<", passageiro);
 
         System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
 
         /**
          * Forçando erro, pois não existem dado na instância.
          */
-        instance.alterar(passageiro);
+        Passageiro p = passageiro;
+
+        try {
+            instance.alterar(passageiro);
+            fail("Alterou uma instância sem id de Passageiro");
+        } catch (NullPointerException e) {
+            assertEquals(p, passageiro);
+        }
     }
 
     /**
@@ -106,13 +162,19 @@ public class PassageiroDAOTest {
         assertNotNull(">>> A instância da Classe 'Passageiro' não pode ser criada! <<<", passageiro);
 
         System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
 
+        Passageiro p = passageiro;
         /**
          * Forçando erro, pois não existem dado na instância.
          */
-        instance.deletar(passageiro);
+        try {
+            instance.deletar(passageiro);
+            fail("Deletou uma instância sem id de Passageiro");
+        } catch (NullPointerException e) {
+            assertEquals(p, passageiro);
+        }
     }
 
     /**
@@ -124,8 +186,12 @@ public class PassageiroDAOTest {
         Integer id = 1;
 
         System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
+        Passageiro passageiro = instance.getById(id);
+        if (passageiro != null) {
+            instance.deletar(passageiro);
+        }
 
         Passageiro expResult = null;
         Passageiro result = instance.getById(id);
@@ -141,7 +207,7 @@ public class PassageiroDAOTest {
         String nome = "";
 
         System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
 
         List<Passageiro> expResult = new ArrayList<Passageiro>();
@@ -158,7 +224,7 @@ public class PassageiroDAOTest {
         String nome = "";
 
         System.out.println("Testando a criação de Intâcia: 'PassageiroDAO'");
-        PassageiroDAO instance = new PassageiroDAO();
+        PassageiroDAO instance = new PassageiroDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'PassageiroDAO' não pode ser criada! <<<", instance);
 
         Passageiro expResult = null;

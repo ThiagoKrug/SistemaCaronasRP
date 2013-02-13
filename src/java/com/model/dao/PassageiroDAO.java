@@ -1,6 +1,5 @@
 package com.model.dao;
 
-import com.jdbc.ConnectionFactory;
 import com.model.entity.Entity;
 import com.model.entity.Passageiro;
 import java.sql.Connection;
@@ -22,19 +21,21 @@ public class PassageiroDAO implements Dao {
         public static final String nome = "nome";
         public static final String rg = "rg";
         public static final String telefone = "telefone";
+        public static final String endereco = "endereco";
 
         public String getTuple() {
-            return "(" + PassageiroFields.rg + ", " + PassageiroFields.nome + ", " + PassageiroFields.telefone + ")";
+            return "(" + PassageiroFields.rg + ", " + PassageiroFields.nome + ", " + PassageiroFields.telefone + PassageiroFields.endereco + ")";
         }
     }
     private Connection connection;
 
-    public PassageiroDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public PassageiroDAO(Connection connection) {
+//        try {
+//            this.connection = new ConnectionFactory().getConnection();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        this.connection = connection;
     }
 
     @Override
@@ -42,13 +43,15 @@ public class PassageiroDAO implements Dao {
         Passageiro passageiro = (Passageiro) entity;
         int result = 0;
         String sql = "insert into passageiro "
-                + new PassageiroFields().getTuple() + " values (?, ?, ?)";
+                + new PassageiroFields().getTuple() + " values (?, ?, ?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, passageiro.getRg());
             stmt.setString(2, passageiro.getNome());
             stmt.setString(3, passageiro.getTelefone());
+            stmt.setString(4, passageiro.getEndereco());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
 
@@ -62,6 +65,7 @@ public class PassageiroDAO implements Dao {
         try {
             List<Passageiro> passageiros = new ArrayList<Passageiro>();
             PreparedStatement stmt = this.connection.prepareStatement("select * from passageiro");
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -70,6 +74,7 @@ public class PassageiroDAO implements Dao {
                 passageiro.setNome(rs.getString(PassageiroFields.nome));
                 passageiro.setRg(rs.getString(PassageiroFields.rg));
                 passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
+                passageiro.setEndereco(rs.getString(PassageiroFields.endereco));
                 passageiros.add(passageiro);
 
             }
@@ -88,14 +93,16 @@ public class PassageiroDAO implements Dao {
         Passageiro passageiro = (Passageiro) entity;
         int result = 0;
         String sql = "update passageiro set nome=?,"
-                + "rg=?, telefone=? where id_passageiro=?";
+                + "rg=?, telefone=?, endereco=? where id_passageiro=?";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, passageiro.getNome());
             stmt.setString(2, passageiro.getRg());
             stmt.setString(3, passageiro.getTelefone());
-            stmt.setInt(4, passageiro.getIdPassageiro());
+            stmt.setString(4, passageiro.getEndereco());
+            stmt.setInt(5, passageiro.getIdPassageiro());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -111,6 +118,7 @@ public class PassageiroDAO implements Dao {
         try {
             PreparedStatement stmt = connection.prepareStatement("delete from passageiro where id_passageiro=?");
             stmt.setInt(1, passageiro.getIdPassageiro());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -119,26 +127,26 @@ public class PassageiroDAO implements Dao {
         return result;
     }
 
+    @Override
     public Passageiro getById(Integer id) {
         try {
             List<Passageiro> passageiros = new ArrayList<Passageiro>();
             PreparedStatement stmt = this.connection.prepareStatement("select * from passageiro where id_passageiro=?");
             stmt.setInt(1, id);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                Passageiro passageiro = new Passageiro();
-                passageiro.setIdPassageiro(rs.getInt(PassageiroFields.id));
-                passageiro.setNome(rs.getString(PassageiroFields.nome));
-                passageiro.setRg(rs.getString(PassageiroFields.rg));
-                passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
-                passageiros.add(passageiro);
+            rs.next();
+            Passageiro passageiro = new Passageiro();
+            passageiro.setIdPassageiro(rs.getInt(PassageiroFields.id));
+            passageiro.setNome(rs.getString(PassageiroFields.nome));
+            passageiro.setRg(rs.getString(PassageiroFields.rg));
+            passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
+            passageiro.setEndereco(rs.getString(PassageiroFields.endereco));
 
-            }
             rs.close();
             stmt.close();
-            return passageiros.get(0);
-
+            return passageiro;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -152,6 +160,7 @@ public class PassageiroDAO implements Dao {
             PreparedStatement stmt = this.connection.prepareStatement(
                     "select * from passageiro where nome=?");
             stmt.setString(1, nome);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -160,12 +169,12 @@ public class PassageiroDAO implements Dao {
                 passageiro.setNome(rs.getString(PassageiroFields.nome));
                 passageiro.setRg(rs.getString(PassageiroFields.rg));
                 passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
+                passageiro.setEndereco(rs.getString(PassageiroFields.endereco));
                 passageiros.add(passageiro);
 
             }
             rs.close();
             stmt.close();
-            //return passageiros;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -180,22 +189,19 @@ public class PassageiroDAO implements Dao {
             PreparedStatement stmt = this.connection.prepareStatement(
                     "select * from passageiro where rg=?");
             stmt.setString(1, nome);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                Passageiro passageiro = new Passageiro();
-                passageiro.setIdPassageiro(rs.getInt(PassageiroFields.id));
-                passageiro.setNome(rs.getString(PassageiroFields.nome));
-                passageiro.setRg(rs.getString(PassageiroFields.rg));
-                passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
-                rs.close();
-                stmt.close();
-                return passageiro;
-
-            }
+            rs.next();
+            Passageiro passageiro = new Passageiro();
+            passageiro.setIdPassageiro(rs.getInt(PassageiroFields.id));
+            passageiro.setNome(rs.getString(PassageiroFields.nome));
+            passageiro.setRg(rs.getString(PassageiroFields.rg));
+            passageiro.setTelefone(rs.getString(PassageiroFields.telefone));
+            passageiro.setEndereco(rs.getString(PassageiroFields.endereco));
             rs.close();
             stmt.close();
-            //return passageiros;
+            return passageiro;
 
         } catch (SQLException e) {
             e.printStackTrace();

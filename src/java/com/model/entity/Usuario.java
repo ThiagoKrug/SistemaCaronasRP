@@ -6,8 +6,8 @@ package com.model.entity;
  */
 public class Usuario implements Entity {
 
-    private Integer id;
-    private TipoUsuario tipo;
+    private Integer idUsuario;
+    private TipoUsuario tipoUsuario;
     private String nome;
     private String rg;
     private String username;
@@ -17,31 +17,31 @@ public class Usuario implements Entity {
     private String senha;
 
     /**
-     * @return the id
+     * @return the idUsuario
      */
-    public Integer getId() {
-        return id;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
     /**
-     * @param id the id to set
+     * @param idUsuario the id to set
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     /**
-     * @return the tipo
+     * @return the tipoUsuario
      */
-    public TipoUsuario getTipo() {
-        return tipo;
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
     }
 
     /**
-     * @param tipo the tipo to set
+     * @param tipoUsuario the tipo to set
      */
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     /**

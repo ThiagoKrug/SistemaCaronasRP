@@ -7,7 +7,8 @@ package com.model.entity;
 public enum StatusSolicitacaoViagem {
 
     SOLICITADO("solicitado"),
-    CANCELADO("cancelado");
+    CANCELADO("cancelado"),
+    EFETIVADO("efetivado");
     private String status;
 
     private StatusSolicitacaoViagem(String status) {

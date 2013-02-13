@@ -43,9 +43,11 @@ public class StatusSolicitacaoViagemTest {
     @Test
     public void testValues() {
         System.out.println("values");
-        StatusSolicitacaoViagem[] expResult = null;
         StatusSolicitacaoViagem[] result = StatusSolicitacaoViagem.values();
-        assertArrayEquals(expResult, result);
+        assertEquals(3, result.length);
+        assertEquals(StatusSolicitacaoViagem.SOLICITADO, result[0]);
+        assertEquals(StatusSolicitacaoViagem.CANCELADO, result[1]);
+        assertEquals(StatusSolicitacaoViagem.EFETIVADO, result[2]);
     }
 
     /**
@@ -54,21 +56,13 @@ public class StatusSolicitacaoViagemTest {
     @Test
     public void testValueOf() {
         System.out.println("valueOf");
-        String name = "";
-        StatusSolicitacaoViagem expResult = null;
-        StatusSolicitacaoViagem result = StatusSolicitacaoViagem.valueOf(name);
+        
+        StatusSolicitacaoViagem expResult = StatusSolicitacaoViagem.CANCELADO;
+        StatusSolicitacaoViagem result = StatusSolicitacaoViagem.valueOf("CANCELADO");
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of toString method, of class StatusSolicitacaoViagem.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        StatusSolicitacaoViagem instance = null;
-        String expResult = "status";
-        String result = instance.toString();
+        
+        expResult = StatusSolicitacaoViagem.SOLICITADO;
+        result = StatusSolicitacaoViagem.valueOf("SOLICITADO");
         assertEquals(expResult, result);
     }
 }

@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.model.dao;
 
+import com.jdbc.ConnectionFactory;
 import com.model.entity.TipoUsuario;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,6 +19,8 @@ import static org.junit.Assert.*;
  */
 public class TipoUsuarioDAOTest {
 
+    Connection connection;
+
     public TipoUsuarioDAOTest() {
     }
 
@@ -34,10 +34,20 @@ public class TipoUsuarioDAOTest {
 
     @Before
     public void setUp() {
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @After
     public void tearDown() {
+        try {
+            this.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -49,12 +59,33 @@ public class TipoUsuarioDAOTest {
         Integer id = 1;
 
         System.out.println("Testando a criação de Intâcia: 'TipoUsuarioDAO'");
-        TipoUsuarioDAO instance = new TipoUsuarioDAO();
+        TipoUsuarioDAO instance = new TipoUsuarioDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'TipoUsuarioDAO' não pode ser criada! <<<", instance);
 
-        TipoUsuario expResult = null;
-        TipoUsuario result = instance.getById(id);
-        assertEquals(expResult, result);
+        TipoUsuario admin = new TipoUsuario();
+        admin.setIdTipoUsuario(1);
+        admin.setTipoUsuario("Administrador de Frota");
+
+        TipoUsuario servidor = new TipoUsuario();
+        servidor.setIdTipoUsuario(2);
+        servidor.setTipoUsuario("Servidor Solicitante");
+
+        TipoUsuario motorista = new TipoUsuario();
+        motorista.setIdTipoUsuario(3);
+        motorista.setTipoUsuario("Motorista");
+
+        TipoUsuario tu1 = instance.getById(admin.getIdTipoUsuario());
+        TipoUsuario tu2 = instance.getById(servidor.getIdTipoUsuario());
+        TipoUsuario tu3 = instance.getById(motorista.getIdTipoUsuario());
+
+        assertEquals(tu1.getIdTipoUsuario(), admin.getIdTipoUsuario());
+        assertEquals(tu1.getTipoUsuario(), admin.getTipoUsuario());
+
+        assertEquals(tu2.getIdTipoUsuario(), servidor.getIdTipoUsuario());
+        assertEquals(tu2.getTipoUsuario(), servidor.getTipoUsuario());
+
+        assertEquals(tu3.getIdTipoUsuario(), motorista.getIdTipoUsuario());
+        assertEquals(tu3.getTipoUsuario(), motorista.getTipoUsuario());
     }
 
     /**
@@ -65,11 +96,33 @@ public class TipoUsuarioDAOTest {
         System.out.println("getTiposUsuarios");
 
         System.out.println("Testando a criação de Intâcia: 'TipoUsuarioDAO'");
-        TipoUsuarioDAO instance = new TipoUsuarioDAO();
+        TipoUsuarioDAO instance = new TipoUsuarioDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'TipoUsuarioDAO' não pode ser criada! <<<", instance);
 
-        List<TipoUsuario> expResult = new ArrayList<TipoUsuario>();
-        List result = instance.getTiposUsuarios();
-        assertEquals(expResult, result);
+        TipoUsuario admin = new TipoUsuario();
+        admin.setIdTipoUsuario(1);
+        admin.setTipoUsuario("Administrador de Frota");
+
+        TipoUsuario servidor = new TipoUsuario();
+        servidor.setIdTipoUsuario(2);
+        servidor.setTipoUsuario("Servidor Solicitante");
+
+        TipoUsuario motorista = new TipoUsuario();
+        motorista.setIdTipoUsuario(3);
+        motorista.setTipoUsuario("Motorista");
+
+        List<TipoUsuario> result = instance.getTiposUsuarios();
+        TipoUsuario tu1 = result.get(0);
+        TipoUsuario tu2 = result.get(1);
+        TipoUsuario tu3 = result.get(2);
+
+        assertEquals(tu1.getIdTipoUsuario(), admin.getIdTipoUsuario());
+        assertEquals(tu1.getTipoUsuario(), admin.getTipoUsuario());
+
+        assertEquals(tu2.getIdTipoUsuario(), servidor.getIdTipoUsuario());
+        assertEquals(tu2.getTipoUsuario(), servidor.getTipoUsuario());
+
+        assertEquals(tu3.getIdTipoUsuario(), motorista.getIdTipoUsuario());
+        assertEquals(tu3.getTipoUsuario(), motorista.getTipoUsuario());
     }
 }

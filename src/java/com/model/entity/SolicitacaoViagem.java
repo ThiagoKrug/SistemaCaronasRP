@@ -1,5 +1,6 @@
 package com.model.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class SolicitacaoViagem implements Entity {
 
-    private Integer id;
+    private Integer idSolicitacaoViagem;
     private Calendar dataSaida;
     private Calendar dataRetorno;
     private Calendar horaSaida;
@@ -23,7 +24,8 @@ public class SolicitacaoViagem implements Entity {
     private String localRetorno;
     private Usuario autorizante;
     private Usuario solicitante;
-    private Integer numero;
+    private Integer numeroPedido;
+    private Integer numeroTransportados;
     private Boolean servidores;
     private Veiculo veiculo;
     private String status;
@@ -34,17 +36,17 @@ public class SolicitacaoViagem implements Entity {
     }
 
     /**
-     * @return the id
+     * @return the idSolicitacaoViagem
      */
-    public Integer getId() {
-        return id;
+    public Integer getIdSolicitacaoViagem() {
+        return idSolicitacaoViagem;
     }
 
     /**
-     * @param id the id to set
+     * @param idSolicitacaoViagem the id to set
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdSolicitacaoViagem(Integer idSolicitacaoViagem) {
+        this.idSolicitacaoViagem = idSolicitacaoViagem;
     }
 
     /**
@@ -61,8 +63,23 @@ public class SolicitacaoViagem implements Entity {
      * @param dataSaida the dataSaida to set
      */
     public void setDataSaida(Date dataSaida) {
-        this.dataSaida = new GregorianCalendar();
-        this.dataSaida.setTime(dataSaida);
+        if (dataSaida != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataSaida);
+            this.dataSaida = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataSaida = null;
+        }
+    }
+    
+    /**
+     * @return the dataSaida
+     */
+    public String getDataSaidaFormatada() {
+        if (dataSaida != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataSaida.getTime());
+        }
+        return null;
     }
 
     /**
@@ -79,8 +96,23 @@ public class SolicitacaoViagem implements Entity {
      * @param dataRetorno the dataRetorno to set
      */
     public void setDataRetorno(Date dataRetorno) {
-        this.dataRetorno = new GregorianCalendar();
-        this.dataRetorno.setTime(dataRetorno);
+        if (dataRetorno != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataRetorno);
+            this.dataRetorno = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataRetorno = null;
+        }
+    }
+    
+    /**
+     * @return the dataRetorno
+     */
+    public String getDataRetornoFormatada() {
+        if (dataRetorno != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataRetorno.getTime());
+        }
+        return null;
     }
 
     /**
@@ -97,8 +129,22 @@ public class SolicitacaoViagem implements Entity {
      * @param horaSaida the horaSaida to set
      */
     public void setHoraSaida(Date horaSaida) {
-        this.horaSaida = new GregorianCalendar();
-        this.horaSaida.setTime(horaSaida);
+        if (horaSaida != null) {
+            this.horaSaida = new GregorianCalendar();
+            this.horaSaida.setTime(horaSaida);
+        } else {
+            this.horaSaida = null;
+        }
+    }
+    
+    /**
+     * @return the horaSaida
+     */
+    public String getHoraSaidaFormatada() {
+        if (horaSaida != null) {
+            return new SimpleDateFormat("hh:mm").format(horaSaida.getTime());
+        }
+        return null;
     }
 
     /**
@@ -115,8 +161,22 @@ public class SolicitacaoViagem implements Entity {
      * @param horaRetorno the horaRetorno to set
      */
     public void setHoraRetorno(Date horaRetorno) {
-        this.horaRetorno = new GregorianCalendar();
-        this.horaRetorno.setTime(horaRetorno);
+        if (horaRetorno != null) {
+            this.horaRetorno = new GregorianCalendar();
+            this.horaRetorno.setTime(horaRetorno);
+        } else {
+            this.horaRetorno = null;
+        }
+    }
+    
+    /**
+     * @return the horaRetorno
+     */
+    public String getHoraRetornoFormatada() {
+        if (horaRetorno != null) {
+            return new SimpleDateFormat("hh:mm").format(horaRetorno.getTime());
+        }
+        return null;
     }
 
     /**
@@ -204,17 +264,25 @@ public class SolicitacaoViagem implements Entity {
     }
 
     /**
-     * @return the numero
+     * @return the numeroPedido
      */
-    public Integer getNumero() {
-        return numero;
+    public Integer getNumeroPedido() {
+        return numeroPedido;
     }
 
     /**
-     * @param numero the numero to set
+     * @param numeroPedido the numero to set
      */
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public void setNumeroPedido(Integer numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
+    public Integer getNumeroTransportados() {
+        return numeroTransportados;
+    }
+
+    public void setNumeroTransportados(Integer numeroTransportados) {
+        this.numeroTransportados = numeroTransportados;
     }
 
     /**
@@ -275,6 +343,7 @@ public class SolicitacaoViagem implements Entity {
         } else {
             if (status.equalsIgnoreCase(StatusSolicitacaoViagem.CANCELADO.toString())
                     || status.equalsIgnoreCase(StatusSolicitacaoViagem.SOLICITADO.toString())
+                    || status.equalsIgnoreCase(StatusSolicitacaoViagem.EFETIVADO.toString())
                     || status.equalsIgnoreCase("")) {
                 this.status = status;
             } else {

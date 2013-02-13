@@ -10,10 +10,10 @@ public class Passageiro implements Entity {
     private String rg;
     private String nome;
     private String telefone;
+    private String endereco;
     private Boolean disabled;
 
     public Passageiro() {
-        this.disabled = false;
     }
 
     /**
@@ -84,5 +84,13 @@ public class Passageiro implements Entity {
      */
     public void setDisabled(Boolean disabled) {
         this.disabled = disabled;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

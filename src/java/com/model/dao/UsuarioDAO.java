@@ -1,6 +1,5 @@
 package com.model.dao;
 
-import com.jdbc.ConnectionFactory;
 import com.model.entity.Entity;
 import com.model.entity.TipoUsuario;
 import com.model.entity.Usuario;
@@ -19,13 +18,13 @@ public class UsuarioDAO implements Dao {
 
     private Connection connection;
 
-    public UsuarioDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+    public UsuarioDAO(Connection connection) {
+//        try {
+//            this.connection = new ConnectionFactory().getConnection();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        this.connection = connection;
     }
 
     @Override
@@ -35,21 +34,24 @@ public class UsuarioDAO implements Dao {
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setInt(1, id);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setEmail(rs.getString("email"));
-                usuario.setId(rs.getInt("id_usuario"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setNumeroServidor(rs.getString("numero_servidor"));
-                usuario.setRg(rs.getString("rg"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setTelefone(rs.getString("telefone"));
-                usuario.setUsername(rs.getString("nome_usuario"));
-                Integer tipo_id = rs.getInt("id_tipo_usuario");
-                usuario.setTipo(new TipoUsuarioDAO().getById(tipo_id));
-                return usuario;
-            }
+
+            rs.next();
+            Usuario usuario = new Usuario();
+            usuario.setEmail(rs.getString("email"));
+            usuario.setIdUsuario(rs.getInt("id_usuario"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setNumeroServidor(rs.getString("numero_servidor"));
+            usuario.setRg(rs.getString("rg"));
+            usuario.setSenha(rs.getString("senha"));
+            usuario.setTelefone(rs.getString("telefone"));
+            usuario.setUsername(rs.getString("nome_usuario"));
+            Integer tipo_id = rs.getInt("id_tipo_usuario");
+            usuario.setTipoUsuario(new TipoUsuarioDAO(this.connection).getById(tipo_id));
+            rs.close();
+            stmt.close();
+            return usuario;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,12 +63,13 @@ public class UsuarioDAO implements Dao {
         List<Usuario> usuarios = new ArrayList<Usuario>();
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Usuario usuario = new Usuario();
                 usuario.setEmail(rs.getString("email"));
-                usuario.setId(rs.getInt("id_usuario"));
+                usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setNumeroServidor(rs.getString("numero_servidor"));
                 usuario.setRg(rs.getString("rg"));
@@ -74,11 +77,13 @@ public class UsuarioDAO implements Dao {
                 usuario.setTelefone(rs.getString("telefone"));
                 usuario.setUsername(rs.getString("nome_usuario"));
 
-                TipoUsuario tipo = new TipoUsuarioDAO().getById(rs.getInt("id_tipo_usuario"));
+                TipoUsuario tipo = new TipoUsuarioDAO(this.connection).getById(rs.getInt("id_tipo_usuario"));
 
-                usuario.setTipo(tipo);
+                usuario.setTipoUsuario(tipo);
                 usuarios.add(usuario);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,7 +100,7 @@ public class UsuarioDAO implements Dao {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            stmt.setInt(1, usuario.getTipo().getId());
+            stmt.setInt(1, usuario.getTipoUsuario().getIdTipoUsuario());
             stmt.setString(2, usuario.getNome());
             stmt.setString(3, usuario.getRg());
             stmt.setString(4, usuario.getUsername());
@@ -103,6 +108,7 @@ public class UsuarioDAO implements Dao {
             stmt.setString(6, usuario.getSenha());
             stmt.setString(7, usuario.getTelefone());
             stmt.setString(8, usuario.getEmail());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -121,7 +127,7 @@ public class UsuarioDAO implements Dao {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            stmt.setInt(1, usuario.getTipo().getId());
+            stmt.setInt(1, usuario.getTipoUsuario().getIdTipoUsuario());
             stmt.setString(2, usuario.getNome());
             stmt.setString(3, usuario.getRg());
             stmt.setString(4, usuario.getUsername());
@@ -129,7 +135,8 @@ public class UsuarioDAO implements Dao {
             stmt.setString(6, usuario.getSenha());
             stmt.setString(7, usuario.getTelefone());
             stmt.setString(8, usuario.getEmail());
-            stmt.setInt(9, usuario.getId());
+            stmt.setInt(9, usuario.getIdUsuario());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -145,7 +152,8 @@ public class UsuarioDAO implements Dao {
         String sql = "delete from usuario where id_usuario=?";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
-            stmt.setInt(1, usuario.getId());
+            stmt.setInt(1, usuario.getIdUsuario());
+            System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {

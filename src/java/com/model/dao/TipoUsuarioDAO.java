@@ -1,6 +1,5 @@
 package com.model.dao;
 
-import com.jdbc.ConnectionFactory;
 import com.model.entity.Entity;
 import com.model.entity.TipoUsuario;
 import java.sql.Connection;
@@ -18,13 +17,13 @@ public class TipoUsuarioDAO implements Dao {
 
     private Connection connection;
 
-    public TipoUsuarioDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+    public TipoUsuarioDAO(Connection connection) {
+//        try {
+//            this.connection = new ConnectionFactory().getConnection();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        this.connection = connection;
     }
 
     public TipoUsuario getById(Integer id) {
@@ -33,10 +32,11 @@ public class TipoUsuarioDAO implements Dao {
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setInt(1, id);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 TipoUsuario usuario = new TipoUsuario();
-                usuario.setId(rs.getInt("id_tipo_usuario"));
+                usuario.setIdTipoUsuario(rs.getInt("id_tipo_usuario"));
                 usuario.setTipoUsuario(rs.getString("tipo_usuario"));
                 return usuario;
             }
@@ -51,10 +51,11 @@ public class TipoUsuarioDAO implements Dao {
         List<TipoUsuario> usuarios = new ArrayList<TipoUsuario>();
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 TipoUsuario usuario = new TipoUsuario();
-                usuario.setId(rs.getInt("id_tipo_usuario"));
+                usuario.setIdTipoUsuario(rs.getInt("id_tipo_usuario"));
                 usuario.setTipoUsuario(rs.getString("tipo_usuario"));
 
                 usuarios.add(usuario);

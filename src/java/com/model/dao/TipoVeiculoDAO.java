@@ -1,6 +1,5 @@
 package com.model.dao;
 
-import com.jdbc.ConnectionFactory;
 import com.model.entity.Entity;
 import com.model.entity.TipoVeiculo;
 import java.sql.Connection;
@@ -18,13 +17,13 @@ public class TipoVeiculoDAO implements Dao {
 
     private Connection connection;
 
-    public TipoVeiculoDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+    public TipoVeiculoDAO(Connection connection) {
+//        try {
+//            this.connection = new ConnectionFactory().getConnection();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        this.connection = connection;
     }
 
     @Override
@@ -34,10 +33,11 @@ public class TipoVeiculoDAO implements Dao {
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setInt(1, id);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 TipoVeiculo usuario = new TipoVeiculo();
-                usuario.setId(rs.getInt("id_tipo_veiculo"));
+                usuario.setIdTipoVeiculo(rs.getInt("id_tipo_veiculo"));
                 usuario.setTipoVeiculo(rs.getString("tipo_veiculo"));
                 return usuario;
             }
@@ -52,10 +52,11 @@ public class TipoVeiculoDAO implements Dao {
         List<TipoVeiculo> tipos = new ArrayList<TipoVeiculo>();
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
+            System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 TipoVeiculo tipo = new TipoVeiculo();
-                tipo.setId(rs.getInt("id_tipo_veiculo"));
+                tipo.setIdTipoVeiculo(rs.getInt("id_tipo_veiculo"));
                 tipo.setTipoVeiculo(rs.getString("tipo_veiculo"));
                 tipos.add(tipo);
             }

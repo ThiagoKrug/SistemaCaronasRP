@@ -1,9 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jdbc;
 
+import com.model.dao.SolicitacaoViagemDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,11 +40,23 @@ public class ConnectionFactoryTest {
      * Test of getConnection method, of class ConnectionFactory.
      */
     @Test
-    public void testConnectionFactory() throws Exception {
+    public void testConnectionFactory() {
         System.out.println("ConnectionFactory");
 
         System.out.println("Testando a criação de Intâcia: 'ConnectionFactory'");
         ConnectionFactory instance = new ConnectionFactory();
         assertNotNull(">>> A instância da Classe 'ConnectionFactory' não pode ser criada! <<<", instance);
+    }
+
+    @Test
+    public void testGetConnection() throws SQLException {
+        System.out.println("ConnectionFactory");
+
+        System.out.println("Testando a criação de Intâcia: 'ConnectionFactory'");
+        ConnectionFactory instance = new ConnectionFactory();
+        assertNotNull(">>> A instância da Classe 'ConnectionFactory' não pode ser criada! <<<", instance);
+
+        Connection conn = instance.getConnection();
+        assertNotNull(conn);
     }
 }

@@ -6,21 +6,21 @@ package com.model.entity;
  */
 public class TipoVeiculo implements Entity {
 
-    private Integer id;
+    private Integer idTipoVeiculo;
     private String tipoVeiculo;
 
     /**
-     * @return the id
+     * @return the idTipoVeiculo
      */
-    public Integer getId() {
-        return id;
+    public Integer getIdTipoVeiculo() {
+        return idTipoVeiculo;
     }
 
     /**
-     * @param id the id to set
+     * @param idTipoVeiculo the id to set
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTipoVeiculo(Integer idTipoVeiculo) {
+        this.idTipoVeiculo = idTipoVeiculo;
     }
 
     /**

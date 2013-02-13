@@ -7,7 +7,7 @@ package com.model.entity;
  */
 public class Veiculo implements Entity {
 
-    private Integer id;
+    private Integer idVeiculo;
     private TipoVeiculo tipoVeiculo;
     private String placa;
     private Float quilometragem;
@@ -15,21 +15,20 @@ public class Veiculo implements Entity {
     private String cor;
 
     public Veiculo() {
-        this.quilometragem = 0.0f;
     }
 
     /**
-     * @return the id
+     * @return the idVeiculo
      */
-    public Integer getId() {
-        return id;
+    public Integer getIdVeiculo() {
+        return idVeiculo;
     }
 
     /**
-     * @param id the id to set
+     * @param idVeiculo the id to set
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdVeiculo(Integer idVeiculo) {
+        this.idVeiculo = idVeiculo;
     }
 
     /**
