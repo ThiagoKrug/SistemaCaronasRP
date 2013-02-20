@@ -28,7 +28,7 @@
                 <tr>
                     <th>Número do Pedido</th>
                     <th>Solicitante</th>
-                    <th>Veículo</th>
+                    <th>Tipo de Veículo</th>
                     <th>Data de Saída</th>
                     <th>Data de Retorno</th>
                     <th>Status</th>
@@ -40,7 +40,7 @@
                     <tr>
                         <td>${solicitacaoViagem.getNumeroPedido()}</td>
                         <td>${solicitacaoViagem.getSolicitante().getNome()}</td>
-                        <td>${solicitacaoViagem.getVeiculo().getPlaca()}</td>
+                        <td>${solicitacaoViagem.getTipoVeiculo().getTipoVeiculo()}</td>
                         <td>${solicitacaoViagem.getDataSaidaFormatada()}</td>
                         <td>${solicitacaoViagem.getDataRetornoFormatada()}</td>
                         <td>${solicitacaoViagem.getStatus()}</td>

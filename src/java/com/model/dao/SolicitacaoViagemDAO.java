@@ -3,7 +3,7 @@ package com.model.dao;
 import com.model.entity.Entity;
 import com.model.entity.Passageiro;
 import com.model.entity.SolicitacaoViagem;
-import com.model.entity.Veiculo;
+import com.model.entity.TipoVeiculo;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -41,7 +41,7 @@ public class SolicitacaoViagemDAO implements Dao {
         String sql = "insert into solicitacao_viagem "
                 + "(numero_pedido, numero_transportados, servidores, data_saida, hora_saida, "
                 + "local_saida, data_retorno, hora_retorno, local_retorno, "
-                + "percurso, objetivo_viagem, id_veiculo, id_responsavel_solicitacao, "
+                + "percurso, objetivo_viagem, id_tipo_veiculo, id_responsavel_solicitacao, "
                 + "id_responsavel_autorizante, status) values (?,?,?,?,?,?,?,?,?,?,?,"
                 + "?, ?, ?, ?)";
 
@@ -89,7 +89,7 @@ public class SolicitacaoViagemDAO implements Dao {
             stmt.setString(9, solicitacao.getLocalRetorno());
             stmt.setString(10, solicitacao.getPercurso());
             stmt.setString(11, solicitacao.getObjetivo());
-            stmt.setInt(12, solicitacao.getVeiculo().getIdVeiculo());
+            stmt.setInt(12, solicitacao.getTipoVeiculo().getIdTipoVeiculo());
             stmt.setInt(13, solicitacao.getSolicitante().getIdUsuario());
             if (solicitacao.getAutorizante() == null) {
                 stmt.setString(14, null);
@@ -151,7 +151,7 @@ public class SolicitacaoViagemDAO implements Dao {
         String sql = "update solicitacao_viagem set "
                 + "numero_pedido=?, numero_transportados=?, servidores=?, data_saida=?, hora_saida=?, "
                 + "local_saida=?, data_retorno=?, hora_retorno=?, local_retorno=?, "
-                + "percurso=?, objetivo_viagem=?, id_veiculo=?, id_responsavel_solicitacao=?, "
+                + "percurso=?, objetivo_viagem=?, id_tipo_veiculo=?, id_responsavel_solicitacao=?, "
                 + "id_responsavel_autorizante=?, status=? where id_solicitacao_viagem=? ";
 
         try {
@@ -198,7 +198,7 @@ public class SolicitacaoViagemDAO implements Dao {
             stmt.setString(9, solicitacao.getLocalRetorno());
             stmt.setString(10, solicitacao.getPercurso());
             stmt.setString(11, solicitacao.getObjetivo());
-            stmt.setInt(12, solicitacao.getVeiculo().getIdVeiculo());
+            stmt.setInt(12, solicitacao.getTipoVeiculo().getIdTipoVeiculo());
             stmt.setInt(13, solicitacao.getSolicitante().getIdUsuario());
             if (solicitacao.getAutorizante() == null) {
                 stmt.setString(14, null);
@@ -331,8 +331,8 @@ public class SolicitacaoViagemDAO implements Dao {
             sv.setSolicitante(new UsuarioDAO(this.connection).getById(uid));
             Integer uaid = rs.getInt("id_responsavel_autorizante");
             sv.setAutorizante(new UsuarioDAO(this.connection).getById(uaid));
-            Integer vid = rs.getInt("id_veiculo");
-            sv.setVeiculo((Veiculo) new VeiculoDAO(this.connection).getById(vid));
+            Integer vid = rs.getInt("id_tipo_veiculo");
+            sv.setTipoVeiculo((TipoVeiculo) new TipoVeiculoDAO(this.connection).getById(vid));
             return sv;
         } catch (SQLException e) {
             e.printStackTrace();

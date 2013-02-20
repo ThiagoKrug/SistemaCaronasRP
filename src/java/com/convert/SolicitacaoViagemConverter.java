@@ -5,15 +5,14 @@ import com.model.entity.Entity;
 import com.model.entity.Passageiro;
 import com.model.entity.SolicitacaoViagem;
 import com.model.entity.StatusSolicitacaoViagem;
+import com.model.entity.TipoVeiculo;
 import com.model.entity.Usuario;
-import com.model.entity.Veiculo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -89,11 +88,11 @@ public class SolicitacaoViagemConverter implements Converter {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        String idVeiculo = request.getParameter("veiculo");
-        if (idVeiculo.isEmpty() == false) {
-            Veiculo v = new Veiculo();
-            v.setIdVeiculo(Integer.parseInt(idVeiculo));
-            solicitacaoViagem.setVeiculo(v);
+        String idTipoVeiculo = request.getParameter("tipo_veiculo");
+        if (idTipoVeiculo.isEmpty() == false) {
+            TipoVeiculo tv = new TipoVeiculo();
+            tv.setIdTipoVeiculo(Integer.parseInt(idTipoVeiculo));
+            solicitacaoViagem.setTipoVeiculo(tv);
         }
         solicitacaoViagem.setPassageiros(this.retrievePassageiros(request));
         return solicitacaoViagem;

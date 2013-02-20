@@ -24,7 +24,7 @@ public class PassageiroDAO implements Dao {
         public static final String endereco = "endereco";
 
         public String getTuple() {
-            return "(" + PassageiroFields.rg + ", " + PassageiroFields.nome + ", " + PassageiroFields.telefone + PassageiroFields.endereco + ")";
+            return "(" + PassageiroFields.rg + ", " + PassageiroFields.nome + ", " + PassageiroFields.telefone + ", " + PassageiroFields.endereco + ")";
         }
     }
     private Connection connection;
@@ -130,7 +130,6 @@ public class PassageiroDAO implements Dao {
     @Override
     public Passageiro getById(Integer id) {
         try {
-            List<Passageiro> passageiros = new ArrayList<Passageiro>();
             PreparedStatement stmt = this.connection.prepareStatement("select * from passageiro where id_passageiro=?");
             stmt.setInt(1, id);
             System.out.println(stmt.toString());
@@ -207,6 +206,5 @@ public class PassageiroDAO implements Dao {
             e.printStackTrace();
         }
         return null;
-
     }
 }

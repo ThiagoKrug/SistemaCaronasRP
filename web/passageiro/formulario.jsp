@@ -46,6 +46,10 @@
                         <td>Telefone</td>
                         <td><input type="tel" name="telefone" value="${passageiro.getTelefone()}" /></td>
                     </tr>
+                    <tr>
+                        <td>Endereço</td>
+                        <td><input type="text" name="endereco" value="${passageiro.getEndereco()}" /></td>
+                    </tr>
                 </tbody>
             </table>
             <input type="submit" value="Salvar Passageiro" onclick="salvar();"/>

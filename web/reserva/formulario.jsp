@@ -4,10 +4,10 @@
     Author     : thiago
 --%>
 
+<%@page import="com.model.dao.TipoVeiculoDAO"%>
 <%@page import="com.model.entity.Passageiro"%>
 <%@page import="com.model.dao.PassageiroDAO"%>
 <%@page import="com.model.dao.UsuarioDAO"%>
-<%@page import="com.model.dao.VeiculoDAO"%>
 <%@page import="com.model.entity.SolicitacaoViagem"%>
 <%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
@@ -19,8 +19,8 @@
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     UsuarioDAO udao = new UsuarioDAO(connection);
     request.setAttribute("udao", udao);
-    VeiculoDAO vdao = new VeiculoDAO(connection);
-    request.setAttribute("vdao", vdao);
+    TipoVeiculoDAO tvdao = new TipoVeiculoDAO(connection);
+    request.setAttribute("tvdao", tvdao);
     String idSolicitacaoViagem = request.getParameter("id_solicitacao_viagem");
     if (idSolicitacaoViagem != null) {
         request.setAttribute("solicitacaoViagem", svdao.getById(Integer.parseInt(idSolicitacaoViagem)));
@@ -36,7 +36,7 @@
         <link href="../resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
         <script type="text/javascript">
             var cont = 0;
-            var listaPassageiros = new Array();        </script>
+            var listaPassageiros = new Array();</script>
         <title>JSP Page</title>
     </head>
     <body>
@@ -132,11 +132,11 @@
                     <td><textarea name="objetivo">${solicitacaoViagem.getObjetivo()}</textarea></td>
                 </tr>
                 <tr>
-                    <td>Veículo</td>
-                    <td><select name="veiculo" required="true">
-                            <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
-                                <option value="${veiculo.getIdVeiculo()}"
-                                        <r:if test="${veiculo.getIdVeiculo() == solicitacaoViagem.getVeiculo().getIdVeiculo()}"> selected="true" </r:if>>${veiculo.getTipoVeiculo().getTipoVeiculo()} - ${veiculo.getPlaca()}</option>
+                    <td>Tipo de Veículo</td>
+                    <td><select name="tipo_veiculo" required="true">
+                            <r:forEach var="tipoVeiculo" items="${tvdao.getTiposVeiculos()}">
+                                <option value="${tipoVeiculo.getIdTipoVeiculo()}"
+                                        <r:if test="${veiculo.getIdTipoVeiculo() == solicitacaoViagem.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
                             </r:forEach>
                         </select>
                     </td>
@@ -190,10 +190,10 @@
             });
             function getNomes() {
                 var availableNames = [<%
-                        PassageiroDAO pdao = new PassageiroDAO(connection);
-                        for (Passageiro passageiro : pdao.getPassageiros()) {%>
+                    PassageiroDAO pdao = new PassageiroDAO(connection);
+                    for (Passageiro passageiro : pdao.getPassageiros()) {%>
                 "<%=passageiro.getNome()%>",<%
-                        }
+                    }
             %>];
                         return availableNames;
             }

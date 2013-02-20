@@ -27,7 +27,7 @@ public class SolicitacaoViagem implements Entity {
     private Integer numeroPedido;
     private Integer numeroTransportados;
     private Boolean servidores;
-    private Veiculo veiculo;
+    private TipoVeiculo tipoVeiculo;
     private String status;
     private List<Passageiro> passageiros;
 
@@ -300,17 +300,17 @@ public class SolicitacaoViagem implements Entity {
     }
 
     /**
-     * @return the veiculo
+     * @return the tipoVeiculo
      */
-    public Veiculo getVeiculo() {
-        return veiculo;
+    public TipoVeiculo getTipoVeiculo() {
+        return tipoVeiculo;
     }
 
     /**
-     * @param veiculo the veiculo to set
+     * @param tipoVeiculo the veiculo to set
      */
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
+        this.tipoVeiculo = tipoVeiculo;
     }
 
     /**

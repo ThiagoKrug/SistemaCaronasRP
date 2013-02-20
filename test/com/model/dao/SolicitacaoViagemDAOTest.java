@@ -6,14 +6,11 @@ import com.model.entity.StatusSolicitacaoViagem;
 import com.model.entity.TipoUsuario;
 import com.model.entity.TipoVeiculo;
 import com.model.entity.Usuario;
-import com.model.entity.Veiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -75,21 +72,8 @@ public class SolicitacaoViagemDAOTest {
         SolicitacaoViagemDAO instance = new SolicitacaoViagemDAO(this.connection);
         assertNotNull(">>> A instância da Classe 'SolicitacaoViagemDAO' não pode ser criada! <<<", instance);
 
-        Veiculo v = new Veiculo();
-        v.setPlaca("abc-9999");
         TipoVeiculo tv = new TipoVeiculo();
         tv.setIdTipoVeiculo(1);
-        v.setTipoVeiculo(tv);
-
-        VeiculoDAO vdao = new VeiculoDAO(connection);
-        assertEquals(1, vdao.inserir(v));
-        for (Iterator<Veiculo> it = vdao.getVeiculos().iterator(); it.hasNext();) {
-            Veiculo veiculo = it.next();
-            if (veiculo.getPlaca().equalsIgnoreCase(v.getPlaca())) {
-                v = veiculo;
-                break;
-            }
-        }
 
         TipoUsuario tu = new TipoUsuario();
         tu.setIdTipoUsuario(1);
@@ -108,7 +92,7 @@ public class SolicitacaoViagemDAOTest {
 
         solicitacao.setAutorizante(solicitanteEAutorizante);
         solicitacao.setSolicitante(solicitanteEAutorizante);
-        solicitacao.setVeiculo(v);
+        solicitacao.setTipoVeiculo(tv);
         assertEquals(1, instance.inserir(solicitacao));
 
         for (Iterator<SolicitacaoViagem> it = instance.getSolicitacoes().iterator(); it.hasNext();) {
@@ -120,7 +104,6 @@ public class SolicitacaoViagemDAOTest {
         }
         assertEquals(1, instance.deletar(solicitacao));
         assertEquals(1, usuarioDAO.deletar(solicitanteEAutorizante));
-        assertEquals(1, vdao.deletar(v));
     }
 
     /**
@@ -188,21 +171,9 @@ public class SolicitacaoViagemDAOTest {
             assertEquals(1, instance.deletar(solicitacaoViagem));
         }
 
-        Veiculo v = new Veiculo();
-        v.setPlaca("abc-8888");
         TipoVeiculo tv = new TipoVeiculo();
         tv.setIdTipoVeiculo(1);
-        v.setTipoVeiculo(tv);
 
-        VeiculoDAO vdao = new VeiculoDAO(connection);
-        assertEquals(1, vdao.inserir(v));
-        for (Iterator<Veiculo> it = vdao.getVeiculos().iterator(); it.hasNext();) {
-            Veiculo veiculo = it.next();
-            if (veiculo.getPlaca().equalsIgnoreCase(v.getPlaca())) {
-                v = veiculo;
-                break;
-            }
-        }
         TipoUsuario tu = new TipoUsuario();
         tu.setIdTipoUsuario(1);
         Usuario solicitanteEAutorizante = new Usuario();
@@ -232,7 +203,7 @@ public class SolicitacaoViagemDAOTest {
         sv1.setServidores(true);
         sv1.setSolicitante(solicitanteEAutorizante);
         sv1.setStatus(StatusSolicitacaoViagem.SOLICITADO.toString());
-        sv1.setVeiculo(v);
+        sv1.setTipoVeiculo(tv);
         assertEquals(1, instance.inserir(sv1));
 
         SolicitacaoViagem sv2 = new SolicitacaoViagem();
@@ -249,7 +220,7 @@ public class SolicitacaoViagemDAOTest {
         sv2.setServidores(true);
         sv2.setSolicitante(solicitanteEAutorizante);
         sv2.setStatus(StatusSolicitacaoViagem.CANCELADO.toString());
-        sv2.setVeiculo(v);
+        sv2.setTipoVeiculo(tv);
         assertEquals(1, instance.inserir(sv2));
 
         List<SolicitacaoViagem> solicitacoesViagem = instance.getSolicitacoes();
@@ -268,7 +239,7 @@ public class SolicitacaoViagemDAOTest {
         assertEquals(sv11.getServidores(), sv1.getServidores());
         assertEquals(sv11.getSolicitante().getIdUsuario(), sv1.getSolicitante().getIdUsuario());
         assertEquals(sv11.getStatus(), sv1.getStatus());
-        assertEquals(sv11.getVeiculo().getIdVeiculo(), sv1.getVeiculo().getIdVeiculo());
+        assertEquals(sv11.getTipoVeiculo().getIdTipoVeiculo(), sv1.getTipoVeiculo().getIdTipoVeiculo());
         assertEquals(1, instance.deletar(sv11));
 
         SolicitacaoViagem sv22 = solicitacoesViagem.get(0);
@@ -286,24 +257,25 @@ public class SolicitacaoViagemDAOTest {
         assertEquals(sv22.getServidores(), sv2.getServidores());
         assertEquals(sv22.getSolicitante().getIdUsuario(), sv2.getSolicitante().getIdUsuario());
         assertEquals(sv22.getStatus(), sv2.getStatus());
-        assertEquals(sv22.getVeiculo().getIdVeiculo(), sv2.getVeiculo().getIdVeiculo());
+        assertEquals(sv22.getTipoVeiculo().getIdTipoVeiculo(), sv2.getTipoVeiculo().getIdTipoVeiculo());
         assertEquals(1, instance.deletar(sv22));
 
         assertEquals(1, usuarioDAO.deletar(solicitanteEAutorizante));
-        assertEquals(1, vdao.deletar(v));
     }
 
     @Test
     public void testCompareHora() {
         Usuario usuario = new Usuario();
         usuario.setIdUsuario(337);
-        Veiculo veiculo = new Veiculo();
-        veiculo.setIdVeiculo(90);
+        TipoVeiculo tv = new TipoVeiculo();
+        tv.setIdTipoVeiculo(1);
+        TipoVeiculo veiculo = new TipoVeiculo();
+        veiculo.setIdTipoVeiculo(90);
         SolicitacaoViagem solicitacaoViagem = new SolicitacaoViagem();
         solicitacaoViagem.setIdSolicitacaoViagem(91);
         solicitacaoViagem.setAutorizante(usuario);
         solicitacaoViagem.setSolicitante(usuario);
-        solicitacaoViagem.setVeiculo(veiculo);
+        solicitacaoViagem.setTipoVeiculo(tv);
 
         solicitacaoViagem.setHoraRetorno(new Date(System.currentTimeMillis()));
 
