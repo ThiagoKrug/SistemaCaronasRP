@@ -116,8 +116,13 @@ public class SolicitacaoViagemDAO implements Dao {
 
     private void cadastraPassageiros(List<Passageiro> pass) {
         for (Passageiro p : pass) {
+            System.out.println(p.getIdPassageiro());
             if (p.getIdPassageiro() == null) {
-                new PassageiroDAO(this.connection).inserir(p);
+                try {
+                    p = new PassageiroDAO(this.connection).inserirGetID(p);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

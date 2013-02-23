@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,34 @@ public class PassageiroDAO implements Dao {
     private Connection connection;
 
     public PassageiroDAO(Connection connection) {
-//        try {
-//            this.connection = new ConnectionFactory().getConnection();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         this.connection = connection;
+    }
+
+    public Passageiro inserirGetID(Passageiro passageiro) throws Exception {
+        int result = 0;
+        String sql = "insert into passageiro "
+                + new PassageiroFields().getTuple() + " values (?, ?, ?, ?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            stmt.setString(1, passageiro.getRg());
+            stmt.setString(2, passageiro.getNome());
+            stmt.setString(3, passageiro.getTelefone());
+            stmt.setString(4, passageiro.getEndereco());
+            System.out.println(stmt.toString());
+            result = stmt.executeUpdate();
+            if (result == 1) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                rs.next();
+                passageiro.setIdPassageiro(rs.getInt(1));
+            } else {
+                throw new Exception("Não conseguiu inserir o passageiro!");
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passageiro;
     }
 
     @Override
@@ -54,7 +77,6 @@ public class PassageiroDAO implements Dao {
             System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
