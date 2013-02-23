@@ -12,6 +12,8 @@
     <meta name="keywords" content="${keywords}" />
     <title>${title}</title>
     <link href="./resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link href="./resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="./resources/img/favicon.ico">
 </head>
 <body>
     <layout:header/>

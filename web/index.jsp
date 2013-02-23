@@ -5,17 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% 
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
+<%
     session.setAttribute("Username", null);
     session.setAttribute("Name", null);
     session.setAttribute("Clearance", null);
     System.out.println(session.getAttribute("Username"));
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+<layout:page title="Login" description="" keywords="">
+    <jsp:attribute name="extraBottom">
         <script>
             function validateForm() {
                 var logname = document.forms["LoginForm"]["username"].value;
@@ -29,13 +27,19 @@
                 return true;
             }
         </script>
-    </head>
-    <body>
-        <h1>Identifique-se!</h1>
-        <form method="POST" action="login.jsp" name="LoginForm" onsubmit="return validateForm();">
-            <p>Login: <input type="text" id="login" name="username"></p>
-            <p>Senha: <input type="password" id="pwd" name="password"></p>
-            <p><input type="submit" name="Logar!"></p>
-        </form>
-    </body>
-</html>
+    </jsp:attribute>
+    <jsp:body>
+        <div class="span6">
+            <h1>Identifique-se!</h1>
+            <form method="POST" action="login.jsp" name="LoginForm" onsubmit="return validateForm();">
+                <div class="controls controls-row">
+                    <p>Login: <input type="text" id="login" name="username" class="span3" placeholder="Login"></p>
+                    <p>Senha: <input type="password" id="pwd" name="password" class="span3" placeholder="Senha"></p>
+                </div>
+                <div class="controls">
+                    <button id="submit" type="submit" class="btn btn-primary input-medium">Logar</button>
+                </div>
+            </form>
+        </div>
+    </jsp:body>
+</layout:page>
