@@ -2,7 +2,8 @@
     Document   : cadastrar
     Created on : 08/02/2013, 16:49:23
     Author     : thiago
---%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%@page import="com.model.entity.Passageiro"%><%@page import="com.convert.PassageiroConverter"%><%@page import="com.model.dao.PassageiroDAO"%><%
+--%><%@page import="com.auth.AuthChecker"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%@page import="com.model.entity.Passageiro"%><%@page import="com.convert.PassageiroConverter"%><%@page import="com.model.dao.PassageiroDAO"%><%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador"});
     PrintWriter saida = response.getWriter();
     Connection connection = (Connection) request.getAttribute("connection");
     PassageiroDAO pdao = new PassageiroDAO(connection);

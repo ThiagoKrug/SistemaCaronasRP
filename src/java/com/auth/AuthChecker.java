@@ -14,10 +14,20 @@ import javax.servlet.http.HttpSession;
  */
 public class AuthChecker {
     
-    public void authenticate(HttpSession session, HttpServletResponse response) throws IOException {
+    public void authenticate(HttpSession session, HttpServletResponse response,
+            String[] types) throws IOException {
         if (session.getAttribute("Username") == null) {
                 response.sendRedirect("index.jsp");
             }
+        boolean redir = true;
+        for (String type: types) {
+            if (session.getAttribute("Clearance").equals(type)) {
+                redir = false;
+            }
+        }
+        if (redir) {
+            response.sendRedirect("index.jsp");
+        }
     }
     
 }

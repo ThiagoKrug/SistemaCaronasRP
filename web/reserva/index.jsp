@@ -4,12 +4,15 @@
     Author     : thiago
 --%>
 
+<%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador",
+    "Servidor Solicitante"});
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     request.setAttribute("svdao", svdao);

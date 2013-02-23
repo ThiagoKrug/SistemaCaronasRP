@@ -2,7 +2,8 @@
     Document   : excluir.jsp
     Created on : 08/02/2013, 16:49:23
     Author     : thiago
---%><%@page import="com.model.entity.Usuario"%><%@page import="com.model.dao.UsuarioDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8"%><%
+--%><%@page import="com.auth.AuthChecker"%><%@page import="com.model.entity.Usuario"%><%@page import="com.model.dao.UsuarioDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8"%><%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador"});
     PrintWriter saida = response.getWriter();
     Connection connection = (Connection) request.getAttribute("connection");
     UsuarioDAO udao = new UsuarioDAO(connection);

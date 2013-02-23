@@ -4,6 +4,7 @@
     Author     : thiago
 --%>
 
+<%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.TipoVeiculoDAO"%>
 <%@page import="com.model.entity.Passageiro"%>
 <%@page import="com.model.dao.PassageiroDAO"%>
@@ -15,6 +16,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador",
+    "Servidor Solicitante"});
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     UsuarioDAO udao = new UsuarioDAO(connection);

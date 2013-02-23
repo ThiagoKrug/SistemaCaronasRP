@@ -2,7 +2,8 @@
     Document   : efetivar
     Created on : 13/02/2013, 04:33:19
     Author     : thiago
---%><%@page import="com.model.entity.StatusSolicitacaoViagem"%><%@page import="com.model.entity.SolicitacaoViagem"%><%@page import="com.model.dao.SolicitacaoViagemDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%
+--%><%@page import="com.auth.AuthChecker"%><%@page import="com.model.entity.StatusSolicitacaoViagem"%><%@page import="com.model.entity.SolicitacaoViagem"%><%@page import="com.model.dao.SolicitacaoViagemDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador"});
     PrintWriter saida = response.getWriter();
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);

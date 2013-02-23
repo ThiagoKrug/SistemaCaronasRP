@@ -2,10 +2,8 @@
     Document   : cadastrar
     Created on : 08/02/2013, 16:49:23
     Author     : thiago
---%><%@page import="com.convert.VeiculoConverter"%>
-<%@page import="com.model.entity.Veiculo"%>
-<%@page import="com.model.dao.VeiculoDAO"%>
-<%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%
+--%><%@page import="com.auth.AuthChecker"%><%@page import="com.convert.VeiculoConverter"%><%@page import="com.model.entity.Veiculo"%><%@page import="com.model.dao.VeiculoDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%
+    new AuthChecker().authenticate(session, response, new String[] {"Administrador"});
     PrintWriter saida = response.getWriter();
     Connection connection = (Connection) request.getAttribute("connection");
     VeiculoDAO vdao = new VeiculoDAO(connection);
