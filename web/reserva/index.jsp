@@ -54,7 +54,6 @@
                             <r:otherwise><td></td></r:otherwise>
                         </r:choose>
                         <td><a href="formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}">Editar</a></td>
-                        <td><a href="" onclick="excluir(${solicitacaoViagem.getIdSolicitacaoViagem()});">Excluir</a></td>
                     </tr>
                 </r:forEach>
             </tbody>

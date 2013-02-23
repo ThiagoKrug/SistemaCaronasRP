@@ -69,7 +69,7 @@
                 <input type="hidden" name="id_passageiro" id="id_passageiro" />
                 <tr>
                     <td>Nome do Passageiro</td>
-                    <td><input type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a onclick='addPassageiro($("#id_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a></td>
+                    <td><input type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a></td>
                 </tr>
                 <tr>
                     <td>RG do Passageiro</td>
@@ -87,7 +87,7 @@
                     <td>Passageiros adicionados na reserva</td>
                     <td><select multiple="true" name="passageiros" id="passageiros">
                             <r:forEach var="passageiro" items="${solicitacaoViagem.getPassageiros()}">
-                                <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()}</option>
+                                <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
                             </r:forEach>
                         </select>
                         <a onclick="retirarPassageiros();">Retirar passageiro</a>
@@ -136,7 +136,7 @@
                     <td><select name="tipo_veiculo" required="true">
                             <r:forEach var="tipoVeiculo" items="${tvdao.getTiposVeiculos()}">
                                 <option value="${tipoVeiculo.getIdTipoVeiculo()}"
-                                        <r:if test="${veiculo.getIdTipoVeiculo() == solicitacaoViagem.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
+                                        <r:if test="${tipoVeiculo.getIdTipoVeiculo() == solicitacaoViagem.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
                             </r:forEach>
                         </select>
                     </td>
@@ -242,24 +242,26 @@
                 }
             }
             ;
-            function addPassageiro(id, nome) {
+            function addPassageiro(id, rg, nome) {
                 var adicionar = true;
                 if (nome == "") {
                     adicionar = false;
                 }
-                if (id != "") {
+                //if (id != "") {
                     $("#passageiros option").each(function() {
-                        if ($(this).val() == id) {
+                        var str = $(this).html().split(" - ");
+                        console.log(str[1]);
+                        if (str[1] == rg) {
                             adicionar = false;
                         }
                     });
-                }
+                //}
                 if (adicionar) {
                     cont++;
                     if (id == "") {
                         id = "a" + cont;
                     }
-                    $("#passageiros").append('<option value="' + id + '">' + nome + '</option>');
+                    $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
                     var passageiro = new Passageiro(id,
                             $("#nome_passageiro").val(),
                             $("#rg_passageiro").val(),
