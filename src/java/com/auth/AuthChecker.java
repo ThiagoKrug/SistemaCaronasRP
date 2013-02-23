@@ -5,6 +5,7 @@
 package com.auth;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -13,11 +14,49 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class AuthChecker {
+    private String redDir = "";
     
-    public void authenticate(HttpSession session, HttpServletResponse response) throws IOException {
+    public AuthChecker() {
+        redDir = "index.jsp";
+    }
+    
+    public AuthChecker(String dir) {
+        redDir = dir;
+    }
+    
+    public void authenticate(HttpSession session, HttpServletResponse response,
+            String[] types) throws IOException {
         if (session.getAttribute("Username") == null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect(redDir);
             }
+        boolean redir = true;
+        for (String type: types) {
+            System.out.println(type);
+            if (session.getAttribute("Clearance").equals(type)) {
+                redir = false;
+            }
+        }
+        if (redir) {
+            response.sendRedirect(redDir);
+        }
+    }
+    
+    public boolean authAjax(HttpSession session, String[] types, PrintWriter output) throws IOException {
+        if (session.getAttribute("Username") == null) {
+                output.print("Erro de autenticação");
+                return false;
+            }
+        boolean redir = true;
+        for (String type: types) {
+            if (session.getAttribute("Clearance").equals(type)) {
+                redir = false;
+            }
+        }
+        if (redir) {
+            output.print("Erro de autenticação");
+            return false;
+        }
+        return true;
     }
     
 }
