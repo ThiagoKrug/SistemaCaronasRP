@@ -45,9 +45,9 @@
     </jsp:attribute>
     <jsp:body>
         <h1>Veículos</h1>
-        <h4><a href="./veiculo/formulario.jsp">Cadastrar Veículo</a></h4>
+        <h4><a class="btn btn-primary" href="./veiculo/formulario.jsp">Cadastrar Veículo</a></h4>
         <table id="veiculos" class="datatable table table-striped table-bordered">
-            <thead class="">
+            <thead>
                 <tr>
                     <th>Tipo do Veiculo</th>
                     <th>Placa</th>

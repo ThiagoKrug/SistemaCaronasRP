@@ -50,8 +50,8 @@
                         <td>${passageiro.getNome()}</td>
                         <td>${passageiro.getRg()}</td>
                         <td>${passageiro.getTelefone()}</td>
-                        <td class="btns"><a class="btn btn-warning" href="./passageiro/formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}">Editar</a></td>
-                        <td class="btns"><a class="btn btn-danger" href="" onclick="excluir(${passageiro.getIdPassageiro()});">Excluir</a></td>
+                        <td class="btns"><a class="btn btn-warning" href="./passageiro/formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}"><i class="icon-edit"></i> Editar</a></td>
+                        <td class="btns"><a class="btn btn-danger" href="" onclick="excluir(${passageiro.getIdPassageiro()});"><i class="icon-remove"></i> Excluir</a></td>
                     </tr>
                 </r:forEach>
             </tbody>

@@ -38,7 +38,7 @@
                 <div class="control-group">
                     <label class="control-label" for="tipoVeiculo">Tipo de Veículo</label>
                     <div class="controls">
-                        <select name="tipo_veiculo" class="input-large">
+                        <select name="tipo_veiculo" class="input-xlarge">
                             <r:forEach var="tipoVeiculo" items="${tvdao.getTiposVeiculos()}">
                                 <option value="${tipoVeiculo.getIdTipoVeiculo()}"
                                         <r:if test="${tipoVeiculo.getIdTipoVeiculo() == veiculo.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
@@ -49,29 +49,30 @@
                 <div class="control-group">
                     <label class="control-label" for="placa">Placa</label>
                     <div class="controls">
-                        <input type="text" name="placa" value="${veiculo.getPlaca()}" />
+                        <input class="input-xlarge" type="text" name="placa" value="${veiculo.getPlaca()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="quilometragem">Quilometragem</label>
                     <div class="controls">
-                        <input type="number" name="quilometragem" value="${veiculo.getQuilometragem()}" />
+                        <input class="input-xlarge" type="number" name="quilometragem" value="${veiculo.getQuilometragem()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="capacidadePassageiros">Capacidade de Passageiros</label>
                     <div class="controls">
-                        <input type="number" name="capacidade_passageiro" value="${veiculo.getCapacidadePassageiro()}" />
+                        <input class="input-xlarge" type="number" name="capacidade_passageiro" value="${veiculo.getCapacidadePassageiro()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="cor">Cor</label>
                     <div class="controls">
-                        <input type="text" name="cor" value="${veiculo.getCor()}" />
+                        <input class="input-xlarge" type="text" name="cor" value="${veiculo.getCor()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
+                        <a href="./veiculo/index.jsp" class="btn btn-info">Voltar</a>
                         <input class="btn btn-success" type="submit" value="Salvar Veículo" onclick="salvar();"/>
                     </div>
                 </div>
