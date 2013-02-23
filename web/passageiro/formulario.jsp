@@ -27,10 +27,50 @@
 %>
 <layout:page description="" keywords="" title="Cadastro de Passageiro">
     <jsp:body>
-        <h1>Cadastro de Passageiro</h1>
-        <form action="" method="POST" id="passageiro">
+        <style>
+            
+        </style>
+        <form class="form-horizontal" action="" method="POST" id="passageiro">
             <input type="hidden" name="id_passageiro" id="id_passageiro" value="${passageiro.getIdPassageiro()}" />
-            <table>
+            <fieldset>
+    <div id="legend">
+      <legend class="">Cadastrar Passageiro</legend>
+    </div>
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="nome">Nome</label>
+      <div class="controls">
+          <input type="text" id="nome" name="nome" value="${passageiro.getNome()}" class="input-xlarge" />
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="rg">RG</label>
+      <div class="controls">
+          <input type="text" id="rg" name="rg" value="${passageiro.getRg()}" class="input-xlarge" />
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="telefone">Telefone</label>
+      <div class="controls">
+          <input type="tel" id="telefone" name="telefone" value="${passageiro.getTelefone()}" class="input-xlarge" />
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="endereco">Endereço</label>
+      <div class="controls">
+          <input type="text" id="nome" name="endereco" value="${passageiro.getEndereco()}" class="input-xlarge" />
+      </div>
+    </div>
+ 
+    
+  </fieldset>
+            <!--<table>
                 <tbody>
                     <tr>
                         <td>Nome</td>
@@ -49,8 +89,8 @@
                         <td><input type="text" name="endereco" value="${passageiro.getEndereco()}" /></td>
                     </tr>
                 </tbody>
-            </table>
-            <input type="submit" value="Salvar Passageiro" onclick="salvar();"/>
+            </table>-->
+            <input class="btn btn-success" type="submit" value="Salvar Passageiro" onclick="salvar();"/>
         </form>
         <script type="text/javascript">
                 function salvar() {
