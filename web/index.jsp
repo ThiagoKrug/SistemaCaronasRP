@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% 
+    session.setAttribute("Username", null);
+    session.setAttribute("Name", null);
+    session.setAttribute("Clearance", null);
+%>
 <!DOCTYPE html>
 <html>
     <head>

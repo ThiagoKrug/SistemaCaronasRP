@@ -16,8 +16,10 @@
     UsuarioDAO ud = new UsuarioDAO(connection);
     List<Usuario> usuarios = ud.getUsuarios();
     for (Usuario usuario: usuarios) {
+        System.out.println(usuario.getUsername());
         if (usuario.getUsername().equals(name)) {
             if (usuario.getSenha().equals(password)) {
+                session.setAttribute("Name", usuario.getNome());
                 session.setAttribute("Username", name);
                 session.setAttribute("Clearance", usuario.getTipoUsuario().getTipoUsuario());
             }
@@ -37,7 +39,10 @@
             <h2>Login ou Senha incorretos.</h2>
             <a href="index.jsp">Voltar</a>
         <%
+            } else {
+                response.sendRedirect("principal.jsp");
             }
         %>
+         
     </body>
 </html>
