@@ -14,20 +14,30 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class AuthChecker {
+    private String redDir = "";
+    
+    public AuthChecker() {
+        redDir = "index.jsp";
+    }
+    
+    public AuthChecker(String dir) {
+        redDir = dir;
+    }
     
     public void authenticate(HttpSession session, HttpServletResponse response,
             String[] types) throws IOException {
         if (session.getAttribute("Username") == null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect(redDir);
             }
         boolean redir = true;
         for (String type: types) {
+            System.out.println(type);
             if (session.getAttribute("Clearance").equals(type)) {
                 redir = false;
             }
         }
         if (redir) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(redDir);
         }
     }
     

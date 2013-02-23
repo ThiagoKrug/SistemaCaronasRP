@@ -14,10 +14,13 @@
     </head>
     <body>
         <% 
-            new AuthChecker().authenticate(session, response);
+            new AuthChecker().authenticate(session, response, new String[] {
+                "Administrador", "Servidor Solicitante", "Motorista"});
         %>
         <h1>Sistema de Caronas Unipampa</h1>
         <h2>Bem vindo, <%= session.getAttribute("Name") %></h2>
         <a href="passageiro/index.jsp">Passageiros</a>
+        <a href="veiculo/index.jsp">Veiculos</a>
+        <a href="usuario/index.jsp">Usuarios</a>
     </body>
 </html>

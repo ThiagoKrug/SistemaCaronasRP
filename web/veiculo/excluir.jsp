@@ -5,7 +5,7 @@
 --%><%@page import="com.auth.AuthChecker"%><%@page import="com.model.entity.Veiculo"%><%@page import="com.model.dao.VeiculoDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8"%><%
     
     PrintWriter saida = response.getWriter();
-    boolean auth = new AuthChecker().authAjax(session, 
+    boolean auth = new AuthChecker("../index.jsp").authAjax(session, 
             new String[] {"Administrador"}, saida);
     if (auth) {
         Connection connection = (Connection) request.getAttribute("connection");
