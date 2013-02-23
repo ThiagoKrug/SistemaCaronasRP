@@ -31,7 +31,7 @@
     <jsp:body>
         <div class="span6">
             <h1>Identifique-se!</h1>
-            <form method="POST" action="login.jsp" name="LoginForm" onsubmit="return validateForm();">
+            <form method="POST" action="./login.jsp" name="LoginForm" onsubmit="return validateForm();">
                 <div class="controls controls-row">
                     <p>Login: <input type="text" id="login" name="username" class="span3" placeholder="Login"></p>
                     <p>Senha: <input type="password" id="pwd" name="password" class="span3" placeholder="Senha"></p>

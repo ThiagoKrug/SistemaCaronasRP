@@ -30,8 +30,14 @@
 %>
 <layout:page description="" keywords="" title="Cadastro de Usuário">
     <jsp:body>
+        <style>
+            td
+            {
+                padding: 10px;
+            }
+        </style>
         <h1>Cadastro de Usuário</h1>
-        <form action="" method="POST" id="usuario">
+        <form class="form-horizontal" action="" method="POST" id="usuario">
             <input type="hidden" name="id_usuario" id="id_usuario" value="${usuario.getIdUsuario()}" />
             <table>
                 <tbody>
@@ -75,7 +81,7 @@
                     </tr>
                 </tbody>
             </table>
-            <input type="submit" value="Salvar Passageiro" onclick="salvar();"/>
+            <input class="btn btn-success" type="submit" value="Salvar Usuário" onclick="salvar();"/>
         </form>
         <script type="text/javascript">
                 function salvar() {
