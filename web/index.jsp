@@ -9,6 +9,7 @@
     session.setAttribute("Username", null);
     session.setAttribute("Name", null);
     session.setAttribute("Clearance", null);
+    System.out.println(session.getAttribute("Username"));
 %>
 <!DOCTYPE html>
 <html>

@@ -28,11 +28,17 @@ public class AuthChecker {
             String[] types) throws IOException {
         if (session.getAttribute("Username") == null) {
                 response.sendRedirect(redDir);
+                return;
             }
         boolean redir = true;
         for (String type: types) {
             System.out.println(type);
-            if (session.getAttribute("Clearance").equals(type)) {
+            Object clearance = session.getAttribute("Clearance");
+            if (clearance == null) {
+                redir = true;
+                break;
+            }
+            if (clearance.equals(type)) {
                 redir = false;
             }
         }
