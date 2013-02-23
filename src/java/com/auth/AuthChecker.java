@@ -5,6 +5,7 @@
 package com.auth;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +29,24 @@ public class AuthChecker {
         if (redir) {
             response.sendRedirect("index.jsp");
         }
+    }
+    
+    public boolean authAjax(HttpSession session, String[] types, PrintWriter output) throws IOException {
+        if (session.getAttribute("Username") == null) {
+                output.print("Erro de autenticação");
+                return false;
+            }
+        boolean redir = true;
+        for (String type: types) {
+            if (session.getAttribute("Clearance").equals(type)) {
+                redir = false;
+            }
+        }
+        if (redir) {
+            output.print("Erro de autenticação");
+            return false;
+        }
+        return true;
     }
     
 }
