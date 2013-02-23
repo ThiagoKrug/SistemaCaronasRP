@@ -179,7 +179,7 @@
     </jsp:attribute>
     <jsp:body>
         <h1>Solicitação de Reserva</h1>
-        <form action="" method="POST" id="solicitacao_viagem">
+        <form class="form-horizontal" action="" method="POST" id="solicitacao_viagem">
             <input type="hidden" name="id_solicitacao_viagem" id="id_solicitacao_viagem" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
             <table>
                 <tbody>
@@ -207,7 +207,7 @@
                 <input type="hidden" name="id_passageiro" id="id_passageiro" />
                 <tr>
                     <td>Nome do Passageiro</td>
-                    <td><input type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a></td>
+                    <td><input type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a></td>
                 </tr>
                 <tr>
                     <td>RG do Passageiro</td>
@@ -228,7 +228,7 @@
                                 <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
                             </r:forEach>
                         </select>
-                        <a onclick="retirarPassageiros();">Retirar passageiro</a>
+                        <a class="btn btn-danger" onclick="retirarPassageiros();">Retirar passageiro</a>
                     </td>
                 </tr>
                 <tr>
@@ -281,7 +281,7 @@
                 </tr>
                 </tbody>
             </table>
-            <input type="submit" value="Solicitar Reserva" onclick="salvar();"/>
+            <input class="btn btn-success" type="submit" value="Solicitar Reserva" onclick="salvar();"/>
         </form>
     </jsp:body>
 </layout:page>
