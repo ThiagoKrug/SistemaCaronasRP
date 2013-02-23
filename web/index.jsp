@@ -21,7 +21,7 @@
                 var pwd = document.forms["LoginForm"]["password"].value;
                 var logEmpty = logname === null || logname === "";
                 var pwdEmpty = pwd === null || pwd === "";
-                if (logEmpty || pwd) {
+                if (logEmpty || pwdEmpty) {
                     alert("Os campos não podem estar vazios.");
                     return false;
                 }

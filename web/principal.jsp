@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.auth.AuthChecker" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,10 +14,7 @@
     </head>
     <body>
         <% 
-            System.out.println(session.getAttribute("Username"));
-            if (session.getAttribute("Username") == null) {
-                response.sendRedirect("index.jsp");
-            }
+            new AuthChecker().authenticate(session, response);
         %>
         <h1>Sistema de Caronas Unipampa</h1>
         <h2>Bem vindo, <%= session.getAttribute("Name") %></h2>
