@@ -35,7 +35,7 @@
 %>
 <layout:page description="" keywords="" title="Solicitação de Reserva">
     <jsp:attribute name="extraBottom">
-        <script type="text/javascript" src="./resources/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="./resources/js/jquery-ui-1.10.1.custom.min.js"></script>
         <script type="text/javascript" src="./resources/js/ui.datepicker-pt-BR.js"></script>
         <script type="text/javascript" src="./resources/js/passageiro.js"></script>
         <script type="text/javascript" src="./resources/js/json2.js"></script>

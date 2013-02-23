@@ -7,6 +7,5 @@
     </nav>
     <p>Desenvolvido por alunos do curso de Engenharia de Software da UNIPAMPA.</p>
 </footer>
-<!-- <script type="text/javascript" src="./resources/js/jquery.js"></script> -->
 <script type="text/javascript" src="./resources/js/jquery-1.9.0.js"></script>
 <script type="text/javascript" src="./resources/js/bootstrap.js" ></script>
