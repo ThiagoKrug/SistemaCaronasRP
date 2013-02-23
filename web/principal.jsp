@@ -4,6 +4,7 @@
     Author     : Usuario
 --%>
 
+<%@page import="com.mail.Mail"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.auth.AuthChecker" %>
 <!DOCTYPE html>
