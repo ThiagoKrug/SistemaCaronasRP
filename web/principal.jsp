@@ -14,10 +14,18 @@
 %>
 <layout:page title="" description="" keywords="">
     <jsp:body>
+        <style>
+            h2
+            {
+                padding:10px;
+            }
+        </style>
         <h1>Sistema de Caronas Unipampa</h1>
         <h2>Bem vindo, <c:out value="${sessionScope.name}"/></h2>
-        <a href="./passageiro/index.jsp">Passageiros</a>
-        <a href="./veiculo/index.jsp">Veiculos</a>
-        <a href="./usuario/index.jsp">Usuarios</a>
+        
+        <a class="btn btn-success" href="./passageiro/index.jsp">Passageiros</a>
+        <a class="btn btn-success" href="./veiculo/index.jsp">Veiculos</a>
+        <a class="btn btn-success" href="./usuario/index.jsp">Usuarios</a>
+        <a class="btn btn-success" href="./reserva/index.jsp">Reservas</a>
     </jsp:body>
 </layout:page>
