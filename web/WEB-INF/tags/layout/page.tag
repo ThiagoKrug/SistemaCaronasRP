@@ -2,6 +2,7 @@
 <%@ attribute name="title"       required="true" description="Sistema de Caronas" %>
 <%@ attribute name="description" required="true" description="" %>
 <%@ attribute name="keywords"    required="true" description="" %>
+<%@ attribute name="extraBottom" fragment="true" description="Extra code to put before </body>" %>
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <!DOCTYPE html>
 <head>
@@ -10,7 +11,7 @@
     <meta name="description" content="${description}" />
     <meta name="keywords" content="${keywords}" />
     <title>${title}</title>
-    <link href="../resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link href="./resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
 </head>
 <body>
     <layout:header/>
@@ -18,5 +19,6 @@
         <jsp:doBody/>
     </div>
     <layout:footer/>
+    <jsp:invoke fragment="extraBottom"/>
 </body>
 </html>

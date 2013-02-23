@@ -3,7 +3,6 @@
     Created on : 08/02/2013, 15:37:43
     Author     : thiago
 --%>
-
 <%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.TipoVeiculoDAO"%>
 <%@page import="com.model.entity.Passageiro"%>
@@ -17,12 +16,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
-    new AuthChecker("../index.jsp").authenticate(session, response, new String[] {"Administrador",
-    "Servidor Solicitante"});
+    new AuthChecker("../index.jsp").authenticate(session, response, new String[]{"Administrador", "Servidor Solicitante"});
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     UsuarioDAO udao = new UsuarioDAO(connection);
     request.setAttribute("udao", udao);
+    PassageiroDAO pdao = new PassageiroDAO(connection);
+    request.setAttribute("pdao", pdao);
     TipoVeiculoDAO tvdao = new TipoVeiculoDAO(connection);
     request.setAttribute("tvdao", tvdao);
     String idSolicitacaoViagem = request.getParameter("id_solicitacao_viagem");
@@ -140,10 +140,12 @@
             </table>
             <input type="submit" value="Solicitar Reserva" onclick="salvar();"/>
         </form>
-        <script type="text/javascript" src="../resources/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="../resources/js/ui.datepicker-pt-BR.js"></script>
-        <script type="text/javascript" src="../resources/js/passageiro.js"></script>
-        <script type="text/javascript" src="../resources/js/json2.js"></script>
+    </jsp:body>
+    <jsp:attribute name="extraBottom">
+        <script type="text/javascript" src="./resources/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="./resources/js/ui.datepicker-pt-BR.js"></script>
+        <script type="text/javascript" src="./resources/js/passageiro.js"></script>
+        <script type="text/javascript" src="./resources/js/json2.js"></script>
         <script type="text/javascript">
                         var cont = 0;
                         var listaPassageiros = new Array();
@@ -185,103 +187,101 @@
                             });
                         });
                         function getNomes() {
-                            var availableNames = [<%
-                    PassageiroDAO pdao = new PassageiroDAO(connection);
-                    for (Passageiro passageiro : pdao.getPassageiros()) {%>
-                            "<%=passageiro.getNome()%>",<%
-                    }
-            %>];
-                                    return availableNames;
+                            var availableNames = [
+            <r:forEach var="passageiro" items="${pdao.getPassageiros()}">
+                                "${passageiro.getNome()}",</r:forEach>
+                            ];
+                            return availableNames;
                         }
                         ;
                         function getPassageiros() {
                             var passageiros = new Array();
                             var passageiro;
-            <% for (Passageiro passageiro : pdao.getPassageiros()) {%>
-                            passageiro = new Passageiro(<%=passageiro.getIdPassageiro()%>,
-                                    "<%=passageiro.getNome()%>",
-                                    "<%=passageiro.getRg()%>",
-                                    "<%=passageiro.getTelefone()%>",
-                                    "<%=passageiro.getEndereco()%>");
+            <r:forEach var="passageiro" items="${pdao.getPassageiros()}">
+                            passageiro = new Passageiro(${passageiro.getIdPassageiro()},
+                                    "${passageiro.getNome()}",
+                                    "${passageiro.getRg()}",
+                                    "${passageiro.getTelefone()}",
+                                    "${passageiro.getEndereco()}");
                             passageiros.push(passageiro);
-            <% }%>
-                            return passageiros;
+            </r:forEach>
+                    return passageiros;
+                }
+                ;
+                function completeFields(nome) {
+                    event.preventDefault();
+                    var passageiro;
+                    var achou = false;
+                    var passageiros = getPassageiros();
+                    for (x in passageiros) {
+                        if (passageiros[x].nome == nome) {
+                            passageiro = passageiros[x];
+                            achou = true;
                         }
-                        ;
-                        function completeFields(nome) {
-                            event.preventDefault();
-                            var passageiro;
-                            var achou = false;
-                            var passageiros = getPassageiros();
-                            for (x in passageiros) {
-                                if (passageiros[x].nome == nome) {
-                                    passageiro = passageiros[x];
-                                    achou = true;
-                                }
-                            }
-                            if (achou) {
-                                $("#id_passageiro").val(passageiros[x].idPassageiro);
-                                $("#rg_passageiro").val(passageiros[x].rg);
-                                $("#rg_passageiro").attr('disabled', "true");
-                                $("#telefone_passageiro").val(passageiros[x].telefone);
-                                $("#telefone_passageiro").attr('disabled', "true");
-                                $("#endereco_passageiro").val(passageiros[x].endereco);
-                                $("#endereco_passageiro").attr('disabled', "true");
-                            } else {
-                                $("#id_passageiro").val('');
-                                $("#rg_passageiro").removeAttr('disabled');
-                                $("#rg_passageiro").val('');
-                                $("#telefone_passageiro").removeAttr('disabled');
-                                $("#telefone_passageiro").val('');
-                                $("#endereco_passageiro").removeAttr('disabled');
-                                $("#endereco_passageiro").val('');
+                    }
+                    if (achou) {
+                        $("#id_passageiro").val(passageiros[x].idPassageiro);
+                        $("#rg_passageiro").val(passageiros[x].rg);
+                        $("#rg_passageiro").attr('disabled', "true");
+                        $("#telefone_passageiro").val(passageiros[x].telefone);
+                        $("#telefone_passageiro").attr('disabled', "true");
+                        $("#endereco_passageiro").val(passageiros[x].endereco);
+                        $("#endereco_passageiro").attr('disabled', "true");
+                    } else {
+                        $("#id_passageiro").val('');
+                        $("#rg_passageiro").removeAttr('disabled');
+                        $("#rg_passageiro").val('');
+                        $("#telefone_passageiro").removeAttr('disabled');
+                        $("#telefone_passageiro").val('');
+                        $("#endereco_passageiro").removeAttr('disabled');
+                        $("#endereco_passageiro").val('');
+                    }
+                }
+                ;
+                function addPassageiro(id, rg, nome) {
+                    var adicionar = true;
+                    if (nome == "") {
+                        adicionar = false;
+                    }
+                    //if (id != "") {
+                    $("#passageiros option").each(function() {
+                        var str = $(this).html().split(" - ");
+                        console.log(str[1]);
+                        if (str[1] == rg) {
+                            adicionar = false;
+                        }
+                    });
+                    //}
+                    if (adicionar) {
+                        cont++;
+                        if (id == "") {
+                            id = "a" + cont;
+                        }
+                        $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
+                        var passageiro = new Passageiro(id,
+                                $("#nome_passageiro").val(),
+                                $("#rg_passageiro").val(),
+                                $("#telefone_passageiro").val(),
+                                $("#endereco_passageiro").val());
+                        listaPassageiros.push(passageiro);
+                    } else if (nome == "") {
+                        // o cara naum digito nada no nome do passageiro
+                    } else {
+                        alert("Passageiro já informado.");
+                    }
+                }
+                ;
+                function retirarPassageiros() {
+                    $("#passageiros option:selected").each(function() {
+                        for (x in listaPassageiros) {
+                            if (listaPassageiros[x].idPassageiro == $(this).val()) {
+                                listaPassageiros.splice(x, 1);
                             }
                         }
-                        ;
-                        function addPassageiro(id, rg, nome) {
-                            var adicionar = true;
-                            if (nome == "") {
-                                adicionar = false;
-                            }
-                            //if (id != "") {
-                            $("#passageiros option").each(function() {
-                                var str = $(this).html().split(" - ");
-                                console.log(str[1]);
-                                if (str[1] == rg) {
-                                    adicionar = false;
-                                }
-                            });
-                            //}
-                            if (adicionar) {
-                                cont++;
-                                if (id == "") {
-                                    id = "a" + cont;
-                                }
-                                $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
-                                var passageiro = new Passageiro(id,
-                                        $("#nome_passageiro").val(),
-                                        $("#rg_passageiro").val(),
-                                        $("#telefone_passageiro").val(),
-                                        $("#endereco_passageiro").val());
-                                listaPassageiros.push(passageiro);
-                            } else if (nome == "") {
-                                // o cara naum digito nada no nome do passageiro
-                            } else {
-                                alert("Passageiro já informado.");
-                            }
-                        }
-                        ;
-                        function retirarPassageiros() {
-                            $("#passageiros option:selected").each(function() {
-                                for (x in listaPassageiros) {
-                                    if (listaPassageiros[x].idPassageiro == $(this).val()) {
-                                        listaPassageiros.splice(x, 1);
-                                    }
-                                }
-                                $(this).remove();
-                            });
-                        }
-                        ;
+                        $(this).remove();
+                    });
+                }
+                ;
         </script>
-    </jsp:body>
+    </jsp:attribute>
 </layout:page>
