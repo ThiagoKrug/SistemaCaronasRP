@@ -10,6 +10,7 @@
 <%@page import="com.model.dao.UsuarioDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
@@ -25,13 +26,8 @@
         request.setAttribute("usuario", usuario);
     }
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<layout:page description="" keywords="" title="Cadastro de Usuário">
+    <jsp:body>
         <h1>Cadastro de Usuário</h1>
         <form action="" method="POST" id="usuario">
             <input type="hidden" name="id_usuario" id="id_usuario" value="${usuario.getIdUsuario()}" />
@@ -79,7 +75,6 @@
             </table>
             <input type="submit" value="Salvar Passageiro" onclick="salvar();"/>
         </form>
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
         <script type="text/javascript">
                 function salvar() {
                     event.preventDefault();
@@ -95,15 +90,15 @@
                     console.log(values);
 
                     /* Send the data using post */
-                    $.post("cadastrar.jsp", values, function(data) {
+                    $.post("./usuario/cadastrar.jsp", values, function(data) {
                         alert(data);
                         console.log(data);
-                        window.location = "index.jsp";
+                        window.location = "./usuario/index.jsp";
                         return;
                     }
                     );
                 }
                 ;
         </script>
-    </body>
-</html>
+    </jsp:body>
+</layout:page>

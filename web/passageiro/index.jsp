@@ -8,6 +8,7 @@
 <%@page import="com.model.dao.PassageiroDAO"%>
 <%@page import="com.model.entity.Passageiro"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
@@ -15,15 +16,10 @@
     PassageiroDAO pdao = new PassageiroDAO(connection);
     request.setAttribute("pdao", pdao);
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<layout:page title="Listagem de Passageiros" description="" keywords="">
+<jsp:body>
         <h1>Passageiros</h1>
-        <h4><a href="formulario.jsp">Cadastrar Passageiro</a></h4>
+        <h4><a href="./passageiro/formulario.jsp">Cadastrar Passageiro</a></h4>
         <table>
             <thead>
                 <tr>
@@ -39,31 +35,31 @@
                         <td>${passageiro.getNome()}</td>
                         <td>${passageiro.getRg()}</td>
                         <td>${passageiro.getTelefone()}</td>
-                        <td><a href="formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}">Editar</a></td>
+                        <td><a href="./passageiro/formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}">Editar</a></td>
                         <td><a href="" onclick="excluir(${passageiro.getIdPassageiro()});">Excluir</a></td>
                     </tr>
                 </r:forEach>
             </tbody>
         </table>
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
+
         <script type="text/javascript">
                             function excluir(idPassageiro) {
                                 event.preventDefault();
 
                                 if (confirm("Deseja realmente excluir este passageiro?")) {
                                     /* Send the data using post */
-                                    $.post("excluir.jsp",
-                                            {id_passageiro : idPassageiro},
-                                            function(data) {
-                                                alert(data);
-                                                console.log(data);
-                                                window.location = "index.jsp";
-                                                return;
-                                            }
+                                    $.post("./passageiro/excluir.jsp",
+                                            {id_passageiro: idPassageiro},
+                                    function(data) {
+                                        alert(data);
+                                        console.log(data);
+                                        window.location = "./passageiro/index.jsp";
+                                        return;
+                                    }
                                     );
                                 }
                                 ;
                             }
         </script>
-    </body>
-</html>
+    </jsp:body>
+</layout:page>

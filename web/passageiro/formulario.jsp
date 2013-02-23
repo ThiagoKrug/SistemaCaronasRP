@@ -9,6 +9,7 @@
 <%@page import="com.convert.PassageiroConverter"%>
 <%@page import="com.model.dao.PassageiroDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
@@ -22,13 +23,8 @@
         request.setAttribute("passageiro", passageiro);
     }
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<layout:page description="" keywords="" title="Cadastro de Passageiro">
+    <jsp:body>
         <h1>Cadastro de Passageiro</h1>
         <form action="" method="POST" id="passageiro">
             <input type="hidden" name="id_passageiro" id="id_passageiro" value="${passageiro.getIdPassageiro()}" />
@@ -54,7 +50,6 @@
             </table>
             <input type="submit" value="Salvar Passageiro" onclick="salvar();"/>
         </form>
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
         <script type="text/javascript">
                 function salvar() {
                     event.preventDefault();
@@ -70,15 +65,15 @@
                     console.log(values);
 
                     /* Send the data using post */
-                    $.post("cadastrar.jsp", values, function(data) {
+                    $.post("./passageiro/cadastrar.jsp", values, function(data) {
                         alert(data);
                         console.log(data);
-                        window.location="index.jsp";
+                        window.location = "./passageiro/index.jsp";
                         return;
                     }
                     );
                 }
                 ;
         </script>
-    </body>
-</html>
+    </jsp:body>
+</layout:page>

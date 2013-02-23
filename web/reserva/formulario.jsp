@@ -12,6 +12,7 @@
 <%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
@@ -29,18 +30,9 @@
         request.setAttribute("solicitacaoViagem", solicitacaoViagem);
     }
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="../resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
-        <script type="text/javascript">
-            var cont = 0;
-            var listaPassageiros = new Array();</script>
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Cadastro de Reserva</h1>
+<layout:page description="" keywords="" title="Solicitação de Reserva">
+    <jsp:body>
+        <h1>Solicitação de Reserva</h1>
         <form action="" method="POST" id="solicitacao_viagem">
             <input type="hidden" name="id_solicitacao_viagem" id="id_solicitacao_viagem" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
             <table>
@@ -145,147 +137,148 @@
             </table>
             <input type="submit" value="Solicitar Reserva" onclick="salvar();"/>
         </form>
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
         <script type="text/javascript" src="../resources/js/jquery-ui.js"></script>
         <script type="text/javascript" src="../resources/js/ui.datepicker-pt-BR.js"></script>
         <script type="text/javascript" src="../resources/js/passageiro.js"></script>
         <script type="text/javascript" src="../resources/js/json2.js"></script>
         <script type="text/javascript">
-            function salvar() {
-                event.preventDefault();
-                // get all the inputs into an array.
-                var $inputs = $('#solicitacao_viagem :input');
-                // not sure if you wanted this, but I thought I'd add it.
-                // get an associative array of just the values.
-                var values = {};
-                $inputs.each(function() {
-                    values[this.name] = $(this).val();
-                });
-                for (x in listaPassageiros) {
-                    if (listaPassageiros[x].idPassageiro[0] == "a") {
-                        listaPassageiros[x].idPassageiro = null;
-                    }
-                }
-                values.passageiros = JSON.stringify(listaPassageiros);
-                console.log(values);
-                /* Send the data using post */
-                $.post("cadastrar.jsp", values, function(data) {
-                    alert(data);
-                    console.log(data);
-                    window.location = "index.jsp";
-                    return;
-                }
-                );
-            }
-            ;
-            $(function() {
-                $.datepicker.setDefaults($.datepicker.regional[ "pt-BR" ]);
-                $("#datepicker_saida").datepicker();
-                $("#datepicker_retorno").datepicker();
-            });
-            $(function() {
-                $("#nome_passageiro").autocomplete({
-                    source: getNomes()
-                });
-            });
-            function getNomes() {
-                var availableNames = [<%
+                        var cont = 0;
+                        var listaPassageiros = new Array();
+                        function salvar() {
+                            event.preventDefault();
+                            // get all the inputs into an array.
+                            var $inputs = $('#solicitacao_viagem :input');
+                            // not sure if you wanted this, but I thought I'd add it.
+                            // get an associative array of just the values.
+                            var values = {};
+                            $inputs.each(function() {
+                                values[this.name] = $(this).val();
+                            });
+                            for (x in listaPassageiros) {
+                                if (listaPassageiros[x].idPassageiro[0] == "a") {
+                                    listaPassageiros[x].idPassageiro = null;
+                                }
+                            }
+                            values.passageiros = JSON.stringify(listaPassageiros);
+                            console.log(values);
+                            /* Send the data using post */
+                            $.post("./reserva/cadastrar.jsp", values, function(data) {
+                                alert(data);
+                                console.log(data);
+                                window.location = "./reserva/index.jsp";
+                                return;
+                            }
+                            );
+                        }
+                        ;
+                        $(function() {
+                            $.datepicker.setDefaults($.datepicker.regional[ "pt-BR" ]);
+                            $("#datepicker_saida").datepicker();
+                            $("#datepicker_retorno").datepicker();
+                        });
+                        $(function() {
+                            $("#nome_passageiro").autocomplete({
+                                source: getNomes()
+                            });
+                        });
+                        function getNomes() {
+                            var availableNames = [<%
                     PassageiroDAO pdao = new PassageiroDAO(connection);
                     for (Passageiro passageiro : pdao.getPassageiros()) {%>
-                "<%=passageiro.getNome()%>",<%
+                            "<%=passageiro.getNome()%>",<%
                     }
             %>];
-                        return availableNames;
-            }
-            ;
-            function getPassageiros() {
-                var passageiros = new Array();
-                var passageiro;
+                                    return availableNames;
+                        }
+                        ;
+                        function getPassageiros() {
+                            var passageiros = new Array();
+                            var passageiro;
             <% for (Passageiro passageiro : pdao.getPassageiros()) {%>
-                passageiro = new Passageiro(<%=passageiro.getIdPassageiro()%>,
-                        "<%=passageiro.getNome()%>",
-                        "<%=passageiro.getRg()%>",
-                        "<%=passageiro.getTelefone()%>",
-                        "<%=passageiro.getEndereco()%>");
-                passageiros.push(passageiro);
+                            passageiro = new Passageiro(<%=passageiro.getIdPassageiro()%>,
+                                    "<%=passageiro.getNome()%>",
+                                    "<%=passageiro.getRg()%>",
+                                    "<%=passageiro.getTelefone()%>",
+                                    "<%=passageiro.getEndereco()%>");
+                            passageiros.push(passageiro);
             <% }%>
-                return passageiros;
-            }
-            ;
-            function completeFields(nome) {
-                event.preventDefault();
-                var passageiro;
-                var achou = false;
-                var passageiros = getPassageiros();
-                for (x in passageiros) {
-                    if (passageiros[x].nome == nome) {
-                        passageiro = passageiros[x];
-                        achou = true;
-                    }
-                }
-                if (achou) {
-                    $("#id_passageiro").val(passageiros[x].idPassageiro);
-                    $("#rg_passageiro").val(passageiros[x].rg);
-                    $("#rg_passageiro").attr('disabled', "true");
-                    $("#telefone_passageiro").val(passageiros[x].telefone);
-                    $("#telefone_passageiro").attr('disabled', "true");
-                    $("#endereco_passageiro").val(passageiros[x].endereco);
-                    $("#endereco_passageiro").attr('disabled', "true");
-                } else {
-                    $("#id_passageiro").val('');
-                    $("#rg_passageiro").removeAttr('disabled');
-                    $("#rg_passageiro").val('');
-                    $("#telefone_passageiro").removeAttr('disabled');
-                    $("#telefone_passageiro").val('');
-                    $("#endereco_passageiro").removeAttr('disabled');
-                    $("#endereco_passageiro").val('');
-                }
-            }
-            ;
-            function addPassageiro(id, rg, nome) {
-                var adicionar = true;
-                if (nome == "") {
-                    adicionar = false;
-                }
-                //if (id != "") {
-                    $("#passageiros option").each(function() {
-                        var str = $(this).html().split(" - ");
-                        console.log(str[1]);
-                        if (str[1] == rg) {
-                            adicionar = false;
+                            return passageiros;
                         }
-                    });
-                //}
-                if (adicionar) {
-                    cont++;
-                    if (id == "") {
-                        id = "a" + cont;
-                    }
-                    $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
-                    var passageiro = new Passageiro(id,
-                            $("#nome_passageiro").val(),
-                            $("#rg_passageiro").val(),
-                            $("#telefone_passageiro").val(),
-                            $("#endereco_passageiro").val());
-                    listaPassageiros.push(passageiro);
-                } else if (nome == "") {
-                    // o cara naum digito nada no nome do passageiro
-                } else {
-                    alert("Passageiro já informado.");
-                }
-            }
-            ;
-            function retirarPassageiros() {
-                $("#passageiros option:selected").each(function() {
-                    for (x in listaPassageiros) {
-                        if (listaPassageiros[x].idPassageiro == $(this).val()) {
-                            listaPassageiros.splice(x, 1);
+                        ;
+                        function completeFields(nome) {
+                            event.preventDefault();
+                            var passageiro;
+                            var achou = false;
+                            var passageiros = getPassageiros();
+                            for (x in passageiros) {
+                                if (passageiros[x].nome == nome) {
+                                    passageiro = passageiros[x];
+                                    achou = true;
+                                }
+                            }
+                            if (achou) {
+                                $("#id_passageiro").val(passageiros[x].idPassageiro);
+                                $("#rg_passageiro").val(passageiros[x].rg);
+                                $("#rg_passageiro").attr('disabled', "true");
+                                $("#telefone_passageiro").val(passageiros[x].telefone);
+                                $("#telefone_passageiro").attr('disabled', "true");
+                                $("#endereco_passageiro").val(passageiros[x].endereco);
+                                $("#endereco_passageiro").attr('disabled', "true");
+                            } else {
+                                $("#id_passageiro").val('');
+                                $("#rg_passageiro").removeAttr('disabled');
+                                $("#rg_passageiro").val('');
+                                $("#telefone_passageiro").removeAttr('disabled');
+                                $("#telefone_passageiro").val('');
+                                $("#endereco_passageiro").removeAttr('disabled');
+                                $("#endereco_passageiro").val('');
+                            }
                         }
-                    }
-                    $(this).remove();
-                });
-            }
-            ;
+                        ;
+                        function addPassageiro(id, rg, nome) {
+                            var adicionar = true;
+                            if (nome == "") {
+                                adicionar = false;
+                            }
+                            //if (id != "") {
+                            $("#passageiros option").each(function() {
+                                var str = $(this).html().split(" - ");
+                                console.log(str[1]);
+                                if (str[1] == rg) {
+                                    adicionar = false;
+                                }
+                            });
+                            //}
+                            if (adicionar) {
+                                cont++;
+                                if (id == "") {
+                                    id = "a" + cont;
+                                }
+                                $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
+                                var passageiro = new Passageiro(id,
+                                        $("#nome_passageiro").val(),
+                                        $("#rg_passageiro").val(),
+                                        $("#telefone_passageiro").val(),
+                                        $("#endereco_passageiro").val());
+                                listaPassageiros.push(passageiro);
+                            } else if (nome == "") {
+                                // o cara naum digito nada no nome do passageiro
+                            } else {
+                                alert("Passageiro já informado.");
+                            }
+                        }
+                        ;
+                        function retirarPassageiros() {
+                            $("#passageiros option:selected").each(function() {
+                                for (x in listaPassageiros) {
+                                    if (listaPassageiros[x].idPassageiro == $(this).val()) {
+                                        listaPassageiros.splice(x, 1);
+                                    }
+                                }
+                                $(this).remove();
+                            });
+                        }
+                        ;
         </script>
-    </body>
-</html>
+    </jsp:body>
+</layout:page>

@@ -7,6 +7,7 @@
 <%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
@@ -14,15 +15,10 @@
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     request.setAttribute("svdao", svdao);
 %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<layout:page title="Listagem de Reservas" description="" keywords="">
+    <jsp:body>
         <h1>Reserva</h1>
-        <h4><a href="formulario.jsp">Cadastrar Reserva</a></h4>
+        <h4><a href="./reserva/formulario.jsp">Cadastrar Reserva</a></h4>
         <table>
             <thead>
                 <tr>
@@ -53,24 +49,23 @@
                             </r:when>
                             <r:otherwise><td></td></r:otherwise>
                         </r:choose>
-                        <td><a href="formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}">Editar</a></td>
+                        <td><a href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}">Editar</a></td>
                     </tr>
                 </r:forEach>
             </tbody>
         </table>
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
         <script type="text/javascript">
                                     function excluir(idSolicitacaoViagem) {
                                         event.preventDefault();
 
                                         if (confirm("Deseja realmente excluir esta reserva?")) {
                                             /* Send the data using post */
-                                            $.post("excluir.jsp",
+                                            $.post("./reserva/excluir.jsp",
                                                     {id_solicitacao_viagem: idSolicitacaoViagem},
                                             function(data) {
                                                 alert(data);
                                                 console.log(data);
-                                                window.location = "index.jsp";
+                                                window.location = "./reserva/index.jsp";
                                                 return;
                                             }
                                             );
@@ -84,12 +79,12 @@
 
                                         if (confirm("Deseja realmente cancelar esta reserva?")) {
                                             /* Send the data using post */
-                                            $.post("cancelar.jsp",
+                                            $.post("./reserva/cancelar.jsp",
                                                     {id_solicitacao_viagem: idSolicitacaoViagem},
                                             function(data) {
                                                 alert(data);
                                                 console.log(data);
-                                                window.location = "index.jsp";
+                                                window.location = "./reserva/index.jsp";
                                                 return;
                                             }
                                             );
@@ -103,12 +98,12 @@
 
                                         if (confirm("Deseja realmente efetivar esta reserva?")) {
                                             /* Send the data using post */
-                                            $.post("efetivar.jsp",
+                                            $.post("./reserva/efetivar.jsp",
                                                     {id_solicitacao_viagem: idSolicitacaoViagem},
                                             function(data) {
                                                 alert(data);
                                                 console.log(data);
-                                                window.location = "index.jsp";
+                                                window.location = "./reserva/index.jsp";
                                                 return;
                                             }
                                             );
@@ -117,5 +112,5 @@
                                     }
                                     ;
         </script>
-    </body>
-</html>
+    </jsp:body>
+</layout:page>
