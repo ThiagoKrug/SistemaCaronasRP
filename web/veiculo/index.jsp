@@ -21,9 +21,6 @@
 <layout:page title="Listagem de Veículos" description="" keywords="">
     <jsp:attribute name="extraBottom">
         <script type="text/javascript">
-            $(document).ready(function() {
-                $('#veiculos').dataTable();
-            });
             function excluir(idVeiculo) {
                 event.preventDefault();
 
@@ -45,7 +42,7 @@
     </jsp:attribute>
     <jsp:body>
         <h1>Veículos</h1>
-        <h4><a class="btn btn-primary" href="./veiculo/formulario.jsp">Cadastrar Veículo</a></h4>
+        <h4><a class="btn btn-primary" href="./veiculo/formulario.jsp"><i class="icon-plus"></i> Cadastrar Veículo</a></h4>
         <table id="veiculos" class="datatable table table-striped table-bordered">
             <thead>
                 <tr>

@@ -12,7 +12,7 @@
     new AuthChecker().authenticate(session, response, new String[]{
         "Administrador", "Servidor Solicitante", "Motorista"});
 %>
-<layout:page title="" description="" keywords="">
+<layout:page title="Sistema de Caronas" description="" keywords="">
     <jsp:body>
         <style>
             h2
@@ -20,7 +20,7 @@
                 padding:10px;
             }
         </style>
-        <h1>Sistema de Caronas Unipampa</h1>
+        <h1>Sistema de Caronas</h1>
         <h2>Bem vindo, <c:out value="${sessionScope.name}"/></h2>
         
         <a class="btn btn-success" href="./passageiro/index.jsp">Passageiros</a>

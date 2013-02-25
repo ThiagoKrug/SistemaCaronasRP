@@ -30,15 +30,29 @@
     </jsp:attribute>
     <jsp:body>
         <div class="span6">
-            <h1>Identifique-se!</h1>
-            <form method="POST" action="./login.jsp" name="LoginForm" onsubmit="return validateForm();">
-                <div class="controls controls-row">
-                    <p>Login: <input type="text" id="login" name="username" class="span3" placeholder="Login"></p>
-                    <p>Senha: <input type="password" id="pwd" name="password" class="span3" placeholder="Senha"></p>
-                </div>
-                <div class="controls">
-                    <button id="submit" type="submit" class="btn btn-primary input-medium">Logar</button>
-                </div>
+            <form class="form-horizontal" method="POST" action="./login.jsp" name="LoginForm" onsubmit="return validateForm();">
+                <fieldset>
+                    <div id="legend">
+                        <legend class="">Identifique-se!</legend>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"  for="username">Login</label>
+                        <div class="controls">
+                            <input type="text" id="login" name="username" class="span3" placeholder="Login">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"  for="username">Senha</label>
+                        <div class="controls">
+                            <input type="password" id="pwd" name="password" class="span3" placeholder="Senha">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button id="submit" type="submit" class="btn btn-primary input-medium">Logar</button>
+                        </div>
+                    </div>
+                </fieldset>
             </form>
         </div>
     </jsp:body>
