@@ -15,12 +15,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
-<<<<<<< HEAD
-    new AuthChecker("../index.jsp").authenticate(session, response, new String[]{"Administrador"});
-=======
     new AuthChecker("../index.jsp").authenticate(session, response, new String[] {
         AuthChecker.ADMIN});
->>>>>>> a700e5e1cb9824dcbf04587aff15c12a3c45d811
     Connection connection = (Connection) request.getAttribute("connection");
     UsuarioDAO udao = new UsuarioDAO(connection);
     TipoUsuarioDAO tudao = new TipoUsuarioDAO(connection);
