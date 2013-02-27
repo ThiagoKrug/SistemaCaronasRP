@@ -1,0 +1,15 @@
+/* 
+    Document   : estilo
+    Created on : 27/02/2013, 18:12:00
+    Author     : thiago
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+table.table thead th {
+    text-align: center;
+}
+
+td.opcoes {
+    text-align: center;
+}

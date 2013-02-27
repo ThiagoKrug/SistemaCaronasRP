@@ -21,12 +21,6 @@
 <layout:page title="Listagem de Passageiros" description="" keywords="">
 <jsp:body>
         <style>
-            
-            .btns
-            {
-                text-align: left;
-            }
-            
             h1, h4
             {
                 margin:10px;
@@ -34,14 +28,14 @@
             }
         </style>
         <h1>Passageiros</h1>
-        <h4><a class="btn btn-primary" href="./passageiro/formulario.jsp">Cadastrar Passageiro</a></h4>
+        <h4><a class="btn btn-primary" href="./passageiro/formulario.jsp"><i class="icon-plus icon-white"></i>  Cadastrar Passageiro</a></h4>
         <table class="datatable table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Nome</th>
                     <th>RG</th>
                     <th>Telefone</th>
-                    <th colspan="2" class="btns">Opções</th>
+                    <th class="btns">Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,8 +44,8 @@
                         <td>${passageiro.getNome()}</td>
                         <td>${passageiro.getRg()}</td>
                         <td>${passageiro.getTelefone()}</td>
-                        <td class="btns"><a class="btn btn-warning" href="./passageiro/formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}"><i class="icon-edit"></i> Editar</a></td>
-                        <td class="btns"><a class="btn btn-danger" href="" onclick="excluir(${passageiro.getIdPassageiro()});"><i class="icon-remove"></i> Excluir</a></td>
+                        <td class="opcoes"><a class="btn btn-warning" href="./passageiro/formulario.jsp?id_passageiro=${passageiro.getIdPassageiro()}"><i class="icon-edit icon-white"></i> Editar</a>
+                            <a class="btn btn-danger" href="" onclick="excluir(${passageiro.getIdPassageiro()});"><i class="icon-remove icon-white"></i> Excluir</a></td>
                     </tr>
                 </r:forEach>
             </tbody>

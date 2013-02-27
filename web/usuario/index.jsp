@@ -20,14 +20,14 @@
 <layout:page title="Listagem de Usuários" description="" keywords="">
     <jsp:body>
         <h1>Usuários</h1>
-        <h4><a class="btn btn-primary" href="./usuario/formulario.jsp">Cadastrar Usuário</a></h4>
+        <h4><a class="btn btn-primary" href="./usuario/formulario.jsp"><i class="icon-plus icon-white"></i> Cadastrar Usuário</a></h4>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Nome</th>
                     <th>RG</th>
                     <th>Tipo de Usuário</th>
-                    <th colspan="2">Opções</th>
+                    <th>Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,8 +36,8 @@
                         <td>${usuario.getNome()}</td>
                         <td>${usuario.getRg()}</td>
                         <td>${usuario.getTipoUsuario().getTipoUsuario()}</td>
-                        <td><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}">Editar</a></td>
-                        <td><a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});">Excluir</a></td>
+                        <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
+                            <a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-remove icon-white"></i> Excluir</a></td>
                     </tr>
                 </r:forEach>
             </tbody>

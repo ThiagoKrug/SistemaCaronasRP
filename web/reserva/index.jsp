@@ -21,7 +21,7 @@
 <layout:page title="Listagem de Reservas" description="" keywords="">
     <jsp:body>
         <h1>Reserva</h1>
-        <h4><a class="btn btn-primary" href="./reserva/formulario.jsp">Cadastrar Reserva</a></h4>
+        <h4><a class="btn btn-primary" href="./reserva/formulario.jsp"><i class="icon-plus icon-white"></i> Cadastrar Reserva</a></h4>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -31,7 +31,7 @@
                     <th>Data de Saída</th>
                     <th>Data de Retorno</th>
                     <th>Status</th>
-                    <th colspan="3">Opções</th>
+                    <th>Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,14 +45,14 @@
                         <td>${solicitacaoViagem.getStatus()}</td>
                         <r:choose>
                             <r:when test="${solicitacaoViagem.getStatus() == 'efetivado'}">
-                                <td><a class="btn btn-danger" href="" onclick="cancelar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Cancelar Solicitação</a></td>
+                                <td class="opcoes"><a class="btn btn-danger" href="" onclick="cancelar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Cancelar Solicitação</a>
                             </r:when>
                             <r:when test="${solicitacaoViagem.getStatus() == 'solicitado'}">
-                                <td><a class="btn btn-success" href="" onclick="efetivar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Efetivar Solicitação</a></td>
+                                <td class="opcoes"><a class="btn btn-success" href="" onclick="efetivar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Efetivar Solicitação</a>
                             </r:when>
-                            <r:otherwise><td></td></r:otherwise>
+                            <r:otherwise><td class="opcoes"></r:otherwise>
                         </r:choose>
-                        <td><a class="btn btn-warning" href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}">Editar</a></td>
+                        <a class="btn btn-warning" href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}"><i class="icon-edit icon-white"></i> Editar</a></td>
                     </tr>
                 </r:forEach>
             </tbody>

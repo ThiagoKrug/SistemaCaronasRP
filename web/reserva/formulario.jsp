@@ -40,63 +40,63 @@
         <script type="text/javascript" src="./resources/js/passageiro.js"></script>
         <script type="text/javascript" src="./resources/js/json2.js"></script>
         <script type="text/javascript">
-                        var cont = 0;
-                        var listaPassageiros = new Array();
-                        function salvar() {
-                            event.preventDefault();
-                            // get all the inputs into an array.
-                            var $inputs = $('#solicitacao_viagem :input');
-                            // not sure if you wanted this, but I thought I'd add it.
-                            // get an associative array of just the values.
-                            var values = {};
-                            $inputs.each(function() {
-                                values[this.name] = $(this).val();
-                            });
-                            for (x in listaPassageiros) {
-                                if (listaPassageiros[x].idPassageiro[0] == "a") {
-                                    listaPassageiros[x].idPassageiro = null;
-                                }
-                            }
-                            values.passageiros = JSON.stringify(listaPassageiros);
-                            console.log(values);
-                            /* Send the data using post */
-                            $.post("./reserva/cadastrar.jsp", values, function(data) {
-                                alert(data);
-                                console.log(data);
-                                window.location = "./reserva/index.jsp";
-                                return;
-                            }
-                            );
-                        }
-                        ;
-                        $(function() {
-                            $.datepicker.setDefaults($.datepicker.regional[ "pt-BR" ]);
-                            $("#datepicker_saida").datepicker();
-                            $("#datepicker_retorno").datepicker();
-                        });
-                        $(function() {
-                            $("#nome_passageiro").autocomplete({
-                                source: getNomes()
-                            });
-                        });
-                        function getNomes() {
-                            var availableNames = [
+            var cont = 0;
+            var listaPassageiros = new Array();
+            function salvar() {
+                event.preventDefault();
+                // get all the inputs into an array.
+                var $inputs = $('#solicitacao_viagem :input');
+                // not sure if you wanted this, but I thought I'd add it.
+                // get an associative array of just the values.
+                var values = {};
+                $inputs.each(function() {
+                    values[this.name] = $(this).val();
+                });
+                for (x in listaPassageiros) {
+                    if (listaPassageiros[x].idPassageiro[0] == "a") {
+                        listaPassageiros[x].idPassageiro = null;
+                    }
+                }
+                values.passageiros = JSON.stringify(listaPassageiros);
+                console.log(values);
+                /* Send the data using post */
+                $.post("./reserva/cadastrar.jsp", values, function(data) {
+                    alert(data);
+                    console.log(data);
+                    window.location = "./reserva/index.jsp";
+                    return;
+                }
+                );
+            }
+            ;
+            $(function() {
+                $.datepicker.setDefaults($.datepicker.regional[ "pt-BR" ]);
+                $("#datepicker_saida").datepicker();
+                $("#datepicker_retorno").datepicker();
+            });
+            $(function() {
+                $("#nome_passageiro").autocomplete({
+                    source: getNomes()
+                });
+            });
+            function getNomes() {
+                var availableNames = [
             <r:forEach var="passageiro" items="${pdao.getPassageiros()}">
-                                "${passageiro.getNome()}",</r:forEach>
-                            ];
-                            return availableNames;
-                        }
-                        ;
-                        function getPassageiros() {
-                            var passageiros = new Array();
-                            var passageiro;
+                    "${passageiro.getNome()}",</r:forEach>
+                ];
+                return availableNames;
+            }
+            ;
+            function getPassageiros() {
+                var passageiros = new Array();
+                var passageiro;
             <r:forEach var="passageiro" items="${pdao.getPassageiros()}">
-                            passageiro = new Passageiro(${passageiro.getIdPassageiro()},
-                                    "${passageiro.getNome()}",
-                                    "${passageiro.getRg()}",
-                                    "${passageiro.getTelefone()}",
-                                    "${passageiro.getEndereco()}");
-                            passageiros.push(passageiro);
+                passageiro = new Passageiro(${passageiro.getIdPassageiro()},
+                        "${passageiro.getNome()}",
+                        "${passageiro.getRg()}",
+                        "${passageiro.getTelefone()}",
+                        "${passageiro.getEndereco()}");
+                passageiros.push(passageiro);
             </r:forEach>
                     return passageiros;
                 }
@@ -178,59 +178,68 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <h1>Solicitação de Reserva</h1>
         <form class="form-horizontal" action="" method="POST" id="solicitacao_viagem">
-            <input type="hidden" name="id_solicitacao_viagem" id="id_solicitacao_viagem" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Número do Pedido</td>
-                        <td><input type="text" name="numero_pedido" value="${solicitacaoViagem.getNumeroPedido()}" /></td>
-                    </tr>
-                    <tr>
-                        <td>Servidor Solicitante</td>
-                        <td><select name="solicitante">
-                                <r:forEach var="usuario" items="${udao.getUsuarios()}">
-                                    <option value="${usuario.getIdUsuario()}"
-                                            <r:if test="${usuario.getIdUsuario() == solicitacaoViagem.getSolicitante().getIdUsuario()}"> selected="true" </r:if>>${usuario.getNome()}</option>
-                                </r:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Número de passageiros</td>
-                        <td><input type="text" name="numero_transportados" value="${solicitacaoViagem.getNumeroTransportados()}" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><center>Informe os passageiros</center></td>
-                </tr>
-                <input type="hidden" name="id_passageiro" id="id_passageiro" />
-                <tr>
-                    <td>Nome do Passageiro</td>
-                    <td><input type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a></td>
-                </tr>
-                <tr>
-                    <td>RG do Passageiro</td>
-                    <td><input type="text" name="rg_passageiro" id="rg_passageiro" /></td>
-                </tr>
-                <tr>
-                    <td>Telefone do Passageiro</td>
-                    <td><input type="text" name="telefone_passageiro" id="telefone_passageiro"/></td>
-                </tr>
-                <tr>
-                    <td>Endereço do Passageiro</td>
-                    <td><input type="text" name="endereco_passageiro" id="endereco_passageiro" /></td>
-                </tr>
-                <tr>
-                    <td>Passageiros adicionados na reserva</td>
-                    <td><select multiple="true" name="passageiros" id="passageiros">
-                            <r:forEach var="passageiro" items="${solicitacaoViagem.getPassageiros()}">
-                                <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
+            <fieldset>
+                <div id="legend">
+                    <legend class="">Solicitação de Reserva</legend>
+                </div>
+                <input type="hidden" name="id_solicitacao_viagem" id="id_solicitacao_viagem" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
+                <div class="control-group">
+                    <label class="control-label" for="numero_pedido">Número do Pedido</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="numero_pedido" value="${solicitacaoViagem.getNumeroPedido()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="solicitante">Servidor Solicitante</label>
+                    <div class="controls">
+                        <select name="solicitante" class="input-xlarge">
+                            <r:forEach var="usuario" items="${udao.getUsuarios()}">
+                                <option value="${usuario.getIdUsuario()}"
+                                        <r:if test="${usuario.getIdUsuario() == solicitacaoViagem.getSolicitante().getIdUsuario()}"> selected="true" </r:if>>${usuario.getNome()}</option>
                             </r:forEach>
                         </select>
-                        <a class="btn btn-danger" onclick="retirarPassageiros();">Retirar passageiro</a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="numero_transportados">Número de passageiros</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="numero_transportados" value="${solicitacaoViagem.getNumeroTransportados()}" />
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>Informe os passageiros</h2>
+                    <input type="hidden" name="id_passageiro" id="id_passageiro" />
+                    <div class="control-group">
+                        <label class="control-label" for="nome_passageiro">Nome do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a>
+                        </div>
+                    </div>
+                    
+                    <tr>
+                        <td>RG do Passageiro</td>
+                        <td><input type="text" name="rg_passageiro" id="rg_passageiro" /></td>
+                    </tr>
+                    <tr>
+                        <td>Telefone do Passageiro</td>
+                        <td><input type="text" name="telefone_passageiro" id="telefone_passageiro"/></td>
+                    </tr>
+                    <tr>
+                        <td>Endereço do Passageiro</td>
+                        <td><input type="text" name="endereco_passageiro" id="endereco_passageiro" /></td>
+                    </tr>
+                    <tr>
+                        <td>Passageiros adicionados na reserva</td>
+                        <td><select multiple="true" name="passageiros" id="passageiros">
+                                <r:forEach var="passageiro" items="${solicitacaoViagem.getPassageiros()}">
+                                    <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
+                                </r:forEach>
+                            </select>
+                            <a class="btn btn-danger" onclick="retirarPassageiros();">Retirar passageiro</a>
+                        </td>
+                    </tr>
+                </div>
                 <tr>
                     <td colspan="2"><label>Os passageiros são servidores da Unipampa?</label><br/>
                         <input type="radio" name="servidores" value="true" checked="checked">Sim
@@ -279,9 +288,8 @@
                         </select>
                     </td>
                 </tr>
-                </tbody>
-            </table>
-            <input class="btn btn-success" type="submit" value="Solicitar Reserva" onclick="salvar();"/>
+                <input class="btn btn-success" type="submit" value="Solicitar Reserva" onclick="salvar();"/>
+            </fieldset>
         </form>
     </jsp:body>
 </layout:page>

@@ -13,6 +13,7 @@
     <title>${title}</title>
     <link href="./resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
     <link href="./resources/css/bootstrap.css" rel="stylesheet">
+    <link href="./resources/css/estilo.css" rel="stylesheet">
     <style type="text/css">
         /* Sticky footer styles
         -------------------------------------------------- */
