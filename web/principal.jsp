@@ -9,8 +9,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@page import="com.auth.AuthChecker" %>
 <%
-    new AuthChecker().authenticate(session, response, new String[]{
-        "Administrador", "Servidor Solicitante", "Motorista"});
+    new AuthChecker().authenticate(session, response, AuthChecker.TODOS);
 %>
 <layout:page title="Sistema de Caronas" description="" keywords="">
     <jsp:body>

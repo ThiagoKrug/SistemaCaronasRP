@@ -5,7 +5,7 @@
 --%><%@page import="com.auth.AuthChecker"%><%@page import="com.convert.SolicitacaoViagemConverter"%><%@page import="com.model.entity.SolicitacaoViagem"%><%@page import="com.model.dao.SolicitacaoViagemDAO"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%
     PrintWriter saida = response.getWriter();
     boolean auth = new AuthChecker().authAjax(session,
-            new String[] {"Administrador", "Servidor Solicitante"}, saida);
+            new String[] {AuthChecker.ADMIN, AuthChecker.SERVIDOR}, saida);
     if (auth) {
         Connection connection = (Connection) request.getAttribute("connection");
         SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);

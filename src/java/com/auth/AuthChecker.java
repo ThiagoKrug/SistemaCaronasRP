@@ -14,6 +14,15 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class AuthChecker {
+    public static final String ADMIN = "Administrador de Frota";
+    public static final String MOTORISTA = "Motorista";
+    public static final String SERVIDOR = "Servidor Solicitante";
+    public static final String[] TODOS = {
+        AuthChecker.ADMIN,
+        AuthChecker.MOTORISTA,
+        AuthChecker.SERVIDOR
+    };
+    
     private String redDir = "";
     
     public AuthChecker() {

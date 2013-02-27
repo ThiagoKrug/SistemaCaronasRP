@@ -6,7 +6,7 @@
     
     PrintWriter saida = response.getWriter();
     boolean auth = new AuthChecker().authAjax(session,
-            new String[] {"Administrador"}, saida);
+            new String[] {AuthChecker.ADMIN}, saida);
     if (auth) {
         Connection connection = (Connection) request.getAttribute("connection");
         UsuarioDAO udao = new UsuarioDAO(connection);
