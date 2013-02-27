@@ -13,7 +13,7 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
     new AuthChecker("../index.jsp").authenticate(session, response,
-            new String[]{"Administrador"});
+            new String[]{AuthChecker.ADMIN});
     Connection connection = (Connection) request.getAttribute("connection");
     VeiculoDAO vdao = new VeiculoDAO(connection);
     request.setAttribute("vdao", vdao);

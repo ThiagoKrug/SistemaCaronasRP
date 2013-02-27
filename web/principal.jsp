@@ -5,15 +5,11 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <%@page import="com.auth.AuthChecker" %>
 <%
-    new AuthChecker().authenticate(session, response, new String[]{
-        "Administrador", "Servidor Solicitante", "Motorista"});
-    String name = String.valueOf(request.getSession().getAttribute("name"));
-    System.out.print(name);
+    new AuthChecker().authenticate(session, response, AuthChecker.TODOS);
 %>
 <layout:page title="Sistema de Caronas" description="" keywords="">
     <jsp:body>

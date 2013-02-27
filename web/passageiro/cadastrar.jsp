@@ -5,7 +5,7 @@
 --%><%@page import="com.auth.AuthChecker"%><%@page import="java.io.PrintWriter"%><%@page import="java.sql.Connection"%><%@page contentType="text/html" pageEncoding="UTF-8" %><%@page import="com.model.entity.Passageiro"%><%@page import="com.convert.PassageiroConverter"%><%@page import="com.model.dao.PassageiroDAO"%><%
     PrintWriter saida = response.getWriter();
     boolean auth = new AuthChecker().authAjax(session,
-            new String[] {"Administrador"}, saida);
+            new String[] {AuthChecker.ADMIN}, saida);
     if (auth) {
         Connection connection = (Connection) request.getAttribute("connection");
         PassageiroDAO pdao = new PassageiroDAO(connection);
