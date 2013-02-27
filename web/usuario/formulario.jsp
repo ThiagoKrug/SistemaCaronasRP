@@ -103,7 +103,7 @@
                 <div class="control-group">
                     <div class="controls">
                         <a href="./usuario/index.jsp" class="btn btn-info">Voltar</a>
-                        <input class="btn btn-success" type="submit" value="Salvar Usuário" onclick="salvar();"/>
+                        <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Salvar Usuário</button>
                     </div>
                 </div>
             </fieldset>

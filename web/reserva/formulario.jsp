@@ -16,7 +16,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="r" %>
 <%
-    new AuthChecker("../index.jsp").authenticate(session, response, new String[] {
+    new AuthChecker("../index.jsp").authenticate(session, response, new String[]{
         AuthChecker.ADMIN, AuthChecker.SERVIDOR});
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
@@ -260,50 +260,71 @@
                         </label>
                     </div>
                 </div>
-                    
-                <tr>
-                    <td>Data de Saída</td>
-                    <td><input type="text" id="datepicker_saida" name="data_saida" value="${solicitacaoViagem.getDataSaidaFormatada()}" /></td>
-                </tr>
-                <tr>
-                    <td>Hora de Saída</td>
-                    <td><input type="time" name="hora_saida" value="${solicitacaoViagem.getHoraSaidaFormatada()}" /></td>
-                </tr>
-                <tr>
-                    <td>Local de Saída</td>
-                    <td><input type="text" name="local_saida" value="${solicitacaoViagem.getLocalSaida()}" /></td>
-                </tr>
-                <tr>
-                    <td>Data de Retorno</td>
-                    <td><input type="text" id="datepicker_retorno" name="data_retorno" value="${solicitacaoViagem.getDataRetornoFormatada()}" /></td>
-                </tr>
-                <tr>
-                    <td>Hora de Retorno</td>
-                    <td><input type="time" name="hora_retorno" value="${solicitacaoViagem.getHoraRetornoFormatada()}" /></td>
-                </tr>
-                <tr>
-                    <td>Local de Retorno</td>
-                    <td><input type="text" name="local_retorno" value="${solicitacaoViagem.getLocalRetorno()}" /></td>
-                </tr>
-                <tr>
-                    <td>Percurso</td>
-                    <td><textarea name="percurso">${solicitacaoViagem.getPercurso()}</textarea></td>
-                </tr>
-                <tr>
-                    <td>Objetivo da Viagem</td>
-                    <td><textarea name="objetivo">${solicitacaoViagem.getObjetivo()}</textarea></td>
-                </tr>
-                <tr>
-                    <td>Tipo de Veículo</td>
-                    <td><select name="tipo_veiculo" required="true">
+                <div class="control-group">
+                    <label class="control-label" for="data_saida">Data de Saída</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="data_saida" id="datepicker_saida" value="${solicitacaoViagem.getDataSaidaFormatada()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="data_saida">Hora de Saída</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="time" name="hora_saida" value="${solicitacaoViagem.getHoraSaidaFormatada()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="local_saida">Local de Saída</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="local_saida" value="${solicitacaoViagem.getLocalSaida()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="data_retorno">Data de Retorno</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="data_retorno" id="datepicker_retorno" value="${solicitacaoViagem.getDataRetornoFormatada()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="data_saida">Hora de Retorno</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="time" name="hora_retorno" value="${solicitacaoViagem.getHoraRetornoFormatada()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="local_saida">Local de Retorno</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="local_retorno" value="${solicitacaoViagem.getLocalRetorno()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="percurso">Percurso</label>
+                    <div class="controls">
+                        <textarea name="percurso" class="input-xlarge" rows="4">${solicitacaoViagem.getPercurso()}</textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="objetivo">Objetivo da Viagem</label>
+                    <div class="controls">
+                        <textarea name="objetivo" class="input-xlarge" rows="4">${solicitacaoViagem.getObjetivo()}</textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="tipo_veiculo">Tipo de Veículo</label>
+                    <div class="controls">
+                        <select name="tipo_veiculo" class="input-xlarge" required="true">
                             <r:forEach var="tipoVeiculo" items="${tvdao.getTiposVeiculos()}">
                                 <option value="${tipoVeiculo.getIdTipoVeiculo()}"
                                         <r:if test="${tipoVeiculo.getIdTipoVeiculo() == solicitacaoViagem.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
                             </r:forEach>
                         </select>
-                    </td>
-                </tr>
-                <input class="btn btn-success" type="submit" value="Solicitar Reserva" onclick="salvar();"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <a href="./reserva/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
+                        <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Solicitar Reserva</button>
+                    </div>
+                </div>
             </fieldset>
         </form>
     </jsp:body>

@@ -28,9 +28,6 @@
 %>
 <layout:page description="" keywords="" title="Cadastro de Passageiro">
     <jsp:body>
-        <style>
-
-        </style>
         <form class="form-horizontal" action="" method="POST" id="passageiro">
             <fieldset>
                 <div id="legend">
@@ -66,8 +63,8 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <a href="./passageiro/index.jsp" class="btn btn-info">Voltar</a>
-                        <input class="btn btn-success" type="submit" value="Salvar Passageiro" onclick="salvar();"/>
+                        <a href="./passageiro/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"> Voltar</a>
+                        <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Salvar Passageiro</button>
                     </div>
                 </div>
             </fieldset>
