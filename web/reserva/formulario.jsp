@@ -208,7 +208,9 @@
                     </div>
                 </div>
                 <div class="well">
-                    <h2>Informe os passageiros</h2>
+                    <div id="legend">
+                        <legend>Informe os passageiros</legend>
+                    </div>
                     <input type="hidden" name="id_passageiro" id="id_passageiro" />
                     <div class="control-group">
                         <label class="control-label" for="nome_passageiro">Nome do Passageiro</label>
@@ -216,36 +218,48 @@
                             <input class="input-xlarge" type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a>
                         </div>
                     </div>
-                    
-                    <tr>
-                        <td>RG do Passageiro</td>
-                        <td><input type="text" name="rg_passageiro" id="rg_passageiro" /></td>
-                    </tr>
-                    <tr>
-                        <td>Telefone do Passageiro</td>
-                        <td><input type="text" name="telefone_passageiro" id="telefone_passageiro"/></td>
-                    </tr>
-                    <tr>
-                        <td>Endereço do Passageiro</td>
-                        <td><input type="text" name="endereco_passageiro" id="endereco_passageiro" /></td>
-                    </tr>
-                    <tr>
-                        <td>Passageiros adicionados na reserva</td>
-                        <td><select multiple="true" name="passageiros" id="passageiros">
+                    <div class="control-group">
+                        <label class="control-label" for="rg_passageiro">RG do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="rg_passageiro" id="rg_passageiro" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="telefone_passageiro">Telefone do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="telefone_passageiro" id="telefone_passageiro" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="endereco_passageiro">Endereço do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="endereco_passageiro" id="endereco_passageiro" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="passageiros">Passageiros adicionados na reserva</label>
+                        <div class="controls">
+                            <select multiple="multiple" name="passageiros" id="passageiros" class="input-xxlarge">
                                 <r:forEach var="passageiro" items="${solicitacaoViagem.getPassageiros()}">
                                     <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
                                 </r:forEach>
                             </select>
                             <a class="btn btn-danger" onclick="retirarPassageiros();">Retirar passageiro</a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 </div>
-                <tr>
-                    <td colspan="2"><label>Os passageiros são servidores da Unipampa?</label><br/>
-                        <input type="radio" name="servidores" value="true" checked="checked">Sim
-                        <input type="radio" name="servidores" value="false">Não
-                    </td>
-                </tr>
+                <div class="control-group">
+                    <label class="control-label">Os passageiros são servidores da Unipampa?</label>
+                    <div class="controls">
+                        <label class="radio">
+                            <input type="radio" name="servidores" value="true" checked="checked">Sim
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="servidores" value="false">Não
+                        </label>
+                    </div>
+                </div>
+                    
                 <tr>
                     <td>Data de Saída</td>
                     <td><input type="text" id="datepicker_saida" name="data_saida" value="${solicitacaoViagem.getDataSaidaFormatada()}" /></td>
