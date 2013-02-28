@@ -47,6 +47,7 @@ public class UsuarioDAO implements Dao {
             usuario.setSenha(rs.getString("senha"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setUsername(rs.getString("nome_usuario"));
+            usuario.setSituacao(rs.getString("situacao"));
             Integer tipo_id = rs.getInt("id_tipo_usuario");
             usuario.setTipoUsuario(new TipoUsuarioDAO(this.connection).getById(tipo_id));
             rs.close();
@@ -76,6 +77,7 @@ public class UsuarioDAO implements Dao {
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setTelefone(rs.getString("telefone"));
                 usuario.setUsername(rs.getString("nome_usuario"));
+                usuario.setSituacao(rs.getString("situacao"));
 
                 TipoUsuario tipo = new TipoUsuarioDAO(this.connection).getById(rs.getInt("id_tipo_usuario"));
 
@@ -96,7 +98,7 @@ public class UsuarioDAO implements Dao {
         int result = 0;
         String sql = "insert into usuario ("
                 + "id_tipo_usuario, nome, rg, nome_usuario, numero_servidor, "
-                + "senha, telefone, email) values (?,?,?,?,?,?,?,?)";
+                + "senha, telefone, email, situacao) values (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -108,6 +110,7 @@ public class UsuarioDAO implements Dao {
             stmt.setString(6, usuario.getSenha());
             stmt.setString(7, usuario.getTelefone());
             stmt.setString(8, usuario.getEmail());
+            stmt.setString(9, usuario.getSituacao());
             System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
@@ -123,7 +126,7 @@ public class UsuarioDAO implements Dao {
         int result = 0;
         String sql = "update usuario set "
                 + "id_tipo_usuario=?, nome=?, rg=?, nome_usuario=?, numero_servidor=?, "
-                + "senha=?, telefone=?, email=? where id_usuario=?;";
+                + "senha=?, telefone=?, email=?, situacao=? where id_usuario=?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -135,7 +138,8 @@ public class UsuarioDAO implements Dao {
             stmt.setString(6, usuario.getSenha());
             stmt.setString(7, usuario.getTelefone());
             stmt.setString(8, usuario.getEmail());
-            stmt.setInt(9, usuario.getIdUsuario());
+            stmt.setString(9, usuario.getSituacao());
+            stmt.setInt(10, usuario.getIdUsuario());
             System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
@@ -160,5 +164,17 @@ public class UsuarioDAO implements Dao {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    
+    public int mudarSituacao(Entity entity) {
+        Usuario usuario = (Usuario) entity;
+        if (usuario.getSituacao().equals("ativo")) {
+            usuario.setSituacao("inativo");
+        }
+        else {
+            usuario.setSituacao("ativo");
+        }
+        return this.alterar(usuario);
     }
 }

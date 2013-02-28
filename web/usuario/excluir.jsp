@@ -12,11 +12,11 @@
         try {
             int id = Integer.parseInt(request.getParameter("id_usuario"));
             Usuario usuario = udao.getById(id);
-            int linhasAfetadas = udao.deletar(usuario);
+            int linhasAfetadas = udao.mudarSituacao(usuario);
             if (linhasAfetadas == 1) {
-                saida.print("Usuário excluído com sucesso.");
+                saida.print("Situação alterada com sucesso.");
             } else {
-                saida.print("Problemas ao excluir o usuário.");
+                saida.print("Problemas ao mudar a situação do usuário.");
             }
         } catch (Exception e) {
             e.printStackTrace();
