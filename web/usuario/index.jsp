@@ -28,6 +28,7 @@
                     <th>Nome</th>
                     <th>RG</th>
                     <th>Tipo de Usuário</th>
+                    <th>Situação</th>
                     <th>Opções</th>
                 </tr>
             </thead>
@@ -37,9 +38,16 @@
                         <td>${usuario.getNome()}</td>
                         <td>${usuario.getRg()}</td>
                         <td>${usuario.getTipoUsuario().getTipoUsuario()}</td>
+                        <td>${usuario.getSituacao()}</td>
+                        <r:if test="${usuario.getSituacao() == 'ativo'}">
                         <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
-                            <a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-remove icon-white"></i> Excluir</a></td>
-                    </tr>
+                            <a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-remove icon-white"></i> Desativar</a></td>
+                        </r:if>
+                        <r:if test="${usuario.getSituacao() == 'inativo'}">
+                        <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
+                            <a class="btn btn-success" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-plus icon-white"></i> Ativar</a></td>
+                        </r:if>
+                        </tr>
                 </r:forEach>
             </tbody>
         </table>

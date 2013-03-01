@@ -15,6 +15,7 @@ public class Usuario implements Entity {
     private String telefone;
     private String email;
     private String senha;
+    private String situacao;
 
     /**
      * @return the idUsuario
@@ -140,5 +141,19 @@ public class Usuario implements Entity {
      */
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    /**
+     * @return the situacao
+     */
+    public String getSituacao() {
+        return situacao;
+    }
+
+    /**
+     * @param situacao the situacao to set
+     */
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 }
