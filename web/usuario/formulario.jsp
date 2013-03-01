@@ -98,7 +98,7 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <a href="./usuario/index.jsp" class="btn btn-info">Voltar</a>
+                        <a href="./usuario/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
                         <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Salvar Usuário</button>
                     </div>
                 </div>

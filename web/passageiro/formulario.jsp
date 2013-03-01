@@ -35,14 +35,14 @@
                 </div>
                 <input type="hidden" name="id_passageiro" id="id_passageiro" value="${passageiro.getIdPassageiro()}" />
                 <div class="control-group">
-                    <label class="control-label"  for="nome">Nome</label>
+                    <label class="control-label" for="nome">Nome</label>
                     <div class="controls">
                         <input type="text" id="nome" name="nome" value="${passageiro.getNome()}" class="input-xlarge" />
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label"  for="rg">RG</label>
+                    <label class="control-label" for="rg">RG</label>
                     <div class="controls">
                         <input type="text" id="rg" name="rg" value="${passageiro.getRg()}" class="input-xlarge" />
                     </div>
