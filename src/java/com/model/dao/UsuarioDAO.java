@@ -36,20 +36,21 @@ public class UsuarioDAO implements Dao {
             stmt.setInt(1, id);
             System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
-
-            rs.next();
-            Usuario usuario = new Usuario();
-            usuario.setEmail(rs.getString("email"));
-            usuario.setIdUsuario(rs.getInt("id_usuario"));
-            usuario.setNome(rs.getString("nome"));
-            usuario.setNumeroServidor(rs.getString("numero_servidor"));
-            usuario.setRg(rs.getString("rg"));
-            usuario.setSenha(rs.getString("senha"));
-            usuario.setTelefone(rs.getString("telefone"));
-            usuario.setUsername(rs.getString("nome_usuario"));
-            usuario.setSituacao(rs.getString("situacao"));
-            Integer tipo_id = rs.getInt("id_tipo_usuario");
-            usuario.setTipoUsuario(new TipoUsuarioDAO(this.connection).getById(tipo_id));
+            Usuario usuario = null;
+            while(rs.next()) {
+                usuario = new Usuario();
+                usuario.setEmail(rs.getString("email"));
+                usuario.setIdUsuario(rs.getInt("id_usuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setNumeroServidor(rs.getString("numero_servidor"));
+                usuario.setRg(rs.getString("rg"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setTelefone(rs.getString("telefone"));
+                usuario.setUsername(rs.getString("nome_usuario"));
+                usuario.setSituacao(rs.getString("situacao"));
+                Integer tipo_id = rs.getInt("id_tipo_usuario");
+                usuario.setTipoUsuario(new TipoUsuarioDAO(this.connection).getById(tipo_id));
+            }
             rs.close();
             stmt.close();
             return usuario;

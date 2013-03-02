@@ -19,7 +19,18 @@ import javax.mail.internet.MimeMessage;
  * @author Usuario
  */
 public class Mail {
-    
+    public static final String SUCCESS_TEMPLATE = "<!DOCTYPE html>"
+            + "<html lang=\"pt-br\">"
+            + "<body>"
+            + "<h3>Viagem Confirmada!</h3>"
+            + "</body>"
+            + "</html>";
+    public static final String CANCEL_TEMPLATE = "<!DOCTYPE html>"
+            + "<html lang=\"pt-br\">"
+            + "<body>"
+            + "<h3>Viagem Cancelada!</h3>"
+            + "</body>"
+            + "</html>";
     private Session getSession() {
         Properties props = System.getProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -65,13 +76,8 @@ public class Mail {
         
     }
     
-    public void sendmail(String to) {
-        String html = "<html>"
-                + "<body>"
-                + "<h1>Meus Parasitas!</h1>"
-                + "<h2>Sua viagem foi confirmada!</h2>"
-                + "</body>"
-                + "</html>";
+    public void sendmail(String to, String template) {
+        String html = template;
         this.sendMail(to, this.getSession(), html);
     }
     

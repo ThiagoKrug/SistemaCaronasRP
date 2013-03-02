@@ -15,6 +15,7 @@
                 SolicitacaoViagem solicitacaoViagem = (SolicitacaoViagem) svc.convertEntity(request);
 
                 if (solicitacaoViagem.getIdSolicitacaoViagem() == null || solicitacaoViagem.getIdSolicitacaoViagem() <= 0) {
+                    solicitacaoViagem.setStatus("solicitado");
                     if (svdao.inserir(solicitacaoViagem) == 1) {
                         saida.print("Reserva solicitada com sucesso.");
                     } else {
