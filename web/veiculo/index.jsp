@@ -18,7 +18,7 @@
     VeiculoDAO vdao = new VeiculoDAO(connection);
     request.setAttribute("vdao", vdao);
 %>
-<layout:page title="Listagem de Veículos">
+<layout:page description="" keywords="" title="Listagem de Veículos">
     <jsp:attribute name="extraBottom">
         <script type="text/javascript">
             function excluir(idVeiculo) {

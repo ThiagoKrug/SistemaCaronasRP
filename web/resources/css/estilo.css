@@ -13,3 +13,8 @@ table.table thead th {
 td.opcoes {
     text-align: center;
 }
+
+span.btnUsuario {
+    color: black;
+    font-weight: bold;
+}

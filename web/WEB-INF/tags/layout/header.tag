@@ -1,4 +1,5 @@
 <%@ tag body-content="empty" description="Arquivo de TAG do Header" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header>
     <div class="navbar">
         <div class="navbar-inner">
@@ -18,12 +19,12 @@
                     </ul>
                     <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-user"></i> <c:out value="${sessionScope.Name}"/><span class="caret"></span>
+                            <i class="icon-user"></i> <span class="btnUsuario"><c:out value="${sessionScope.Name}"/></span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-wrench"></i> Settings</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="icon-share"></i> Logout</a></li>
+                            <!--<li><a href="#"><i class="icon-wrench"></i> Settings</a></li>
+                            <li class="divider"></li>-->
+                            <li><a href="./index.jsp"><i class="icon-share"></i> Logout</a></li>
                         </ul>
                     </div>
                 </div>
