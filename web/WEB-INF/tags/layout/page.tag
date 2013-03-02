@@ -3,6 +3,7 @@
 <%@ attribute name="description" required="true" description="" %>
 <%@ attribute name="keywords"    required="true" description="" %>
 <%@ attribute name="extraBottom" fragment="true" description="Extra code to put before </body>" %>
+<%@ attribute name="extraHead"   fragment="true" description="Extra code to put before </head>" %>
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
 <!DOCTYPE html>
 <head>
@@ -10,7 +11,7 @@
     <base href="http://localhost:8080/SistemaCaronas/" />
     <meta name="description" content="${description}" />
     <meta name="keywords" content="${keywords}" />
-    <title>${title}</title>
+    <title>Sistema de Caronas - ${title}</title>
     <link href="./resources/css/ui-lightness/jquery-ui.css" rel="stylesheet">
     <link href="./resources/css/bootstrap.css" rel="stylesheet">
     <link href="./resources/css/estilo.css" rel="stylesheet">
@@ -62,6 +63,7 @@
         }
     </style>
     <link rel="icon" type="image/ico" href="./resources/img/favicon.ico">
+    <jsp:invoke fragment="extraHead"/>
 </head>
 <body>
     <div id="wrap">
