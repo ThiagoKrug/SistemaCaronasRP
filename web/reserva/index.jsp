@@ -4,6 +4,7 @@
     Author     : thiago
 --%>
 
+<%@page import="com.model.entity.StatusSolicitacaoViagem"%>
 <%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
@@ -17,6 +18,10 @@
     Connection connection = (Connection) request.getAttribute("connection");
     SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
     request.setAttribute("svdao", svdao);
+    request.setAttribute("can", StatusSolicitacaoViagem.CANCELADO.toString());
+    request.setAttribute("efe", StatusSolicitacaoViagem.EFETIVADO.toString());
+    request.setAttribute("solicitado", StatusSolicitacaoViagem.SOLICITADO.toString());
+    request.setAttribute("admin", AuthChecker.ADMIN.toString());
 %>
 <layout:page title="Listagem de Reservas" description="" keywords="">
     <jsp:body>
@@ -36,6 +41,8 @@
             </thead>
             <tbody>
                 <r:forEach var="solicitacaoViagem" items="${svdao.getSolicitacoes()}">
+                    <r:if test="${sessionScope.Clearance == admin
+                                        or sessionScope.Username == solicitacaoViagem.getSolicitante().getUsername()}">
                     <tr>
                         <td>${solicitacaoViagem.getNumeroPedido()}</td>
                         <td>${solicitacaoViagem.getSolicitante().getNome()}</td>
@@ -43,17 +50,27 @@
                         <td>${solicitacaoViagem.getDataSaidaFormatada()}</td>
                         <td>${solicitacaoViagem.getDataRetornoFormatada()}</td>
                         <td>${solicitacaoViagem.getStatus()}</td>
-                        <r:choose>
-                            <r:when test="${solicitacaoViagem.getStatus() == 'efetivado'}">
-                                <td class="opcoes"><a class="btn btn-danger" href="" onclick="cancelar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Cancelar Solicitação</a>
-                            </r:when>
-                            <r:when test="${solicitacaoViagem.getStatus() == 'solicitado'}">
-                                <td class="opcoes"><a class="btn btn-success" href="" onclick="efetivar(${solicitacaoViagem.getIdSolicitacaoViagem()})">Efetivar Solicitação</a>
-                            </r:when>
-                            <r:otherwise><td class="opcoes"></r:otherwise>
-                        </r:choose>
-                        <a class="btn btn-warning" href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}"><i class="icon-edit icon-white"></i> Editar</a></td>
+                        <td class="opcoes">
+                        
+                            <r:if test="${solicitacaoViagem.getStatus() == efetivado
+                                            and (sessionScope.Clearance == admin
+                                            or sessionScope.Username == solicitacaoViagem.getSolicitante().getUsername())}">
+                                <a class="btn btn-danger" href="" onclick="cancelar(${solicitacaoViagem.getIdSolicitacaoViagem()});">Cancelar Solicitação</a>
+                            </r:if>
+                            <r:if test="${solicitacaoViagem.getStatus() == solicitado and sessionScope.Clearance == admin}">
+                                <a class="btn btn-success" href="" onclick="efetivar(${solicitacaoViagem.getIdSolicitacaoViagem()});">Efetivar Solicitação</a>
+                            </r:if>
+                            <r:if test="${sessionScope.Clearance == admin}">
+                                <a class="btn btn-warning" href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}"><i class="icon-edit icon-white"></i> Editar</a>
+                            </r:if>
+                            <r:if test="${(sessionScope.Clearance == admin
+                                            or sessionScope.Username == solicitacaoViagem.getSolicitante().getUsername())}">
+                                <a class="btn btn-danger" href="" onclick="excluir(${solicitacaoViagem.getIdSolicitacaoViagem()});">Excluir</a>
+                            </r:if>
+                        
+                        </td>
                     </tr>
+                    </r:if>
                 </r:forEach>
             </tbody>
         </table>

@@ -20,7 +20,7 @@
             }
         </style>
         <h1>Sistema de Caronas</h1>
-        <h2>Bem vindo, <c:out value="${sessionScope.name}"/></h2>
+        <h2>Bem vindo, <c:out value="${sessionScope.Name}"/></h2>
         
         <a class="btn btn-success" href="./passageiro/index.jsp">Passageiros</a>
         <a class="btn btn-success" href="./veiculo/index.jsp">Veiculos</a>
