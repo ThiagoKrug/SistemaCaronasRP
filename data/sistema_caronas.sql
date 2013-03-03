@@ -82,6 +82,7 @@ CREATE  TABLE IF NOT EXISTS `sistema_caronas`.`usuario` (
   `senha` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL ,
   `telefone` VARCHAR(45) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL ,
   `email` VARCHAR(45) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL ,
+  `situacao` VARCHAR(45) NULL ,
   PRIMARY KEY (`id_usuario`) ,
   INDEX `fk_usuario_tipo_usuario1_idx` (`id_tipo_usuario` ASC) ,
   CONSTRAINT `fk_usuario_tipo_usuario1`
@@ -110,21 +111,16 @@ CREATE  TABLE IF NOT EXISTS `sistema_caronas`.`solicitacao_viagem` (
   `local_retorno` TEXT NULL ,
   `percurso` TEXT NULL ,
   `objetivo_viagem` TEXT NULL ,
-  `id_veiculo` INT NOT NULL ,
   `id_responsavel_solicitacao` INT NOT NULL ,
   `id_responsavel_autorizante` INT NULL ,
   `status` VARCHAR(45) NULL ,
   `motorista` TEXT NULL ,
   `data_efetivacao_reserva` TIMESTAMP NULL ,
+  `id_tipo_veiculo` INT NOT NULL ,
   PRIMARY KEY (`id_solicitacao_viagem`) ,
-  INDEX `fk_solicitacaoViagem_veiculo1_idx` (`id_veiculo` ASC) ,
   INDEX `fk_solicitacaoViagem_usuario1_idx` (`id_responsavel_solicitacao` ASC) ,
   INDEX `fk_solicitacaoViagem_usuario2_idx` (`id_responsavel_autorizante` ASC) ,
-  CONSTRAINT `fk_solicitacaoViagem_veiculo1`
-    FOREIGN KEY (`id_veiculo` )
-    REFERENCES `sistema_caronas`.`veiculo` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_solicitacao_viagem_tipo_veiculo1` (`id_tipo_veiculo` ASC) ,
   CONSTRAINT `fk_solicitacaoViagem_usuario1`
     FOREIGN KEY (`id_responsavel_solicitacao` )
     REFERENCES `sistema_caronas`.`usuario` (`id_usuario` )
@@ -133,6 +129,11 @@ CREATE  TABLE IF NOT EXISTS `sistema_caronas`.`solicitacao_viagem` (
   CONSTRAINT `fk_solicitacaoViagem_usuario2`
     FOREIGN KEY (`id_responsavel_autorizante` )
     REFERENCES `sistema_caronas`.`usuario` (`id_usuario` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_solicitacao_viagem_tipo_veiculo1`
+    FOREIGN KEY (`id_tipo_veiculo` )
+    REFERENCES `sistema_caronas`.`tipo_veiculo` (`id_tipo_veiculo` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
