@@ -4,26 +4,41 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
+                <div class="span2"></div>
                 <a class="brand" href="principal.jsp" name="top">Sistema de Caronas</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li><a href="#"><i class="icon-home"></i> Home</a></li>
+                        <li><a href="./reserva/index.jsp"><i class="icon-home"></i> Reservas</a></li>
                         <li class="divider-vertical"></li>
-                        <li class="active"><a href="#"><i class="icon-file"></i> Pages</a></li>
+                        <ul class="nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-calendar"></i> Agendas <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="./veiculo/agenda.jsp">Agenda dos Veículos</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="./usuario/motorista/agenda.jsp">Agenda dos Motoristas</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                         <li class="divider-vertical"></li>
+                        <ul class="nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-list-alt"></i> Formulários <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="./veiculo/index.jsp">Veículos</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="./passageiro/index.jsp">Passageiros</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="./usuario/index.jsp">Usuários</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </ul>
                     <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="icon-user"></i> <span class="btnUsuario"><c:out value="${sessionScope.Name}"/></span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!--<li><a href="#"><i class="icon-wrench"></i> Settings</a></li>
-                            <li class="divider"></li>-->
                             <li><a href="./index.jsp"><i class="icon-share"></i> Logout</a></li>
                         </ul>
                     </div>
