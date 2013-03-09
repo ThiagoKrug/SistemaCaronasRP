@@ -63,7 +63,6 @@ public class Viagem implements Entity {
      * @param dataEfetivacao the dataEfetivacao to set
      */
     public void setDataEfetivacao(Date dataEfetivacao) {
-        //this.dataEfetivacao = dataEfetivacao;
         if (dataEfetivacao != null) {
             Calendar cal = new GregorianCalendar();
             cal.setTime(dataEfetivacao);
