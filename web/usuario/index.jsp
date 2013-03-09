@@ -39,15 +39,15 @@
                         <td>${usuario.getRg()}</td>
                         <td>${usuario.getTipoUsuario().getTipoUsuario()}</td>
                         <td>${usuario.getSituacao()}</td>
-                        <r:if test="${usuario.getSituacao() == 'ativo'}">
                         <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
+                        <r:if test="${usuario.getSituacao() == 'ativo'}">
                             <a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-remove icon-white"></i> Desativar</a></td>
                         </r:if>
                         <r:if test="${usuario.getSituacao() == 'inativo'}">
-                        <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
-                            <a class="btn btn-success" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-plus icon-white"></i> Ativar</a></td>
+                            <a class="btn btn-success" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-plus icon-white"></i> Ativar</a>
                         </r:if>
-                        </tr>
+                        </td>
+                    </tr>
                 </r:forEach>
             </tbody>
         </table>
@@ -55,7 +55,7 @@
                             function excluir(idUsuario) {
                                 event.preventDefault();
 
-                                if (confirm("Deseja realmente excluir este usuário?")) {
+                                if (confirm("Deseja realmente inativar este usuário?")) {
                                     /* Send the data using post */
                                     $.post("./usuario/excluir.jsp",
                                             {id_usuario: idUsuario},
