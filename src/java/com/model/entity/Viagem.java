@@ -5,6 +5,7 @@
 package com.model.entity;
 
 import com.model.dao.PassageiroDAO;
+import com.model.dao.SolicitacaoViagemDAO;
 import com.model.dao.ViagemDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class Viagem implements Entity {
         if (this.passageiros == null) {
             this.passageiros = new ArrayList<Passageiro>();
             PassageiroDAO pdao = new PassageiroDAO(connection);
-            for (Integer id: new ViagemDAO().getPassIds()) {
+            for (Integer id: new ViagemDAO().getPassIds(this.idViagem)) {
                 this.passageiros.add(pdao.getById(id));
             }
         }
@@ -123,7 +124,14 @@ public class Viagem implements Entity {
     /**
      * @return the solicitacoes
      */
-    public List<SolicitacaoViagem> getSolicitacoes() {
+    public List<SolicitacaoViagem> getSolicitacoes(Connection connection) {
+        if (solicitacoes == null) {
+            solicitacoes = new ArrayList<SolicitacaoViagem>();
+            SolicitacaoViagemDAO sdao = new SolicitacaoViagemDAO(connection);
+            for (Integer sv: new ViagemDAO().getSolIds(this.idViagem)) {
+                solicitacoes.add(sdao.getById(sv));
+            }
+        }
         return solicitacoes;
     }
 

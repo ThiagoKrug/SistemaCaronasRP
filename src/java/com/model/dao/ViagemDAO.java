@@ -47,7 +47,7 @@ public class ViagemDAO implements Dao {
             Integer gid = rsid.getInt(1);
             stmt.close();
             SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(this.connection);
-            for (SolicitacaoViagem sol: viagem.getSolicitacoes()) {
+            for (SolicitacaoViagem sol: viagem.getSolicitacoes(this.connection)) {
                 try {
                     sol.setStatus(StatusSolicitacaoViagem.EFETIVADO.toString());
                     svdao.alterar(sol);
@@ -108,16 +108,17 @@ public class ViagemDAO implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public List<Integer> getPassIds() {
-        String sql = "select passageiro_id from "
+    public List<Integer> getPassIds(Integer id) {
+        String sql = "select id_passageiro from "
                 + "viagem_has_passageiro where "
-                + "viagem_id=?";
+                + "id_viagem=?";
         List<Integer> result = new ArrayList<Integer>();
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
-                result.add(res.getInt("passageiro_id"));
+                result.add(res.getInt("id_passageiro"));
             }
         }
         catch(SQLException e) {
@@ -125,5 +126,23 @@ public class ViagemDAO implements Dao {
         }
         
         return result;
+    }
+    
+    public List<Integer> getSolIds(Integer id) {
+        List<Integer> ids = new ArrayList<Integer>();
+        String sql = "select id_solicitacao_viagem from "
+                + "solicitacao_viagem where id_viagem=?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                ids.add(res.getInt("id_solicitacao_viagem"));
+            }
+        }
+        catch (SQLException e) {
+            
+        }
+        return ids;
     }
 }
