@@ -5,6 +5,7 @@
 package com.model.entity;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,8 +39,11 @@ public class Viagem implements Entity {
     /**
      * @return the dataEfetivacao
      */
-    public Calendar getDataEfetivacao() {
-        return dataEfetivacao;
+    public Date getDataEfetivacao() {
+        if (dataEfetivacao != null) {
+            return dataEfetivacao.getTime();
+        }
+        return null;
     }
 
     /**
