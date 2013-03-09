@@ -4,7 +4,11 @@
  */
 package com.model.entity;
 
-import java.text.SimpleDateFormat;
+import com.model.dao.PassageiroDAO;
+import com.model.dao.SolicitacaoViagemDAO;
+import com.model.dao.ViagemDAO;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -117,7 +121,14 @@ public class Viagem implements Entity {
     /**
      * @return the passageiros
      */
-    public List<Passageiro> getPassageiros() {
+    public List<Passageiro> getPassageiros(Connection connection) {
+        if (this.passageiros == null) {
+            this.passageiros = new ArrayList<Passageiro>();
+            PassageiroDAO pdao = new PassageiroDAO(connection);
+            for (Integer id: new ViagemDAO().getPassIds(this.idViagem)) {
+                this.passageiros.add(pdao.getById(id));
+            }
+        }
         return passageiros;
     }
 
@@ -131,7 +142,14 @@ public class Viagem implements Entity {
     /**
      * @return the solicitacoes
      */
-    public List<SolicitacaoViagem> getSolicitacoes() {
+    public List<SolicitacaoViagem> getSolicitacoes(Connection connection) {
+        if (solicitacoes == null) {
+            solicitacoes = new ArrayList<SolicitacaoViagem>();
+            SolicitacaoViagemDAO sdao = new SolicitacaoViagemDAO(connection);
+            for (Integer sv: new ViagemDAO().getSolIds(this.idViagem)) {
+                solicitacoes.add(sdao.getById(sv));
+            }
+        }
         return solicitacoes;
     }
 
