@@ -33,7 +33,7 @@ public class ViagemDAO implements Dao {
                 + "(id_autorizante, id_motorista, id_veiculo, "
                 + "data_efetivacao, data_saida, hora_saida, "
                 + "local_saida, data_retorno, hora_retorno, local_retorno, "
-                + "percurso, objetivo_viagem,) values (?,?,?,?,?,?,?,?,)";
+                + "percurso, objetivo_viagem,) values (?,)";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, viagem.getAutorizante().getIdUsuario());
