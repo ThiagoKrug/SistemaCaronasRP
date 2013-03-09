@@ -51,7 +51,7 @@ public class ViagemDAO implements Dao {
                     sol.setStatus(StatusSolicitacaoViagem.EFETIVADO.toString());
                     svdao.alterar(sol);
                 } catch (Exception ex) {
-//                    Logger.getLogger(ViagemDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
 
             }
@@ -66,6 +66,7 @@ public class ViagemDAO implements Dao {
                 stmt2.execute();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return result;
@@ -88,6 +89,7 @@ public class ViagemDAO implements Dao {
             stmt.setInt(5, viagem.getIdViagem());
 
         } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return result;
@@ -116,6 +118,7 @@ public class ViagemDAO implements Dao {
                 result.add(res.getInt("id_passageiro"));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return result;
@@ -133,6 +136,7 @@ public class ViagemDAO implements Dao {
                 ids.add(res.getInt("id_solicitacao_viagem"));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return ids;
     }
