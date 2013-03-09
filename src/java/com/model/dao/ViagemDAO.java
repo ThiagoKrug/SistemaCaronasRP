@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +60,7 @@ public class ViagemDAO implements Dao {
             String sql2 = "insert into viagem_has_passageiro "
                     + "(id_passageiro, id_viagem) values "
                     + "(?,?)";
-            for (Passageiro pas: viagem.getPassageiros()) {
+            for (Passageiro pas: viagem.getPassageiros(this.connection)) {
                 PreparedStatement stmt2 = this.connection.prepareStatement(sql2);
                 stmt2.setInt(1, viagem.getIdViagem());
                 stmt2.setInt(2, pas.getIdPassageiro());
@@ -106,5 +108,22 @@ public class ViagemDAO implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
+    public List<Integer> getPassIds() {
+        String sql = "select passageiro_id from "
+                + "viagem_has_passageiro where "
+                + "viagem_id=?";
+        List<Integer> result = new ArrayList<Integer>();
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                result.add(res.getInt("passageiro_id"));
+            }
+        }
+        catch(SQLException e) {
+            
+        }
+        
+        return result;
+    }
 }

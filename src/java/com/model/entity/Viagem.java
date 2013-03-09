@@ -4,6 +4,10 @@
  */
 package com.model.entity;
 
+import com.model.dao.PassageiroDAO;
+import com.model.dao.ViagemDAO;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -98,7 +102,14 @@ public class Viagem implements Entity {
     /**
      * @return the passageiros
      */
-    public List<Passageiro> getPassageiros() {
+    public List<Passageiro> getPassageiros(Connection connection) {
+        if (this.passageiros == null) {
+            this.passageiros = new ArrayList<Passageiro>();
+            PassageiroDAO pdao = new PassageiroDAO(connection);
+            for (Integer id: new ViagemDAO().getPassIds()) {
+                this.passageiros.add(pdao.getById(id));
+            }
+        }
         return passageiros;
     }
 
