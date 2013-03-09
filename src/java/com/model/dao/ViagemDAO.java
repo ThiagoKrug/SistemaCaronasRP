@@ -5,6 +5,7 @@
 package com.model.dao;
 
 import com.model.entity.Entity;
+import com.model.entity.Passageiro;
 import com.model.entity.SolicitacaoViagem;
 import com.model.entity.StatusSolicitacaoViagem;
 import com.model.entity.Viagem;
@@ -54,10 +55,15 @@ public class ViagemDAO implements Dao {
                 
             }
             
-            String sql2 = "insert into passageiro_has_viagem "
+            String sql2 = "insert into viagem_has_passageiro "
                     + "(id_passageiro, id_viagem) values "
                     + "(?,?)";
-            
+            for (Passageiro pas: viagem.getPassageiros()) {
+                PreparedStatement stmt2 = this.connection.prepareStatement(sql2);
+                stmt2.setInt(1, viagem.getIdViagem());
+                stmt2.setInt(2, pas.getIdPassageiro());
+                stmt2.execute();
+            }
         } catch (SQLException e) {
             
         }
@@ -67,7 +73,27 @@ public class ViagemDAO implements Dao {
 
     @Override
     public int alterar(Entity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Viagem viagem = (Viagem)entity;
+        int result = 0;
+        String sql = "update viagem set "
+                + "id_autorizante=?, id_motorista=?, id_veiculo=?, "
+                + "data_efetivacao=? "
+                + "where id_viagem=?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, viagem.getAutorizante().getIdUsuario());
+            stmt.setInt(2, viagem.getMotorista().getIdUsuario());
+            stmt.setInt(3, viagem.getVeiculo().getIdVeiculo());
+            stmt.setDate(4, new Date(viagem.getDataEfetivacao().getTime()));
+            stmt.setInt(5, viagem.getIdViagem());
+            
+        }
+        
+        catch (SQLException e) {
+            
+        }
+        
+        return result;
     }
 
     @Override
