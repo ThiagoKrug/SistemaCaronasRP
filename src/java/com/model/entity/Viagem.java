@@ -5,6 +5,8 @@
 package com.model.entity;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -45,8 +47,15 @@ public class Viagem implements Entity {
     /**
      * @param dataEfetivacao the dataEfetivacao to set
      */
-    public void setDataEfetivacao(Calendar dataEfetivacao) {
-        this.dataEfetivacao = dataEfetivacao;
+    public void setDataEfetivacao(Date dataEfetivacao) {
+        //this.dataEfetivacao = dataEfetivacao;
+        if (dataEfetivacao != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataEfetivacao);
+            this.dataEfetivacao = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataEfetivacao = null;
+        }
     }
 
     /**

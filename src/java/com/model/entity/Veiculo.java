@@ -1,5 +1,8 @@
 package com.model.entity;
 
+import com.model.dao.ViagemDAO;
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -107,5 +110,11 @@ public class Veiculo implements Entity {
 
     public void setTipo(String tipo) {
         this.tipoVeiculo.setTipoVeiculo(tipo);
+    }
+    
+    public void getAgenda() {
+        ViagemDAO vdao = new ViagemDAO();
+        List<Viagem> viagens = vdao.getByIdVeiculo(this.getIdVeiculo());
+        
     }
 }
