@@ -27,8 +27,23 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#calendar').fullCalendar({
-                    selectable: false,
-                    selectHelper: true,
+                    events: [
+                        {
+                            title: 'titulo',
+                            start: '2013-03-08 10:30',
+                            end: '2013-03-08 11:30',
+                            allDay: false,
+                            color: 'blue'
+                        }, {
+                            title: 'titulo',
+                            start: '2013-03-08 10:30',
+                            end: '2013-03-08 11:30',
+                            allDay: false,
+                            color: 'red'
+                        }
+                    ],
+                    selectable: true,
+                    selectHelper: false,
                     defaultView: 'agendaWeek',
                     allDaySlot: false,
                     header: {
@@ -36,7 +51,7 @@
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
                     },
-                    editable: true,
+                    editable: false,
                     dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
                     dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
                     monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
