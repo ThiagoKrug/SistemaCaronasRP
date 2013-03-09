@@ -4,8 +4,10 @@
  */
 package com.model.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -42,6 +44,16 @@ public class Viagem implements Entity {
     public Date getDataEfetivacao() {
         if (dataEfetivacao != null) {
             return dataEfetivacao.getTime();
+        }
+        return null;
+    }
+    
+    /**
+     * @return the dataEfetivacao
+     */
+    public String getDataEfetivacaoFormatada() {
+        if (dataEfetivacao != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataEfetivacao.getTime());
         }
         return null;
     }

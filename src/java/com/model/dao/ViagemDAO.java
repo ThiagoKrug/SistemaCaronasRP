@@ -7,6 +7,8 @@ package com.model.dao;
 import com.model.entity.Entity;
 import com.model.entity.SolicitacaoViagem;
 import com.model.entity.StatusSolicitacaoViagem;
+import com.model.entity.Usuario;
+import com.model.entity.Veiculo;
 import com.model.entity.Viagem;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,6 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
