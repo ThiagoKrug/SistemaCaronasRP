@@ -30,6 +30,7 @@ public class SolicitacaoViagem implements Entity {
     private TipoVeiculo tipoVeiculo;
     private String status;
     private List<Passageiro> passageiros;
+    private Viagem viagem;
 
     public SolicitacaoViagem() {
         this.passageiros = new ArrayList<Passageiro>();
@@ -350,5 +351,19 @@ public class SolicitacaoViagem implements Entity {
                 throw new Exception("Falha ao setar status da solicitação viagem: status inválido. Status: " + status);
             }
         }
+    }
+
+    /**
+     * @return the viagem
+     */
+    public Viagem getViagem() {
+        return viagem;
+    }
+
+    /**
+     * @param viagem the viagem to set
+     */
+    public void setViagem(Viagem viagem) {
+        this.viagem = viagem;
     }
 }
