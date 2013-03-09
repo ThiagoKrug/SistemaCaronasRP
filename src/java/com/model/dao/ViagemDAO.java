@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,13 +34,37 @@ public class ViagemDAO implements Dao {
                 + "(id_autorizante, id_motorista, id_veiculo, "
                 + "data_efetivacao, data_saida, hora_saida, "
                 + "local_saida, data_retorno, hora_retorno, local_retorno, "
-                + "percurso, objetivo_viagem,) values (?,)";
+                + "percurso, objetivo_viagem) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, viagem.getAutorizante().getIdUsuario());
             stmt.setInt(2, viagem.getMotorista().getIdUsuario());
             stmt.setInt(3, viagem.getVeiculo().getIdVeiculo());
             stmt.setDate(4, new Date(viagem.getDataEfetivacao().getTime()));
+            if (viagem.getDataSaida() != null) {
+                stmt.setDate(5, new Date(viagem.getDataSaida().getTime()));
+            } else {
+                stmt.setString(5, null);
+            }
+            if (viagem.getHoraSaida() != null) {
+                stmt.setTimestamp(6, new Timestamp(viagem.getHoraSaida().getTime()));
+            } else {
+                stmt.setString(6, null);
+            }
+            stmt.setString(7, viagem.getLocalSaida());
+            if (viagem.getDataRetorno() != null) {
+                stmt.setDate(8, new Date(viagem.getDataRetorno().getTime()));
+            } else {
+                stmt.setString(8, null);
+            }
+            if (viagem.getHoraRetorno() != null) {
+                stmt.setTimestamp(9, new Timestamp(viagem.getHoraRetorno().getTime()));
+            } else {
+                stmt.setString(9, null);
+            }
+            stmt.setString(10, viagem.getLocalRetorno());
+            stmt.setString(11, viagem.getPercurso());
+            stmt.setString(12, viagem.getObjetivo());
             result = stmt.executeUpdate();
             ResultSet rsid = stmt.getGeneratedKeys();
             rsid.next();

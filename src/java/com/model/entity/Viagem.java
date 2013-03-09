@@ -167,57 +167,131 @@ public class Viagem implements Entity {
     /**
      * @return the dataSaida
      */
-    public Calendar getDataSaida() {
-        return dataSaida;
+    public Date getDataSaida() {
+        if (dataSaida != null) {
+            return dataSaida.getTime();
+        }
+        return null;
     }
 
     /**
      * @param dataSaida the dataSaida to set
      */
-    public void setDataSaida(Calendar dataSaida) {
-        this.dataSaida = dataSaida;
+    public void setDataSaida(Date dataSaida) {
+        if (dataSaida != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataSaida);
+            this.dataSaida = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataSaida = null;
+        }
+    }
+    
+    /**
+     * @return the dataSaida
+     */
+    public String getDataSaidaFormatada() {
+        if (dataSaida != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataSaida.getTime());
+        }
+        return null;
     }
 
     /**
      * @return the dataRetorno
      */
-    public Calendar getDataRetorno() {
-        return dataRetorno;
+    public Date getDataRetorno() {
+        if (dataRetorno != null) {
+            return dataRetorno.getTime();
+        }
+        return null;
     }
 
     /**
      * @param dataRetorno the dataRetorno to set
      */
-    public void setDataRetorno(Calendar dataRetorno) {
-        this.dataRetorno = dataRetorno;
+    public void setDataRetorno(Date dataRetorno) {
+        if (dataRetorno != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataRetorno);
+            this.dataRetorno = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataRetorno = null;
+        }
+    }
+    
+    /**
+     * @return the dataRetorno
+     */
+    public String getDataRetornoFormatada() {
+        if (dataRetorno != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataRetorno.getTime());
+        }
+        return null;
     }
 
     /**
      * @return the horaSaida
      */
-    public Calendar getHoraSaida() {
-        return horaSaida;
+    public Date getHoraSaida() {
+        if (horaSaida != null) {
+            return horaSaida.getTime();
+        }
+        return null;
     }
 
     /**
      * @param horaSaida the horaSaida to set
      */
-    public void setHoraSaida(Calendar horaSaida) {
-        this.horaSaida = horaSaida;
+    public void setHoraSaida(Date horaSaida) {
+        if (horaSaida != null) {
+            this.horaSaida = new GregorianCalendar();
+            this.horaSaida.setTime(horaSaida);
+        } else {
+            this.horaSaida = null;
+        }
+    }
+    
+    /**
+     * @return the horaSaida
+     */
+    public String getHoraSaidaFormatada() {
+        if (horaSaida != null) {
+            return new SimpleDateFormat("hh:mm").format(horaSaida.getTime());
+        }
+        return null;
     }
 
     /**
      * @return the horaRetorno
      */
-    public Calendar getHoraRetorno() {
-        return horaRetorno;
+    public Date getHoraRetorno() {
+        if (horaRetorno != null) {
+            return horaRetorno.getTime();
+        }
+        return null;
     }
 
     /**
      * @param horaRetorno the horaRetorno to set
      */
-    public void setHoraRetorno(Calendar horaRetorno) {
-        this.horaRetorno = horaRetorno;
+    public void setHoraRetorno(Date horaRetorno) {
+        if (horaRetorno != null) {
+            this.horaRetorno = new GregorianCalendar();
+            this.horaRetorno.setTime(horaRetorno);
+        } else {
+            this.horaRetorno = null;
+        }
+    }
+    
+    /**
+     * @return the horaRetorno
+     */
+    public String getHoraRetornoFormatada() {
+        if (horaRetorno != null) {
+            return new SimpleDateFormat("hh:mm").format(horaRetorno.getTime());
+        }
+        return null;
     }
 
     /**
