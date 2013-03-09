@@ -26,6 +26,10 @@ public class ViagemDAO implements Dao {
 
     private Connection connection;
 
+    public ViagemDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public int inserir(Entity entity) {
         Viagem viagem = (Viagem) entity;
