@@ -4,6 +4,7 @@ import com.model.entity.Entity;
 import com.model.entity.Passageiro;
 import com.model.entity.SolicitacaoViagem;
 import com.model.entity.TipoVeiculo;
+import com.model.entity.Viagem;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -157,7 +158,8 @@ public class SolicitacaoViagemDAO implements Dao {
                 + "numero_pedido=?, numero_transportados=?, servidores=?, data_saida=?, hora_saida=?, "
                 + "local_saida=?, data_retorno=?, hora_retorno=?, local_retorno=?, "
                 + "percurso=?, objetivo_viagem=?, id_tipo_veiculo=?, id_responsavel_solicitacao=?, "
-                + "id_responsavel_autorizante=?, status=? where id_solicitacao_viagem=? ";
+                + "id_responsavel_autorizante=?, status=?, id_viagem=?"
+                + " where id_solicitacao_viagem=? ";
 
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -211,7 +213,12 @@ public class SolicitacaoViagemDAO implements Dao {
                 stmt.setInt(14, solicitacao.getAutorizante().getIdUsuario());
             }
             stmt.setString(15, solicitacao.getStatus());
-            stmt.setInt(16, solicitacao.getIdSolicitacaoViagem());
+            if (solicitacao.getViagem() == null) {
+                stmt.setString(16, null);
+            } else {
+                stmt.setInt(16, solicitacao.getViagem().getIdViagem());
+            }
+            stmt.setInt(17, solicitacao.getIdSolicitacaoViagem());
             System.out.println(stmt.toString());
             result = stmt.executeUpdate();
             stmt.close();
@@ -344,4 +351,5 @@ public class SolicitacaoViagemDAO implements Dao {
         }
         return null;
     }
+    
 }

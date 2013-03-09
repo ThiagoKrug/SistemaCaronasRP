@@ -17,6 +17,9 @@
     List<Usuario> usuarios = ud.getUsuarios();
     for (Usuario usuario: usuarios) {
         System.out.println(usuario.getUsername());
+        if (usuario.getSituacao() == "inativo") {
+            continue;
+        }
         if (usuario.getUsername().equals(name)) {
             if (usuario.getSenha().equals(password)) {
                 session.setAttribute("Name", usuario.getNome());
