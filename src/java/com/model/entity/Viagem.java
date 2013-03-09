@@ -24,6 +24,14 @@ public class Viagem implements Entity {
     private Usuario autorizante;
     private Usuario motorista;
     private Veiculo veiculo;
+    private Calendar dataSaida;
+    private Calendar dataRetorno;
+    private Calendar horaSaida;
+    private Calendar horaRetorno;
+    private String objetivo;
+    private String percurso;
+    private String localSaida;
+    private String localRetorno;
     private List<Passageiro> passageiros;
     private List<SolicitacaoViagem> solicitacoes;
 
@@ -140,6 +148,118 @@ public class Viagem implements Entity {
      */
     public void setSolicitacoes(List<SolicitacaoViagem> solicitacoes) {
         this.solicitacoes = solicitacoes;
+    }
+
+    /**
+     * @return the dataSaida
+     */
+    public Calendar getDataSaida() {
+        return dataSaida;
+    }
+
+    /**
+     * @param dataSaida the dataSaida to set
+     */
+    public void setDataSaida(Calendar dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    /**
+     * @return the dataRetorno
+     */
+    public Calendar getDataRetorno() {
+        return dataRetorno;
+    }
+
+    /**
+     * @param dataRetorno the dataRetorno to set
+     */
+    public void setDataRetorno(Calendar dataRetorno) {
+        this.dataRetorno = dataRetorno;
+    }
+
+    /**
+     * @return the horaSaida
+     */
+    public Calendar getHoraSaida() {
+        return horaSaida;
+    }
+
+    /**
+     * @param horaSaida the horaSaida to set
+     */
+    public void setHoraSaida(Calendar horaSaida) {
+        this.horaSaida = horaSaida;
+    }
+
+    /**
+     * @return the horaRetorno
+     */
+    public Calendar getHoraRetorno() {
+        return horaRetorno;
+    }
+
+    /**
+     * @param horaRetorno the horaRetorno to set
+     */
+    public void setHoraRetorno(Calendar horaRetorno) {
+        this.horaRetorno = horaRetorno;
+    }
+
+    /**
+     * @return the objetivo
+     */
+    public String getObjetivo() {
+        return objetivo;
+    }
+
+    /**
+     * @param objetivo the objetivo to set
+     */
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    /**
+     * @return the percurso
+     */
+    public String getPercurso() {
+        return percurso;
+    }
+
+    /**
+     * @param percurso the percurso to set
+     */
+    public void setPercurso(String percurso) {
+        this.percurso = percurso;
+    }
+
+    /**
+     * @return the localSaida
+     */
+    public String getLocalSaida() {
+        return localSaida;
+    }
+
+    /**
+     * @param localSaida the localSaida to set
+     */
+    public void setLocalSaida(String localSaida) {
+        this.localSaida = localSaida;
+    }
+
+    /**
+     * @return the localRetorno
+     */
+    public String getLocalRetorno() {
+        return localRetorno;
+    }
+
+    /**
+     * @param localRetorno the localRetorno to set
+     */
+    public void setLocalRetorno(String localRetorno) {
+        this.localRetorno = localRetorno;
     }
     
     
