@@ -1,16 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.model.entity;
 
 import com.model.dao.PassageiroDAO;
 import com.model.dao.SolicitacaoViagemDAO;
 import com.model.dao.ViagemDAO;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -58,12 +56,29 @@ public class Viagem implements Entity {
         }
         return null;
     }
+    
+    /**
+     * @return the dataEfetivacao
+     */
+    public String getDataEfetivacaoFormatada() {
+        if (dataEfetivacao != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(dataEfetivacao.getTime());
+        }
+        return null;
+    }
 
     /**
      * @param dataEfetivacao the dataEfetivacao to set
      */
-    public void setDataEfetivacao(Calendar dataEfetivacao) {
-        this.dataEfetivacao = dataEfetivacao;
+    public void setDataEfetivacao(Date dataEfetivacao) {
+        //this.dataEfetivacao = dataEfetivacao;
+        if (dataEfetivacao != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(dataEfetivacao);
+            this.dataEfetivacao = new GregorianCalendar(cal.get(GregorianCalendar.YEAR), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DAY_OF_MONTH));
+        } else {
+            this.dataEfetivacao = null;
+        }
     }
 
     /**

@@ -25,6 +25,7 @@ public class UsuarioConverter implements Converter {
         usuario.setNumeroServidor(request.getParameter("numero_servidor"));
         usuario.setSenha(request.getParameter("senha"));
         usuario.setUsername(request.getParameter("username"));
+        usuario.setSituacao("ativo");
         
         TipoUsuario tu = new TipoUsuario();
         tu.setIdTipoUsuario(Integer.parseInt(request.getParameter("tipo_usuario")));
