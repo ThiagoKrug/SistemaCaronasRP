@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.model.entity;
 
 import com.model.dao.PassageiroDAO;
 import com.model.dao.SolicitacaoViagemDAO;
 import com.model.dao.ViagemDAO;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
