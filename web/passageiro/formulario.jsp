@@ -63,7 +63,7 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <a href="./passageiro/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"> Voltar</a>
+                        <a href="./passageiro/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
                         <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Salvar Passageiro</button>
                     </div>
                 </div>
