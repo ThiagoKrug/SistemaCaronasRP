@@ -26,12 +26,11 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Número do Pedido</th>
-                    <th>Solicitante</th>
-                    <th>Tipo de Veículo</th>
+                    <th>Data de Efetivação</th>
+                    <th>Motorista</th>
+                    <th>Veículo</th>
                     <th>Data de Saída</th>
                     <th>Data de Retorno</th>
-                    <th>Status</th>
                     <th>Opções</th>
                 </tr>
             </thead>
@@ -43,7 +42,6 @@
                         <td>${viagem.getVeiculo().getTipoVeiculo()}</td>
                         <td>${viagem.getDataSaidaFormatada()}</td>
                         <td>${viagem.getDataRetornoFormatada()}</td>
-                        <td>${viagem.getStatus()}</td>
                         <td class="opcoes">
                             <a class="btn btn-danger" href="" onclick="excluir(${solicitacaoViagem.getIdSolicitacaoViagem()});"><i class="icon-remove icon-white"></i> Excluir</a>
                         </td>
