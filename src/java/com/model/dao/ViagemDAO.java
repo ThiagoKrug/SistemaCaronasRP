@@ -26,6 +26,10 @@ public class ViagemDAO implements Dao {
 
     private Connection connection;
 
+    public ViagemDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public int inserir(Entity entity) {
         Viagem viagem = (Viagem) entity;
@@ -130,6 +134,25 @@ public class ViagemDAO implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public List<Viagem> getViagens() {
+        String sql = "select * from viagem";
+        List<Viagem> viagens = new ArrayList<Viagem>();
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Viagem viagem = this.setsFromDatabase(rs);
+                viagens.add(viagem);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return viagens;
+    }
+
     public List<Integer> getPassIds(Integer id) {
         String sql = "select id_passageiro from "
                 + "viagem_has_passageiro where "
@@ -175,28 +198,8 @@ public class ViagemDAO implements Dao {
             System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Viagem viagem = new Viagem();
-
-                Usuario autorizante = new Usuario();
-                autorizante.setIdUsuario(rs.getInt("id_autorizante"));
-                viagem.setAutorizante(autorizante);
-
-                Calendar c = Calendar.getInstance();
-                Date dataEfetivacao = rs.getDate("data_efetivacao");
-                if (dataEfetivacao != null) {
-                    c.setTime(dataEfetivacao);
-                    viagem.setDataEfetivacao(c.getTime());
-                }
-
-                viagem.setIdViagem(rs.getInt("id_viagem"));
-
-                Usuario motorista = new Usuario();
-                motorista.setIdUsuario(rs.getInt("id_motorista"));
-                viagem.setMotorista(motorista);
-
-                Veiculo veiculo = new Veiculo();
-                veiculo.setIdVeiculo(rs.getInt("id_veiculo"));
-                viagem.setVeiculo(veiculo);
+                Viagem viagem = this.setsFromDatabase(rs);
+                viagens.add(viagem);
             }
             rs.close();
             stmt.close();
@@ -204,5 +207,32 @@ public class ViagemDAO implements Dao {
             e.printStackTrace();
         }
         return viagens;
+    }
+
+    private Viagem setsFromDatabase(ResultSet rs) throws SQLException {
+        Viagem viagem = new Viagem();
+
+        Usuario autorizante = new Usuario();
+        autorizante.setIdUsuario(rs.getInt("id_autorizante"));
+        viagem.setAutorizante(autorizante);
+
+        Calendar c = Calendar.getInstance();
+        Date dataEfetivacao = rs.getDate("data_efetivacao");
+        if (dataEfetivacao != null) {
+            c.setTime(dataEfetivacao);
+            viagem.setDataEfetivacao(c.getTime());
+        }
+
+        viagem.setIdViagem(rs.getInt("id_viagem"));
+
+        Usuario motorista = new Usuario();
+        motorista.setIdUsuario(rs.getInt("id_motorista"));
+        viagem.setMotorista(motorista);
+
+        Veiculo veiculo = new Veiculo();
+        veiculo.setIdVeiculo(rs.getInt("id_veiculo"));
+        viagem.setVeiculo(veiculo);
+
+        return viagem;
     }
 }

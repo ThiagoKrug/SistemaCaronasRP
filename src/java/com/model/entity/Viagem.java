@@ -16,7 +16,7 @@ import java.util.List;
  * @author Usuario
  */
 public class Viagem implements Entity {
-    
+
     private Integer idViagem;
     private Calendar dataEfetivacao;
     private Usuario autorizante;
@@ -56,7 +56,7 @@ public class Viagem implements Entity {
         }
         return null;
     }
-    
+
     /**
      * @return the dataEfetivacao
      */
@@ -129,7 +129,7 @@ public class Viagem implements Entity {
         if (this.passageiros == null) {
             this.passageiros = new ArrayList<Passageiro>();
             PassageiroDAO pdao = new PassageiroDAO(connection);
-            for (Integer id: new ViagemDAO().getPassIds(this.idViagem)) {
+            for (Integer id : new ViagemDAO(connection).getPassIds(this.idViagem)) {
                 this.passageiros.add(pdao.getById(id));
             }
         }
@@ -150,7 +150,7 @@ public class Viagem implements Entity {
         if (solicitacoes == null) {
             solicitacoes = new ArrayList<SolicitacaoViagem>();
             SolicitacaoViagemDAO sdao = new SolicitacaoViagemDAO(connection);
-            for (Integer sv: new ViagemDAO().getSolIds(this.idViagem)) {
+            for (Integer sv : new ViagemDAO(connection).getSolIds(this.idViagem)) {
                 solicitacoes.add(sdao.getById(sv));
             }
         }
@@ -186,7 +186,7 @@ public class Viagem implements Entity {
             this.dataSaida = null;
         }
     }
-    
+
     /**
      * @return the dataSaida
      */
@@ -219,7 +219,7 @@ public class Viagem implements Entity {
             this.dataRetorno = null;
         }
     }
-    
+
     /**
      * @return the dataRetorno
      */
@@ -251,7 +251,7 @@ public class Viagem implements Entity {
             this.horaSaida = null;
         }
     }
-    
+
     /**
      * @return the horaSaida
      */
@@ -283,7 +283,7 @@ public class Viagem implements Entity {
             this.horaRetorno = null;
         }
     }
-    
+
     /**
      * @return the horaRetorno
      */
@@ -349,7 +349,4 @@ public class Viagem implements Entity {
     public void setLocalRetorno(String localRetorno) {
         this.localRetorno = localRetorno;
     }
-    
-    
-    
 }

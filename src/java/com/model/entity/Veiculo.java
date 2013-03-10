@@ -1,6 +1,7 @@
 package com.model.entity;
 
 import com.model.dao.ViagemDAO;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -112,8 +113,8 @@ public class Veiculo implements Entity {
         this.tipoVeiculo.setTipoVeiculo(tipo);
     }
     
-    public void getAgenda() {
-        ViagemDAO vdao = new ViagemDAO();
+    public void getAgenda(Connection connection) {
+        ViagemDAO vdao = new ViagemDAO(connection);
         List<Viagem> viagens = vdao.getByIdVeiculo(this.getIdVeiculo());
         
     }
