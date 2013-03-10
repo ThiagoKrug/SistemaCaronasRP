@@ -4,7 +4,9 @@
  */
 package com.mail;
 
+import com.model.entity.Usuario;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -21,14 +23,46 @@ import javax.mail.internet.MimeMessage;
 public class Mail {
     public static final String SUCCESS_TEMPLATE = "<!DOCTYPE html>"
             + "<html lang=\"pt-br\">"
+            + "<head>"
+            + "<meta charset=\"UTF-8\">"
+            + "</head>"
             + "<body>"
-            + "<h3>Viagem Confirmada!</h3>"
+            + "<h1>Viagem Confirmada!</h1>"
+            + "<p>Olá {{solicitante}}, sua viagem foi "
+            + "confirmada.</p>"
             + "</body>"
             + "</html>";
     public static final String CANCEL_TEMPLATE = "<!DOCTYPE html>"
             + "<html lang=\"pt-br\">"
+            + "<head>"
+            + "<meta charset=\"UTF-8\">"
+            + "</head>"
             + "<body>"
             + "<h3>Viagem Cancelada!</h3>"
+            + "</body>"
+            + "</html>";
+    public static final String CHARLIE_VICTOR_TEMPLATE = "<!DOCTYPE html>"
+            + "<html lang=\"pt-br\">"
+            + "<head>"
+            + "<meta charset=\"UTF-8\">"
+            + "</head>"
+            + "<body>"
+            + "<h1>Veículo Alterado!</h1>"
+            + "<p>Olá {{solicitante}}, o veículo selecionado para "
+            + "a sua viagem foi alterado. Verifique o sistema "
+            + "para mais detalhes.</p>"
+            + "</body>"
+            + "</html>";
+    public static final String CHARLIE_ROMEO_TEMPLATE = "<!DOCTYPE html>"
+            + "<html lang=\"pt-br\">"
+            + "<head>"
+            + "<meta charset=\"UTF-8\">"
+            + "</head>"
+            + "<body>"
+            + "<h1>Veículo Alterado!</h1>"
+            + "<p>Olá {{solicitante}}, a rota configurada para "
+            + "a sua viagem foi alterada. Verifique o sistema "
+            + "para mais detalhes.</p>"
             + "</body>"
             + "</html>";
     private Session getSession() {
@@ -79,6 +113,14 @@ public class Mail {
     public void sendmail(String to, String template) {
         String html = template;
         this.sendMail(to, this.getSession(), html);
+    }
+    
+    public void sendbatch(List<Usuario> recpts, String template) {
+        for (Usuario user: recpts) {
+            String fix = template.replace("{{solicitante}}",
+                    user.getNome());
+            this.sendmail(user.getEmail(), fix);
+        }
     }
     
     
