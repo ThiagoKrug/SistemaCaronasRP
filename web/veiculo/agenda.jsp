@@ -26,38 +26,48 @@
         <script type="text/javascript" src="./resources/fullcalendar/fullcalendar.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#calendar').fullCalendar({
-                    events: [
-                        {
-                            title: 'titulo',
-                            start: '2013-03-08 10:30',
-                            end: '2013-03-08 11:30',
-                            allDay: false,
-                            color: 'blue'
-                        }, {
-                            title: 'titulo',
-                            start: '2013-03-08 10:30',
-                            end: '2013-03-08 11:30',
-                            allDay: false,
-                            color: 'red'
-                        }
-                    ],
-                    selectable: true,
-                    selectHelper: false,
-                    defaultView: 'agendaWeek',
-                    allDaySlot: false,
-                    header: {
-                        left: 'prev,next today',
+            $('#calendar').fullCalendar({
+            events: [
+            <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
+                <r:forEach var="evento" items="${veiculo.getAgenda(connection)}">
+            {
+            title: '<c:out value="${evento.getTitulo()}"/>',
+                    start: '<c:out value="${evento.getInicio()}"/>',
+                    end: '<c:out value="${evento.getFim()}"/>',
+                    allDay: false,
+                    color: 'blue'
+            },</r:forEach>
+            </r:forEach>
+                {
+                title: 'titulo',
+                        start: '2013-03-08 10:30',
+                        end: '2013-03-08 11:30',
+                        allDay: false,
+                        color: 'blue'
+                }, {
+                title: 'titulo',
+                        start: '2013-03-08 10:30',
+                        end: '2013-03-08 11:30',
+                        allDay: false,
+                        color: 'red'
+                }
+                ],
+                        selectable: true,
+                        selectHelper: false,
+                        defaultView: 'agendaWeek',
+                        allDaySlot: false,
+                        header: {
+                left: 'prev,next today',
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
-                    },
-                    editable: false,
-                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
-                    buttonText: {
-                        prev: '&nbsp;&#9668;&nbsp;', // left triangle
+                },
+                        editable: false,
+                        dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                        dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                        monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                        monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
+                        buttonText: {
+                prev: '&nbsp;&#9668;&nbsp;', // left triangle
                         next: '&nbsp;&#9658;&nbsp;', // right triangle
                         prevYear: '&nbsp;&lt;&lt;&nbsp;', // <<
                         nextYear: '&nbsp;&gt;&gt;&nbsp;', // >>
@@ -65,22 +75,22 @@
                         month: 'mês',
                         week: 'semana',
                         day: 'dia'
-                    },
-                    allDayText: 'Dia Inteiro',
-                    columnFormat: {
-                        month: 'ddd', // Mon
+                },
+                        allDayText: 'Dia Inteiro',
+                        columnFormat: {
+                month: 'ddd', // Mon
                         week: 'ddd d/M', // Mon 9/7
                         day: 'dddd d/M', // Monday 9/7
-                    },
-                    timeFormat: 'H:mm{ - H:mm}',
-                    axisFormat: 'H:mm',
-                    titleFormat: {
-                        month: "MMMM 'de' yyyy", // September 2009
+                },
+                        timeFormat: 'H:mm{ - H:mm}',
+                        axisFormat: 'H:mm',
+                        titleFormat: {
+                month: "MMMM 'de' yyyy", // September 2009
                         week: "{d 'de' MMMM 'de' yyyy}",
                         day: "dddd, d 'de' MMMM 'de' yyyy" // Tuesday, Sep 8, 2009
-                    }
+                }
                 })
-            });
+                });
         </script>
     </jsp:attribute>
     <jsp:body>

@@ -2,6 +2,8 @@ package com.model.entity;
 
 import com.model.dao.ViagemDAO;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,10 +114,36 @@ public class Veiculo implements Entity {
     public void setTipo(String tipo) {
         this.tipoVeiculo.setTipoVeiculo(tipo);
     }
-    
-    public void getAgenda(Connection connection) {
+
+    public List<Evento> getAgenda(Connection connection) {
+        List<Viagem> viagens = this.getViagens(connection);
+        List<Evento> eventos = new ArrayList<Evento>();
+        if (viagens != null) {
+            if (viagens.size() > 0) {
+                for (Viagem viagem : viagens) {
+                    Evento evento = new Evento();
+                    
+                    String data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataSaida());
+                    String hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraSaida());
+                    evento.setFim(data + " " + hora);
+
+                    data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataRetorno());
+                    hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraRetorno());
+                    evento.setInicio(data + " " + hora);
+
+                    evento.setTitulo(viagem.getPercurso());
+
+                    eventos.add(evento);
+                }
+                return eventos;
+            }
+        }
+        return null;
+    }
+
+    public List<Viagem> getViagens(Connection connection) {
         ViagemDAO vdao = new ViagemDAO(connection);
         List<Viagem> viagens = vdao.getByIdVeiculo(this.getIdVeiculo());
-        
+        return viagens;
     }
 }
