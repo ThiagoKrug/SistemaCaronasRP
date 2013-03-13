@@ -22,7 +22,6 @@ public class SolicitacaoViagem implements Entity {
     private String percurso;
     private String localSaida;
     private String localRetorno;
-    private Usuario autorizante;
     private Usuario solicitante;
     private Integer numeroPedido;
     private Integer numeroTransportados;
@@ -234,20 +233,6 @@ public class SolicitacaoViagem implements Entity {
      */
     public void setLocalRetorno(String localRetorno) {
         this.localRetorno = localRetorno;
-    }
-
-    /**
-     * @return the autorizante
-     */
-    public Usuario getAutorizante() {
-        return autorizante;
-    }
-
-    /**
-     * @param autorizante the autorizante to set
-     */
-    public void setAutorizante(Usuario autorizante) {
-        this.autorizante = autorizante;
     }
 
     /**

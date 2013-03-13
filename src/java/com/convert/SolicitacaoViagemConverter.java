@@ -28,14 +28,6 @@ public class SolicitacaoViagemConverter implements Converter {
         if (id.isEmpty() == false) {
             solicitacaoViagem.setIdSolicitacaoViagem(Integer.parseInt(id));
         }
-        String idAutorizante = request.getParameter("autorizante");
-        if (idAutorizante != null) {
-            if (idAutorizante.isEmpty() == false) {
-                Usuario autorizante = new Usuario();
-                autorizante.setIdUsuario(Integer.parseInt(idAutorizante));
-                solicitacaoViagem.setAutorizante(autorizante);
-            }
-        }
         Date dataRetorno = null;
         Date dataSaida = null;
         Date horaSaida = null;

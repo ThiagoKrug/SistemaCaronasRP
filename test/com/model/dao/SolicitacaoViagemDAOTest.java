@@ -89,14 +89,13 @@ public class SolicitacaoViagemDAOTest {
             }
         }
 
-        solicitacao.setAutorizante(solicitanteEAutorizante);
         solicitacao.setSolicitante(solicitanteEAutorizante);
         solicitacao.setTipoVeiculo(tv);
         assertEquals(1, instance.inserir(solicitacao));
 
         for (Iterator<SolicitacaoViagem> it = instance.getSolicitacoes().iterator(); it.hasNext();) {
             SolicitacaoViagem solicitacaoViagem = it.next();
-            if (solicitacaoViagem.getAutorizante().getIdUsuario().intValue() == solicitanteEAutorizante.getIdUsuario().intValue() && solicitacaoViagem.getSolicitante().getIdUsuario().intValue() == solicitanteEAutorizante.getIdUsuario().intValue()) {
+            if (solicitacaoViagem.getSolicitante().getIdUsuario().intValue() == solicitanteEAutorizante.getIdUsuario().intValue()) {
                 solicitacao = solicitacaoViagem;
                 break;
             }
@@ -189,7 +188,6 @@ public class SolicitacaoViagemDAOTest {
         }
 
         SolicitacaoViagem sv1 = new SolicitacaoViagem();
-        sv1.setAutorizante(solicitanteEAutorizante);
         sv1.setDataRetorno(new Date());
         sv1.setDataSaida(new Date());
         sv1.setHoraRetorno(new Date());
@@ -206,7 +204,6 @@ public class SolicitacaoViagemDAOTest {
         assertEquals(1, instance.inserir(sv1));
 
         SolicitacaoViagem sv2 = new SolicitacaoViagem();
-        sv2.setAutorizante(solicitanteEAutorizante);
         sv2.setDataRetorno(null);
         sv2.setDataSaida(null);
         sv2.setHoraRetorno(null);
@@ -224,7 +221,6 @@ public class SolicitacaoViagemDAOTest {
 
         List<SolicitacaoViagem> solicitacoesViagem = instance.getSolicitacoes();
         SolicitacaoViagem sv11 = solicitacoesViagem.get(0);
-        assertEquals(sv11.getAutorizante().getIdUsuario(), sv1.getAutorizante().getIdUsuario());
         assertEquals(sv11.getDataRetorno(), sv1.getDataRetorno());
         assertEquals(sv11.getDataSaida(), sv1.getDataSaida());
         assertEquals(0, sv11.getHoraRetorno().compareTo(sv1.getHoraRetorno()));
@@ -242,7 +238,6 @@ public class SolicitacaoViagemDAOTest {
         assertEquals(1, instance.deletar(sv11));
 
         SolicitacaoViagem sv22 = solicitacoesViagem.get(0);
-        assertEquals(sv22.getAutorizante().getIdUsuario(), sv2.getAutorizante().getIdUsuario());
         assertEquals(sv22.getDataRetorno(), sv2.getDataRetorno());
         assertEquals(sv22.getDataSaida(), sv2.getDataSaida());
         assertEquals(sv22.getHoraRetorno(), sv2.getHoraRetorno());
@@ -272,7 +267,6 @@ public class SolicitacaoViagemDAOTest {
         veiculo.setIdTipoVeiculo(90);
         SolicitacaoViagem solicitacaoViagem = new SolicitacaoViagem();
         solicitacaoViagem.setIdSolicitacaoViagem(91);
-        solicitacaoViagem.setAutorizante(usuario);
         solicitacaoViagem.setSolicitante(usuario);
         solicitacaoViagem.setTipoVeiculo(tv);
 

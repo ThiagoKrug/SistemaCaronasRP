@@ -4,6 +4,7 @@
     Author     : thiago
 --%>
 
+<%@page import="com.model.entity.Usuario"%>
 <%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.UsuarioDAO"%>
 <%@page import="java.sql.Connection"%>
@@ -17,6 +18,8 @@
     Connection connection = (Connection) request.getAttribute("connection");
     UsuarioDAO udao = new UsuarioDAO(connection);
     request.setAttribute("udao", udao);
+    request.setAttribute("ativo", Usuario.ATIVO);
+    request.setAttribute("inativo", Usuario.INATIVO);
 %>
 <layout:page title="Listagem de Usuários" description="" keywords="">
     <jsp:body>
@@ -40,10 +43,10 @@
                         <td>${usuario.getTipoUsuario().getTipoUsuario()}</td>
                         <td>${usuario.getSituacao()}</td>
                         <td class="opcoes"><a class="btn btn-warning" href="./usuario/formulario.jsp?id_usuario=${usuario.getIdUsuario()}"><i class="icon-edit icon-white"></i> Editar</a>
-                        <r:if test="${usuario.getSituacao() == 'ativo'}">
+                        <r:if test="${usuario.getSituacao() == ativo}">
                             <a class="btn btn-danger" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-remove icon-white"></i> Desativar</a></td>
                         </r:if>
-                        <r:if test="${usuario.getSituacao() == 'inativo'}">
+                        <r:if test="${usuario.getSituacao() == inativo}">
                             <a class="btn btn-success" href="" onclick="excluir(${usuario.getIdUsuario()});"><i class="icon-plus icon-white"></i> Ativar</a>
                         </r:if>
                         </td>

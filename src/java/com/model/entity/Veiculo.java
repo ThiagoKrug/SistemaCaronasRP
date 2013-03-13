@@ -131,7 +131,7 @@ public class Veiculo implements Entity {
                     hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraRetorno());
                     evento.setInicio(data + " " + hora);
 
-                    evento.setTitulo(viagem.getPercurso());
+                    evento.setTitulo(this.getTipo() + " " + this.getPlaca() + " - " + viagem.getPercurso());
 
                     eventos.add(evento);
                 }

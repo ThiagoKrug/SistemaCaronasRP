@@ -13,5 +13,6 @@
     </head>
     <body>
         <a href="./create.jsp">Create Database</a>
+        <a href="./fixtures.jsp">Load Fixtures</a>
     </body>
 </html>

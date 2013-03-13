@@ -170,11 +170,11 @@ public class UsuarioDAO implements Dao {
     
     public int mudarSituacao(Entity entity) {
         Usuario usuario = (Usuario) entity;
-        if (usuario.getSituacao().equals("ativo")) {
-            usuario.setSituacao("inativo");
+        if (usuario.getSituacao().equals(Usuario.ATIVO)) {
+            usuario.setSituacao(Usuario.INATIVO);
         }
         else {
-            usuario.setSituacao("ativo");
+            usuario.setSituacao(Usuario.ATIVO);
         }
         return this.alterar(usuario);
     }

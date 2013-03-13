@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,6 +74,7 @@ public class ViagemDAO implements Dao {
             ResultSet rsid = stmt.getGeneratedKeys();
             rsid.next();
             Integer gid = rsid.getInt(1);
+            viagem.setIdViagem(gid);
             stmt.close();
             SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(this.connection);
             for (SolicitacaoViagem sol : viagem.getSolicitacoes(this.connection)) {
@@ -82,23 +84,43 @@ public class ViagemDAO implements Dao {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
             }
+            this.cadastrarPassageiros(viagem.getPassageiros(connection), viagem.getIdViagem());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
-            String sql2 = "insert into viagem_has_passageiro "
-                    + "(id_passageiro, id_viagem) values "
-                    + "(?,?)";
-            for (Passageiro pas : viagem.getPassageiros(this.connection)) {
-                PreparedStatement stmt2 = this.connection.prepareStatement(sql2);
-                stmt2.setInt(1, viagem.getIdViagem());
-                stmt2.setInt(2, pas.getIdPassageiro());
-                stmt2.execute();
+    private void cadastrarPassageiros(List<Passageiro> passageiros, int idViagem) {
+        String sql_insert = "insert into viagem_has_passageiro "
+                + "(id_passageiro, id_viagem) values (?,?)";
+        String sql_del = "delete from viagem_has_passageiro "
+                + " where id_viagem=?";
+        try {
+            PreparedStatement st_del = this.connection.prepareStatement(sql_del);
+            st_del.setInt(1, idViagem);
+            System.out.println(st_del.toString());
+            st_del.executeUpdate();
+            st_del.close();
+
+            for (Passageiro passageiro : passageiros) {
+                PreparedStatement st_insert = this.connection.prepareStatement(sql_insert);
+                st_insert.setInt(1, passageiro.getIdPassageiro());
+                st_insert.setInt(2, idViagem);
+                System.out.println(st_insert.toString());
+                st_insert.executeUpdate();
+                st_insert.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return result;
+//        for (Passageiro pas : viagem.getPassageiros(this.connection)) {
+//            PreparedStatement stmt2 = this.connection.prepareStatement(sql2);
+//            stmt2.setInt(1, viagem.getIdViagem());
+//            stmt2.setInt(2, pas.getIdPassageiro());
+//            stmt2.execute();
+//        }
     }
 
     @Override
@@ -232,6 +254,32 @@ public class ViagemDAO implements Dao {
         Veiculo veiculo = new Veiculo();
         veiculo.setIdVeiculo(rs.getInt("id_veiculo"));
         viagem.setVeiculo(veiculo);
+
+        Date dataSaida = rs.getDate("data_saida");
+        if (dataSaida != null) {
+            c.setTime(dataSaida);
+            viagem.setDataSaida(c.getTime());
+        }
+        Time horaSaida = rs.getTime("hora_saida");
+        System.out.println(horaSaida);
+        if (horaSaida != null) {
+            viagem.setHoraSaida(horaSaida);
+        }
+        c = Calendar.getInstance();
+        Date dataRetorno = rs.getDate("data_retorno");
+        if (dataRetorno != null) {
+            c.setTime(dataRetorno);
+            viagem.setDataRetorno(c.getTime());
+        }
+        Time horaRetorno = rs.getTime("hora_retorno");
+        if (horaRetorno != null) {
+            viagem.setHoraRetorno(horaRetorno);
+        }
+
+        viagem.setLocalRetorno(rs.getString("local_retorno"));
+        viagem.setLocalSaida(rs.getString("local_saida"));
+        viagem.setObjetivo(rs.getString("objetivo_viagem"));
+        viagem.setPercurso(rs.getString("percurso"));
 
         return viagem;
     }

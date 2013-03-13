@@ -5,6 +5,9 @@ package com.model.entity;
  * @author Usuario
  */
 public class Usuario implements Entity {
+    
+    public static String ATIVO = "ativo";
+    public static String INATIVO = "inativo";
 
     private Integer idUsuario;
     private TipoUsuario tipoUsuario;

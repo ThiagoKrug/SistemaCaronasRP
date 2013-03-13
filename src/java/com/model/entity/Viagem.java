@@ -142,6 +142,16 @@ public class Viagem implements Entity {
     public void setPassageiros(List<Passageiro> passageiros) {
         this.passageiros = passageiros;
     }
+    
+    /**
+     * @param passageiro the passageiro to add
+     */
+    public boolean addPassageiro(Passageiro passageiro) {
+        if (this.passageiros == null) {
+            this.passageiros = new ArrayList<Passageiro>();
+        }
+        return this.passageiros.add(passageiro);
+    }
 
     /**
      * @return the solicitacoes
@@ -162,6 +172,16 @@ public class Viagem implements Entity {
      */
     public void setSolicitacoes(List<SolicitacaoViagem> solicitacoes) {
         this.solicitacoes = solicitacoes;
+    }
+    
+    /**
+     * @param solicitacao the solicitacao to add
+     */
+    public boolean addSolicitacao(SolicitacaoViagem solicitacao) {
+        if (this.solicitacoes == null) {
+            this.solicitacoes = new ArrayList<SolicitacaoViagem>();
+        }
+        return this.solicitacoes.add(solicitacao);
     }
 
     /**
