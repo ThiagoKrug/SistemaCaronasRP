@@ -11,7 +11,7 @@ import java.util.List;
  * @author Usuario
  *
  */
-public class Veiculo implements Entity {
+public class Veiculo implements Entity, Comparable {
 
     private Integer idVeiculo;
     private TipoVeiculo tipoVeiculo;
@@ -145,5 +145,19 @@ public class Veiculo implements Entity {
         ViagemDAO vdao = new ViagemDAO(connection);
         List<Viagem> viagens = vdao.getByIdVeiculo(this.getIdVeiculo());
         return viagens;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Veiculo comp = (Veiculo)o;
+        if (comp.getQuilometragem() > this.getQuilometragem()) {
+            return -1;
+        }
+        
+        else if (comp.getQuilometragem() < this.getQuilometragem()){
+            return 1;
+        }
+        
+        return 0;
     }
 }
