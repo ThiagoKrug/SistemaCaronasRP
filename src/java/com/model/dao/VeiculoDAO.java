@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -134,6 +136,7 @@ public class VeiculoDAO implements Dao {
         }
         return veiculos;
     }
+    
 
     @Override
     public int deletar(Entity entity) {
@@ -164,5 +167,12 @@ public class VeiculoDAO implements Dao {
             ex.printStackTrace();
         }
         return result;
+    }
+    
+    
+    public List<Veiculo> getByQuilometragem() {
+        List<Veiculo> veis = this.getVeiculos();
+        Collections.sort(veis);
+        return veis;
     }
 }
