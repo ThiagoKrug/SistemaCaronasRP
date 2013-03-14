@@ -3,7 +3,6 @@
     Created on : 08/02/2013, 15:22:44
     Author     : thiago
 --%>
-
 <%@page import="com.auth.AuthChecker"%>
 <%@page import="com.model.dao.VeiculoDAO"%>
 <%@page import="java.sql.Connection"%>
@@ -17,9 +16,6 @@
     Connection connection = (Connection) request.getAttribute("connection");
     VeiculoDAO vdao = new VeiculoDAO(connection);
     request.setAttribute("vdao", vdao);
-    
-    String[] cores = new String[]{"blue", "green", "red", "yellow", "orange", "gray", "pink", "purple", "lime", "darkgreen", "darkcyan"};
-    request.setAttribute("cores", cores);
 %>
 <layout:page title="Agenda dos Veículos" description="" keywords="">
     <jsp:attribute name="extraHead">
@@ -33,13 +29,12 @@
             events: [
             <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
                 <r:forEach var="evento" items="${veiculo.getAgenda(connection)}">
-                    <r:if test="${cores.length == i}"></r:if>
             {
             title: '<c:out value="${evento.getTitulo()}"/>',
                     start: '<c:out value="${evento.getInicio()}"/>',
                     end: '<c:out value="${evento.getFim()}"/>',
                     allDay: false,
-                    color: '<c:out value="${cores[]}"/>',
+                    color: '<c:out value="${evento.getCor()}"/>'
             },</r:forEach>
             </r:forEach>
                 ],

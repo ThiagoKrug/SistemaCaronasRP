@@ -38,13 +38,13 @@
                     <div class="control-group">
                         <label class="control-label"  for="username">Login</label>
                         <div class="controls">
-                            <input type="text" id="login" name="username" class="span3" placeholder="Login">
+                            <input type="text" id="login" name="username" class="span3" placeholder="Login" autofocus required="true" title="Digite seu login!">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label"  for="username">Senha</label>
                         <div class="controls">
-                            <input type="password" id="pwd" name="password" class="span3" placeholder="Senha">
+                            <input type="password" id="pwd" name="password" class="span3" placeholder="Senha" required="true" title="Digite sua senha!">
                         </div>
                     </div>
                     <div class="control-group">
