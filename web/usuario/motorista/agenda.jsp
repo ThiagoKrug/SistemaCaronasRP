@@ -3,9 +3,8 @@
     Created on : 08/02/2013, 15:22:44
     Author     : thiago
 --%>
-
+<%@page import="com.model.dao.UsuarioDAO"%>
 <%@page import="com.auth.AuthChecker"%>
-<%@page import="com.model.dao.VeiculoDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
@@ -15,10 +14,10 @@
     new AuthChecker("../index.jsp").authenticate(session, response,
             new String[]{AuthChecker.ADMIN});
     Connection connection = (Connection) request.getAttribute("connection");
-    VeiculoDAO vdao = new VeiculoDAO(connection);
-    request.setAttribute("vdao", vdao);
+    UsuarioDAO udao = new UsuarioDAO(connection);
+    request.setAttribute("udao", udao);
 %>
-<layout:page title="Agenda dos Veículos" description="" keywords="">
+<layout:page title="Agenda dos Motoristas" description="" keywords="">
     <jsp:attribute name="extraHead">
         <link rel="stylesheet" href="./resources/fullcalendar/fullcalendar.css">
     </jsp:attribute>
@@ -28,29 +27,16 @@
             $(document).ready(function() {
             $('#calendar').fullCalendar({
             events: [
-            <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
-                <r:forEach var="evento" items="${veiculo.getAgenda(connection)}">
+            <r:forEach var="motorista" items="${udao.getMotoristas()}">
+                <r:forEach var="evento" items="${motorista.getAgenda(connection)}">
             {
             title: '<c:out value="${evento.getTitulo()}"/>',
                     start: '<c:out value="${evento.getInicio()}"/>',
                     end: '<c:out value="${evento.getFim()}"/>',
                     allDay: false,
-                    color: 'blue'
+                    color: '<c:out value="${evento.getCor()}"/>'
             },</r:forEach>
             </r:forEach>
-                {
-                title: 'titulo',
-                        start: '2013-03-08 10:30',
-                        end: '2013-03-08 11:30',
-                        allDay: false,
-                        color: 'blue'
-                }, {
-                title: 'titulo',
-                        start: '2013-03-08 10:30',
-                        end: '2013-03-08 11:30',
-                        allDay: false,
-                        color: 'red'
-                }
                 ],
                         selectable: true,
                         selectHelper: false,

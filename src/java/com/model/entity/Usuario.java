@@ -1,5 +1,11 @@
 package com.model.entity;
 
+import com.model.dao.ViagemDAO;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -158,5 +164,40 @@ public class Usuario implements Entity {
      */
     public void setSituacao(String situacao) {
         this.situacao = situacao;
+    }
+    
+    public List<Evento> getAgenda(Connection connection) {
+        List<Viagem> viagens = this.getViagens(connection);
+        List<Evento> eventos = new ArrayList<Evento>();
+        if (viagens != null) {
+            if (viagens.size() > 0) {
+                String cor = Evento.getCores();
+                for (Viagem viagem : viagens) {
+                    Evento evento = new Evento();
+                    
+                    String data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataSaida());
+                    String hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraSaida());
+                    evento.setInicio(data + " " + hora);
+
+                    data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataRetorno());
+                    hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraRetorno());
+                    evento.setFim(data + " " + hora);
+
+                    evento.setTitulo(this.getNome() + " - " + viagem.getPercurso());
+
+                    evento.setCor(cor);
+                    
+                    eventos.add(evento);
+                }
+                return eventos;
+            }
+        }
+        return null;
+    }
+
+    public List<Viagem> getViagens(Connection connection) {
+        ViagemDAO vdao = new ViagemDAO(connection);
+        List<Viagem> viagens = vdao.getByIdMotorista(this.getIdUsuario());
+        return viagens;
     }
 }

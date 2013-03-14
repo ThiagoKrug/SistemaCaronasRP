@@ -37,7 +37,7 @@ public class UsuarioDAO implements Dao {
             System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
             Usuario usuario = null;
-            while(rs.next()) {
+            while (rs.next()) {
                 usuario = new Usuario();
                 usuario.setEmail(rs.getString("email"));
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
@@ -69,20 +69,7 @@ public class UsuarioDAO implements Dao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setEmail(rs.getString("email"));
-                usuario.setIdUsuario(rs.getInt("id_usuario"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setNumeroServidor(rs.getString("numero_servidor"));
-                usuario.setRg(rs.getString("rg"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setTelefone(rs.getString("telefone"));
-                usuario.setUsername(rs.getString("nome_usuario"));
-                usuario.setSituacao(rs.getString("situacao"));
-
-                TipoUsuario tipo = new TipoUsuarioDAO(this.connection).getById(rs.getInt("id_tipo_usuario"));
-
-                usuario.setTipoUsuario(tipo);
+                Usuario usuario = this.setsFromDatabase(rs);
                 usuarios.add(usuario);
             }
             rs.close();
@@ -91,6 +78,45 @@ public class UsuarioDAO implements Dao {
             e.printStackTrace();
         }
         return usuarios;
+    }
+
+    public List<Usuario> getMotoristas() {
+        String sql = "select * from usuario where id_tipo_usuario = ?";
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        TipoUsuarioDAO tudao = new TipoUsuarioDAO(connection);
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, tudao.getMotorista().getIdTipoUsuario());
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario usuario = this.setsFromDatabase(rs);
+                usuarios.add(usuario);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    private Usuario setsFromDatabase(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(rs.getString("email"));
+        usuario.setIdUsuario(rs.getInt("id_usuario"));
+        usuario.setNome(rs.getString("nome"));
+        usuario.setNumeroServidor(rs.getString("numero_servidor"));
+        usuario.setRg(rs.getString("rg"));
+        usuario.setSenha(rs.getString("senha"));
+        usuario.setTelefone(rs.getString("telefone"));
+        usuario.setUsername(rs.getString("nome_usuario"));
+        usuario.setSituacao(rs.getString("situacao"));
+        TipoUsuario tipo = new TipoUsuarioDAO(this.connection).getById(rs.getInt("id_tipo_usuario"));
+        usuario.setTipoUsuario(tipo);
+        
+        return usuario;
     }
 
     @Override
@@ -166,14 +192,12 @@ public class UsuarioDAO implements Dao {
         }
         return result;
     }
-    
-    
+
     public int mudarSituacao(Entity entity) {
         Usuario usuario = (Usuario) entity;
         if (usuario.getSituacao().equals(Usuario.ATIVO)) {
             usuario.setSituacao(Usuario.INATIVO);
-        }
-        else {
+        } else {
             usuario.setSituacao(Usuario.ATIVO);
         }
         return this.alterar(usuario);

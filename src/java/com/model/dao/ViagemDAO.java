@@ -230,6 +230,26 @@ public class ViagemDAO implements Dao {
         }
         return viagens;
     }
+    
+    public List<Viagem> getByIdMotorista(Integer idUsuario) {
+        String sql = "select * from viagem where id_motorista=?";
+        List<Viagem> viagens = new ArrayList<Viagem>();
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Viagem viagem = this.setsFromDatabase(rs);
+                viagens.add(viagem);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return viagens;
+    }
 
     private Viagem setsFromDatabase(ResultSet rs) throws SQLException {
         Viagem viagem = new Viagem();
