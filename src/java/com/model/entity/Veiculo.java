@@ -120,19 +120,22 @@ public class Veiculo implements Entity, Comparable {
         List<Evento> eventos = new ArrayList<Evento>();
         if (viagens != null) {
             if (viagens.size() > 0) {
+                String cor = Evento.getCores();
                 for (Viagem viagem : viagens) {
                     Evento evento = new Evento();
                     
                     String data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataSaida());
                     String hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraSaida());
-                    evento.setFim(data + " " + hora);
+                    evento.setInicio(data + " " + hora);
 
                     data = new SimpleDateFormat("yyyy-MM-dd").format(viagem.getDataRetorno());
                     hora = new SimpleDateFormat("HH:mm").format(viagem.getHoraRetorno());
-                    evento.setInicio(data + " " + hora);
+                    evento.setFim(data + " " + hora);
 
                     evento.setTitulo(this.getTipo() + " " + this.getPlaca() + " - " + viagem.getPercurso());
 
+                    evento.setCor(cor);
+                    
                     eventos.add(evento);
                 }
                 return eventos;

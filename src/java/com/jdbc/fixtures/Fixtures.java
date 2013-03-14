@@ -215,8 +215,8 @@ public class Fixtures {
         v.setAutorizante(admin);
         v.setDataRetorno(new Date(System.currentTimeMillis()));
         v.setDataSaida(new Date(System.currentTimeMillis()));
-        v.setHoraRetorno(new GregorianCalendar(0, 0, 0, 12, 0).getTime());
-        v.setHoraSaida(new GregorianCalendar(0, 0, 0, 20, 0).getTime());
+        v.setHoraRetorno(new GregorianCalendar(0, 0, 0, 20, 0).getTime());
+        v.setHoraSaida(new GregorianCalendar(0, 0, 0, 12, 0).getTime());
         v.setLocalRetorno("Uruguaiana");
         v.setLocalSaida("Alegrete");
         v.setObjetivo("SIEPE");
