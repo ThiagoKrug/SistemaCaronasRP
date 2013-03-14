@@ -4,7 +4,11 @@
     Author     : thiago
 --%>
 
+<%@page import="com.jdbc.ConnectionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    request.setAttribute("connection", new ConnectionFactory().getConnection());
+    %>
 <!DOCTYPE html>
 <html>
     <head>
