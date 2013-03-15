@@ -19,7 +19,7 @@
                             <li><a href="./reserva/index.jsp"><i class="icon-home"></i> Reservas</a></li>
                             <li class="divider-vertical"></li>
                                 <r:if test="${sessionScope.Clearance == admin}">
-                                <li><a href="./viagem/index.jsp"><i class="icon-home"></i> Viagens</a></li>
+                                <li><a href="./viagem/index.jsp"><i class="icon-globe"></i> Viagens</a></li>
                                 <li class="divider-vertical"></li>
                                 <ul class="nav">
                                     <li class="dropdown">

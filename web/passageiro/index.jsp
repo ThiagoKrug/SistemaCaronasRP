@@ -21,13 +21,6 @@
 %>
 <layout:page title="Listagem de Passageiros" description="" keywords="">
 <jsp:body>
-        <style>
-            h1, h4
-            {
-                margin:10px;
-                padding:10px;
-            }
-        </style>
         <h1>Passageiros</h1>
         <h4><a class="btn btn-primary" href="./passageiro/formulario.jsp"><i class="icon-plus icon-white"></i>  Cadastrar Passageiro</a></h4>
         <table class="datatable table table-bordered table-striped">
