@@ -100,7 +100,6 @@ DROP TABLE IF EXISTS `sistema_caronas`.`viagem` ;
 
 CREATE  TABLE IF NOT EXISTS `sistema_caronas`.`viagem` (
   `id_viagem` INT NOT NULL AUTO_INCREMENT ,
-  `id_autorizante` INT NOT NULL ,
   `id_motorista` INT NOT NULL ,
   `id_veiculo` INT NOT NULL ,
   `data_efetivacao` DATE NULL ,
@@ -108,19 +107,14 @@ CREATE  TABLE IF NOT EXISTS `sistema_caronas`.`viagem` (
   `data_retorno` DATE NULL ,
   `hora_saida` TIME NULL ,
   `hora_retorno` TIME NULL ,
-  `objetivo_viagem` TEXT NULL ,
+  `objetivo` TEXT NULL ,
   `percurso` TEXT NULL ,
   `local_saida` TEXT NULL ,
   `local_retorno` TEXT NULL ,
+  `autorizante` VARCHAR(255) NULL ,
   PRIMARY KEY (`id_viagem`) ,
-  INDEX `fk_viagem_usuario1_idx` (`id_autorizante` ASC) ,
   INDEX `fk_viagem_usuario2_idx` (`id_motorista` ASC) ,
   INDEX `fk_viagem_veiculo1_idx` (`id_veiculo` ASC) ,
-  CONSTRAINT `fk_viagem_usuario1`
-    FOREIGN KEY (`id_autorizante` )
-    REFERENCES `sistema_caronas`.`usuario` (`id_usuario` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_viagem_usuario2`
     FOREIGN KEY (`id_motorista` )
     REFERENCES `sistema_caronas`.`usuario` (`id_usuario` )

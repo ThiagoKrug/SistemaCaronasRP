@@ -18,14 +18,10 @@ public class TipoUsuarioDAO implements Dao {
     private Connection connection;
 
     public TipoUsuarioDAO(Connection connection) {
-//        try {
-//            this.connection = new ConnectionFactory().getConnection();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         this.connection = connection;
     }
 
+    @Override
     public TipoUsuario getById(Integer id) {
         String sql = "select * from tipo_usuario where id_tipo_usuario=?";
 
@@ -54,7 +50,7 @@ public class TipoUsuarioDAO implements Dao {
             stmt.setString(1, "%motorista%");
             System.out.println(stmt.toString());
             ResultSet rs = stmt.executeQuery();
-            
+
             rs.next();
             tipoUsuario = new TipoUsuario();
             tipoUsuario.setIdTipoUsuario(rs.getInt("id_tipo_usuario"));

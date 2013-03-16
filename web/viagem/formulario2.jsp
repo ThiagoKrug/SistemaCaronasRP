@@ -47,7 +47,7 @@
             function salvar() {
                 event.preventDefault();
                 // get all the inputs into an array.
-                var $inputs = $('#solicitacao_viagem :input');
+                var $inputs = $('#viagem :input');
                 // not sure if you wanted this, but I thought I'd add it.
                 // get an associative array of just the values.
                 var values = {};
@@ -62,10 +62,10 @@
                 values.passageiros = JSON.stringify(listaPassageiros);
                 console.log(values);
                 /* Send the data using post */
-                $.post("./reserva/cadastrar.jsp", values, function(data) {
+                $.post("./viagem/cadastrar.jsp", values, function(data) {
                     alert(data);
                     console.log(data);
-                    window.location = "./reserva/index.jsp";
+                    window.location = "./viagem/index.jsp";
                     return;
                 }
                 );
@@ -241,7 +241,7 @@
                         <select name="veiculo" class="input-xlarge" required="true">
                             <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
                                 <option value="${veiculo.getIdVeiculo()}"
-                                        <r:if test="${veiculo.getIdVeiculo() == viagem.getVeiculo().getIdVeiculo()}"> selected="true" </r:if>>${veiculo.getPlaca()}</option>
+                                        <r:if test="${veiculo.getIdVeiculo() == viagem.getVeiculo().getIdVeiculo()}"> selected="true" </r:if>>${veiculo.getTipoVeiculo().getTipoVeiculo()} - ${veiculo.getPlaca()}</option>
                             </r:forEach>
                         </select>
                     </div>
@@ -260,12 +260,7 @@
                 <div class="control-group">
                     <label class="control-label" for="autorizante">Autorizante</label>
                     <div class="controls">
-                        <select name="autorizante" class="input-xlarge" required="true">
-                            <r:forEach var="autorizante" items="${udao.getAutorizantes()}">
-                                <option value="${autorizante.getIdUsuario()}"
-                                        <r:if test="${autorizante.getIdUsuario() == viagem.getAutorizante().getIdUsuario()}"> selected="true" </r:if>>${autorizante.getNome()}</option>
-                            </r:forEach>
-                        </select>
+                        <input class="input-xlarge" type="text" name="autorizante" value="${viagem.getAutorizante()}" />
                     </div>
                 </div>
                 <div class="control-group">

@@ -212,7 +212,7 @@ public class Fixtures {
         ViagemDAO vidao = new ViagemDAO(connection);
         
         Viagem v = new Viagem();
-        v.setAutorizante(admin);
+        v.setAutorizante("Autorizante");
         v.setDataRetorno(new Date(System.currentTimeMillis()));
         v.setDataSaida(new Date(System.currentTimeMillis()));
         v.setHoraRetorno(new GregorianCalendar(0, 0, 0, 20, 0).getTime());

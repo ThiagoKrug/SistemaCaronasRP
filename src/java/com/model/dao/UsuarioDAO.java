@@ -19,11 +19,6 @@ public class UsuarioDAO implements Dao {
     private Connection connection;
 
     public UsuarioDAO(Connection connection) {
-//        try {
-//            this.connection = new ConnectionFactory().getConnection();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         this.connection = connection;
     }
 
@@ -101,7 +96,7 @@ public class UsuarioDAO implements Dao {
         }
         return usuarios;
     }
-
+    
     private Usuario setsFromDatabase(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setEmail(rs.getString("email"));

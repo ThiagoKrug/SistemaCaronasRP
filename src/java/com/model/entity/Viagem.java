@@ -2,6 +2,8 @@ package com.model.entity;
 
 import com.model.dao.PassageiroDAO;
 import com.model.dao.SolicitacaoViagemDAO;
+import com.model.dao.UsuarioDAO;
+import com.model.dao.VeiculoDAO;
 import com.model.dao.ViagemDAO;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
@@ -19,7 +21,8 @@ public class Viagem implements Entity {
 
     private Integer idViagem;
     private Calendar dataEfetivacao;
-    private Usuario autorizante;
+    //private Usuario autorizante;
+    private String autorizante;
     private Usuario motorista;
     private Veiculo veiculo;
     private Calendar dataSaida;
@@ -80,20 +83,46 @@ public class Viagem implements Entity {
         }
     }
 
+//    /**
+//     * @return the autorizante
+//     */
+//    public Usuario getAutorizante() {
+//        return autorizante;
+//    }
+//
+//    /**
+//     * @param autorizante the autorizante to set
+//     */
+//    public void setAutorizante(Usuario autorizante) {
+//        this.autorizante = autorizante;
+//    }
     /**
      * @return the autorizante
      */
-    public Usuario getAutorizante() {
+    public String getAutorizante() {
         return autorizante;
     }
 
     /**
      * @param autorizante the autorizante to set
      */
-    public void setAutorizante(Usuario autorizante) {
+    public void setAutorizante(String autorizante) {
         this.autorizante = autorizante;
     }
 
+    /**
+     * @return the motorista
+     */
+    public Usuario getMotorista(Connection connection) {
+        if (motorista != null) {
+            if (motorista.getNome() == null) {
+                UsuarioDAO udao = new UsuarioDAO(connection);
+                motorista = udao.getById(motorista.getIdUsuario());
+            }
+        }
+        return motorista;
+    }
+    
     /**
      * @return the motorista
      */
@@ -108,6 +137,19 @@ public class Viagem implements Entity {
         this.motorista = motorista;
     }
 
+    /**
+     * @return the veiculo
+     */
+    public Veiculo getVeiculo(Connection connection) {
+        if (veiculo != null) {
+            if (veiculo.getPlaca() == null) {
+                VeiculoDAO vdao = new VeiculoDAO(connection);
+                veiculo = (Veiculo) vdao.getById(veiculo.getIdVeiculo());
+            }
+        }
+        return veiculo;
+    }
+    
     /**
      * @return the veiculo
      */
@@ -142,7 +184,7 @@ public class Viagem implements Entity {
     public void setPassageiros(List<Passageiro> passageiros) {
         this.passageiros = passageiros;
     }
-    
+
     /**
      * @param passageiro the passageiro to add
      */
@@ -173,7 +215,7 @@ public class Viagem implements Entity {
     public void setSolicitacoes(List<SolicitacaoViagem> solicitacoes) {
         this.solicitacoes = solicitacoes;
     }
-    
+
     /**
      * @param solicitacao the solicitacao to add
      */

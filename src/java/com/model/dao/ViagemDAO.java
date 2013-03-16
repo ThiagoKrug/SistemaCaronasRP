@@ -36,13 +36,13 @@ public class ViagemDAO implements Dao {
         Viagem viagem = (Viagem) entity;
         int result = 0;
         String sql = "insert into viagem "
-                + "(id_autorizante, id_motorista, id_veiculo, "
+                + "(autorizante, id_motorista, id_veiculo, "
                 + "data_efetivacao, data_saida, hora_saida, "
                 + "local_saida, data_retorno, hora_retorno, local_retorno, "
-                + "percurso, objetivo_viagem) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "percurso, objetivo) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, viagem.getAutorizante().getIdUsuario());
+            stmt.setString(1, viagem.getAutorizante());
             stmt.setInt(2, viagem.getMotorista().getIdUsuario());
             stmt.setInt(3, viagem.getVeiculo().getIdVeiculo());
             stmt.setDate(4, new Date(viagem.getDataEfetivacao().getTime()));
@@ -133,9 +133,9 @@ public class ViagemDAO implements Dao {
                 + "where id_viagem=?";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
-            stmt.setInt(1, viagem.getAutorizante().getIdUsuario());
-            stmt.setInt(2, viagem.getMotorista().getIdUsuario());
-            stmt.setInt(3, viagem.getVeiculo().getIdVeiculo());
+            stmt.setString(1, viagem.getAutorizante());
+            stmt.setInt(2, viagem.getMotorista(null).getIdUsuario());
+            stmt.setInt(3, viagem.getVeiculo(null).getIdVeiculo());
             stmt.setDate(4, new Date(viagem.getDataEfetivacao().getTime()));
             stmt.setInt(5, viagem.getIdViagem());
 
@@ -254,8 +254,7 @@ public class ViagemDAO implements Dao {
     private Viagem setsFromDatabase(ResultSet rs) throws SQLException {
         Viagem viagem = new Viagem();
 
-        Usuario autorizante = new Usuario();
-        autorizante.setIdUsuario(rs.getInt("id_autorizante"));
+        String autorizante = rs.getString("autorizante");
         viagem.setAutorizante(autorizante);
 
         Calendar c = Calendar.getInstance();
@@ -298,7 +297,7 @@ public class ViagemDAO implements Dao {
 
         viagem.setLocalRetorno(rs.getString("local_retorno"));
         viagem.setLocalSaida(rs.getString("local_saida"));
-        viagem.setObjetivo(rs.getString("objetivo_viagem"));
+        viagem.setObjetivo(rs.getString("objetivo"));
         viagem.setPercurso(rs.getString("percurso"));
 
         return viagem;
