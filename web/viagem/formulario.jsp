@@ -33,7 +33,7 @@
         envolvidos, incluindo, ou não, os solicitantes das tais solicitações de
         reserva, os quais, a partir do momento da criação da viagem, estarão
         incluídos ou não no conjunto de passageiros da viagem.</h4>
-        <form action="formulario2.jsp" method="post">
+        <form action="./viagem/formulario2.jsp" method="post">
             <input type="submit" value="Criar Viagem" class="btn btn-primary"/>
         <table class="table table-bordered table-striped">
             <thead>
@@ -44,7 +44,7 @@
                     <th>Data de Saída</th>
                     <th>Data de Retorno</th>
                     <th>Status</th>
-                    <th>Opções</th>
+                    <th>Marcar</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,8 +65,6 @@
                                   <r:if test="${sessionScope.Clearance == admin}">
                                       <input type="checkbox" name="solid" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
                                   </r:if>
-                                  
-
                               </td>
                           </tr>
                     </r:if>
@@ -74,63 +72,5 @@
             </tbody>
         </table>
         </form>
-        <script type="text/javascript">
-                                            function excluir(idSolicitacaoViagem) {
-                                                event.preventDefault();
-
-                                                if (confirm("Deseja realmente excluir esta reserva?")) {
-                                                    /* Send the data using post */
-                                                    $.post("./reserva/excluir.jsp",
-                                                            {id_solicitacao_viagem: idSolicitacaoViagem},
-                                                    function(data) {
-                                                        alert(data);
-                                                        console.log(data);
-                                                        window.location = "./reserva/index.jsp";
-                                                        return;
-                                                    }
-                                                    );
-                                                }
-                                                ;
-                                            }
-                                            ;
-
-                                            function cancelar(idSolicitacaoViagem) {
-                                                event.preventDefault();
-
-                                                if (confirm("Deseja realmente cancelar esta reserva?")) {
-                                                    /* Send the data using post */
-                                                    $.post("./reserva/cancelar.jsp",
-                                                            {id_solicitacao_viagem: idSolicitacaoViagem},
-                                                    function(data) {
-                                                        alert(data);
-                                                        console.log(data);
-                                                        window.location = "./reserva/index.jsp";
-                                                        return;
-                                                    }
-                                                    );
-                                                }
-                                                ;
-                                            }
-                                            ;
-
-                                            function efetivar(idSolicitacaoViagem) {
-                                                event.preventDefault();
-
-                                                if (confirm("Deseja realmente efetivar esta reserva?")) {
-                                                    /* Send the data using post */
-                                                    $.post("./reserva/efetivar.jsp",
-                                                            {id_solicitacao_viagem: idSolicitacaoViagem},
-                                                    function(data) {
-                                                        alert(data);
-                                                        console.log(data);
-                                                        window.location = "./reserva/index.jsp";
-                                                        return;
-                                                    }
-                                                    );
-                                                }
-                                                ;
-                                            }
-                                            ;
-        </script>
     </jsp:body>
 </layout:page>

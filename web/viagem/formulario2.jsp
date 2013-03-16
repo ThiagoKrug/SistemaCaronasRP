@@ -4,13 +4,13 @@
     Author     : Usuario
 --%>
 
+<%@page import="com.model.entity.Viagem"%>
+<%@page import="com.model.dao.ViagemDAO"%>
+<%@page import="com.model.dao.VeiculoDAO"%>
 <%@page import="com.auth.AuthChecker"%>
-<%@page import="com.model.dao.TipoVeiculoDAO"%>
 <%@page import="com.model.entity.Passageiro"%>
 <%@page import="com.model.dao.PassageiroDAO"%>
 <%@page import="com.model.dao.UsuarioDAO"%>
-<%@page import="com.model.entity.SolicitacaoViagem"%>
-<%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/layout" prefix="layout" %>
@@ -20,22 +20,22 @@
     new AuthChecker("../index.jsp").authenticate(session, response, new String[]{
         AuthChecker.ADMIN});
     Connection connection = (Connection) request.getAttribute("connection");
-    SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
+    ViagemDAO vidao = new ViagemDAO(connection);
     UsuarioDAO udao = new UsuarioDAO(connection);
     request.setAttribute("udao", udao);
     PassageiroDAO pdao = new PassageiroDAO(connection);
     request.setAttribute("pdao", pdao);
-    TipoVeiculoDAO tvdao = new TipoVeiculoDAO(connection);
-    request.setAttribute("tvdao", tvdao);
-    String idSolicitacaoViagem = request.getParameter("id_solicitacao_viagem");
-    if (idSolicitacaoViagem != null) {
-        request.setAttribute("solicitacaoViagem", svdao.getById(Integer.parseInt(idSolicitacaoViagem)));
+    VeiculoDAO vdao = new VeiculoDAO(connection);
+    request.setAttribute("vdao", vdao);
+    String idViagem = request.getParameter("id_viagem");
+    if (idViagem != null) {
+        request.setAttribute("viagem", vidao.getById(Integer.parseInt(idViagem)));
     } else {
-        SolicitacaoViagem solicitacaoViagem = new SolicitacaoViagem();
-        request.setAttribute("solicitacaoViagem", solicitacaoViagem);
+        Viagem viagem = new Viagem();
+        request.setAttribute("viagem", viagem);
     }
 %>
-<layout:page description="" keywords="" title="Solicitação de Reserva">
+<layout:page description="" keywords="" title="Criar Viagem">
     <jsp:attribute name="extraBottom">
         <script type="text/javascript" src="./resources/js/jquery-ui-1.10.1.custom.min.js"></script>
         <script type="text/javascript" src="./resources/js/ui.datepicker-pt-BR.js"></script>
@@ -75,6 +75,7 @@
                 $.datepicker.setDefaults($.datepicker.regional[ "pt-BR" ]);
                 $("#datepicker_saida").datepicker();
                 $("#datepicker_retorno").datepicker();
+                $("#datepicker_efetivacao").datepicker();
             });
             $(function() {
                 $("#nome_passageiro").autocomplete({
@@ -180,103 +181,28 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <form class="form-horizontal" action="" method="POST" id="solicitacao_viagem">
+        <form class="form-horizontal" action="" method="POST" id="viagem">
             <fieldset>
                 <div id="legend">
-                    <legend class="">Solicitação de Reserva</legend>
+                    <legend class="">Criar Viagem</legend>
                 </div>
-                <input type="hidden" name="id_solicitacao_viagem" id="id_solicitacao_viagem" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
-                <div class="control-group">
-                    <label class="control-label" for="numero_pedido">Número do Pedido</label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" name="numero_pedido" value="${solicitacaoViagem.getNumeroPedido()}" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="solicitante">Servidor Solicitante</label>
-                    <div class="controls">
-                        <select name="solicitante" class="input-xlarge">
-                            <r:forEach var="usuario" items="${udao.getUsuarios()}">
-                                <option value="${usuario.getIdUsuario()}"
-                                        <r:if test="${usuario.getIdUsuario() == solicitacaoViagem.getSolicitante().getIdUsuario()}"> selected="true" </r:if>>${usuario.getNome()}</option>
-                            </r:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="numero_transportados">Número de passageiros</label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" name="numero_transportados" value="${solicitacaoViagem.getNumeroTransportados()}" />
-                    </div>
-                </div>
-                <div class="well">
-                    <div id="legend">
-                        <legend>Informe os passageiros</legend>
-                    </div>
-                    <input type="hidden" name="id_passageiro" id="id_passageiro" />
-                    <div class="control-group">
-                        <label class="control-label" for="nome_passageiro">Nome do Passageiro</label>
-                        <div class="controls">
-                            <input class="input-xlarge" type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#rg_passageiro").val(), $("#nome_passageiro").val());'>Adicionar Passageiro</a>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="rg_passageiro">RG do Passageiro</label>
-                        <div class="controls">
-                            <input class="input-xlarge" type="text" name="rg_passageiro" id="rg_passageiro" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="telefone_passageiro">Telefone do Passageiro</label>
-                        <div class="controls">
-                            <input class="input-xlarge" type="text" name="telefone_passageiro" id="telefone_passageiro" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="endereco_passageiro">Endereço do Passageiro</label>
-                        <div class="controls">
-                            <input class="input-xlarge" type="text" name="endereco_passageiro" id="endereco_passageiro" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="passageiros">Passageiros adicionados na reserva</label>
-                        <div class="controls">
-                            <select multiple="multiple" name="passageiros" id="passageiros" class="input-xxlarge">
-                                <r:forEach var="passageiro" items="${solicitacaoViagem.getPassageiros()}">
-                                    <option value="${passageiro.getIdPassageiro()}">${passageiro.getNome()} - ${passageiro.getRg()}</option>
-                                </r:forEach>
-                            </select>
-                            <a class="btn btn-danger" onclick="retirarPassageiros();">Retirar passageiro</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Os passageiros são servidores da Unipampa?</label>
-                    <div class="controls">
-                        <label class="radio">
-                            <input type="radio" name="servidores" value="true" checked="checked">Sim
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="servidores" value="false">Não
-                        </label>
-                    </div>
-                </div>
+                <input type="hidden" name="id_viagem" id="id_viagem" value="${viagem.getIdViagem()}" />
                 <div class="control-group">
                     <label class="control-label" for="data_saida">Data de Saída</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="data_saida" id="datepicker_saida" value="${solicitacaoViagem.getDataSaidaFormatada()}" />
+                        <input class="input-xlarge" type="text" name="data_saida" id="datepicker_saida" value="${viagem.getDataSaidaFormatada()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="data_saida">Hora de Saída</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="time" name="hora_saida" value="${solicitacaoViagem.getHoraSaidaFormatada()}" />
+                        <input class="input-xlarge" type="time" name="hora_saida" value="${viagem.getHoraSaidaFormatada()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="local_saida">Local de Saída</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="local_saida" value="${solicitacaoViagem.getLocalSaida()}" />
+                        <input class="input-xlarge" type="text" name="local_saida" value="${viagem.getLocalSaida()}" />
                     </div>
                 </div>
                 <div class="control-group">
@@ -306,24 +232,52 @@
                 <div class="control-group">
                     <label class="control-label" for="objetivo">Objetivo da Viagem</label>
                     <div class="controls">
-                        <textarea name="objetivo" class="input-xlarge" rows="4">${solicitacaoViagem.getObjetivo()}</textarea>
+                        <textarea name="objetivo" class="input-xlarge" rows="4">${viagem.getObjetivo()}</textarea>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="tipo_veiculo">Tipo de Veículo</label>
+                    <label class="control-label" for="veiculo">Veículo</label>
                     <div class="controls">
-                        <select name="tipo_veiculo" class="input-xlarge" required="true">
-                            <r:forEach var="tipoVeiculo" items="${tvdao.getTiposVeiculos()}">
-                                <option value="${tipoVeiculo.getIdTipoVeiculo()}"
-                                        <r:if test="${tipoVeiculo.getIdTipoVeiculo() == solicitacaoViagem.getTipoVeiculo().getIdTipoVeiculo()}"> selected="true" </r:if>>${tipoVeiculo.getTipoVeiculo()}</option>
+                        <select name="veiculo" class="input-xlarge" required="true">
+                            <r:forEach var="veiculo" items="${vdao.getVeiculos()}">
+                                <option value="${veiculo.getIdVeiculo()}"
+                                        <r:if test="${veiculo.getIdVeiculo() == viagem.getVeiculo().getIdVeiculo()}"> selected="true" </r:if>>${veiculo.getPlaca()}</option>
                             </r:forEach>
                         </select>
                     </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label" for="motorista">Motorista</label>
                     <div class="controls">
-                        <a href="./reserva/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
-                        <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Solicitar Reserva</button>
+                        <select name="motorista" class="input-xlarge" required="true">
+                            <r:forEach var="motorista" items="${udao.getMotoristas()}">
+                                <option value="${motorista.getIdUsuario()}"
+                                        <r:if test="${motorista.getIdUsuario() == viagem.getMotorista().getIdUsuario()}"> selected="true" </r:if>>${motorista.getNome()}</option>
+                            </r:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="autorizante">Autorizante</label>
+                    <div class="controls">
+                        <select name="autorizante" class="input-xlarge" required="true">
+                            <r:forEach var="autorizante" items="${udao.getAutorizantes()}">
+                                <option value="${autorizante.getIdUsuario()}"
+                                        <r:if test="${autorizante.getIdUsuario() == viagem.getAutorizante().getIdUsuario()}"> selected="true" </r:if>>${autorizante.getNome()}</option>
+                            </r:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="data_efetivacao">Data da Efetivação</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="data_efetivacao" id="datepicker_efetivacao" value="${viagem.getDataEfetivacaoFormatada()}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <a href="./viagem/index.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
+                        <button class="btn btn-success" type="submit" onclick="salvar();" ><i class="icon-ok icon-white"></i> Criar Viagem</button>
                     </div>
                 </div>
             </fieldset>
