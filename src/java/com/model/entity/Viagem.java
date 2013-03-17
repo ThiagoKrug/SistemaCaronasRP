@@ -114,6 +114,7 @@ public class Viagem implements Entity {
      * @return the motorista
      */
     public Usuario getMotorista(Connection connection) {
+        
         if (motorista != null) {
             if (motorista.getNome() == null) {
                 UsuarioDAO udao = new UsuarioDAO(connection);
