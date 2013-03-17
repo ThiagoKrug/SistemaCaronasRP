@@ -53,7 +53,7 @@
         -------------------------------------------------- */
         /* Not required for template or sticky footer method. */
         #wrap > .container {
-            padding-top: 60px;
+            padding-top: 10px;
         }
         .container .credit {
             margin: 20px 0;

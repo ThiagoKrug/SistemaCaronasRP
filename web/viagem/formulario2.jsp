@@ -4,6 +4,10 @@
     Author     : Usuario
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="com.model.entity.SolicitacaoViagem"%>
+<%@page import="com.model.dao.SolicitacaoViagemDAO"%>
 <%@page import="com.model.entity.Viagem"%>
 <%@page import="com.model.dao.ViagemDAO"%>
 <%@page import="com.model.dao.VeiculoDAO"%>
@@ -33,6 +37,20 @@
     } else {
         Viagem viagem = new Viagem();
         request.setAttribute("viagem", viagem);
+    }
+
+    if (request.getMethod().equalsIgnoreCase("post")) {
+        List<SolicitacaoViagem> solicitacoes = new ArrayList<SolicitacaoViagem>();
+        List<Passageiro> passageiros = new ArrayList<Passageiro>();
+        SolicitacaoViagemDAO svdao = new SolicitacaoViagemDAO(connection);
+        for (SolicitacaoViagem sv : svdao.getSolicitacoes()) {
+            if (request.getParameter("solicitacaoViagem" + sv.getIdSolicitacaoViagem()) != null) {
+                solicitacoes.add(sv);
+                passageiros.addAll(sv.getPassageiros());
+            }
+        }
+        request.setAttribute("solicitacoes", solicitacoes);
+        request.setAttribute("passageiros", passageiros);
     }
 %>
 <layout:page description="" keywords="" title="Criar Viagem">
@@ -116,12 +134,12 @@
                         }
                     }
                     if (achou) {
-                        $("#id_passageiro").val(passageiros[x].idPassageiro);
-                        $("#rg_passageiro").val(passageiros[x].rg);
+                        $("#id_passageiro").val(passageiro.idPassageiro);
+                        $("#rg_passageiro").val(passageiro.rg);
                         $("#rg_passageiro").attr('disabled', "true");
-                        $("#telefone_passageiro").val(passageiros[x].telefone);
+                        $("#telefone_passageiro").val(passageiro.telefone);
                         $("#telefone_passageiro").attr('disabled', "true");
-                        $("#endereco_passageiro").val(passageiros[x].endereco);
+                        $("#endereco_passageiro").val(passageiro.endereco);
                         $("#endereco_passageiro").attr('disabled', "true");
                     } else {
                         $("#id_passageiro").val('');
@@ -134,47 +152,34 @@
                     }
                 }
                 ;
-                function addPassageiro(id, rg, nome) {
+                function addPassageiro(id, nome, rg, telefone, endereco) {
                     var adicionar = true;
-                    if (nome == "") {
-                        adicionar = false;
-                    }
-                    //if (id != "") {
-                    $("#passageiros option").each(function() {
-                        var str = $(this).html().split(" - ");
-                        console.log(str[1]);
-                        if (str[1] == rg) {
+                    $("#passageiros tr").each(function() {
+                        if ($(this).find("input").val() == id) {
                             adicionar = false;
                         }
                     });
-                    //}
+
                     if (adicionar) {
-                        cont++;
-                        if (id == "") {
-                            id = "a" + cont;
-                        }
-                        $("#passageiros").append('<option value="' + id + '">' + nome + ' - ' + rg + '</option>');
-                        var passageiro = new Passageiro(id,
-                                $("#nome_passageiro").val(),
-                                $("#rg_passageiro").val(),
-                                $("#telefone_passageiro").val(),
-                                $("#endereco_passageiro").val());
-                        listaPassageiros.push(passageiro);
-                    } else if (nome == "") {
-                        // o cara naum digito nada no nome do passageiro
+                        $("#passageiros tbody").append("<tr>" +
+                                "<td>" + nome + "</td>" +
+                                "<td>" + rg + "</td>" +
+                                "<td>" + telefone + "</td>" +
+                                "<td>" + endereco + "</td>" +
+                                "<td class='opcoes'><a class='btn btn-danger' onclick='retirarPassageiros(" + id + ");'><i class='icon-remove icon-white'></i></a></td>" +
+                                "<input type='hidden' name='passageiro" + id + "' value='" + id + "' />" +
+                                "</tr>");
                     } else {
-                        alert("Passageiro já informado.");
+                        alert("Passageiro já adicionado!");
                     }
                 }
                 ;
-                function retirarPassageiros() {
-                    $("#passageiros option:selected").each(function() {
-                        for (x in listaPassageiros) {
-                            if (listaPassageiros[x].idPassageiro == $(this).val()) {
-                                listaPassageiros.splice(x, 1);
-                            }
+                function retirarPassageiros(id) {
+                    $("#passageiros tr").each(function() {
+                        //console.log($(this).find("input"));
+                        if ($(this).find("input").val() == id) {
+                            $(this).remove();
                         }
-                        $(this).remove();
                     });
                 }
                 ;
@@ -183,6 +188,95 @@
     <jsp:body>
         <form class="form-horizontal" action="" method="POST" id="viagem">
             <fieldset>
+                <div class="well" style="background-color: white">
+                    <div id="legend">
+                        <legend class="">Solicitações Selecionadas</legend>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Número do Pedido</th>
+                                <th>Solicitante</th>
+                                <th>Tipo de Veículo</th>
+                                <th>Data de Saída</th>
+                                <th>Data de Retorno</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <r:forEach var="solicitacaoViagem" items="${solicitacoes}">
+                                <r:if test="${sessionScope.Clearance == admin
+                                              or sessionScope.Username == solicitacaoViagem.getSolicitante().getUsername()}">
+                                      <tr <c:choose>
+                                              <c:when test="${solicitacaoViagem.getStatus() == efetivado}"> class="success" </c:when>
+                                              <c:when test="${solicitacaoViagem.getStatus() == cancelado}"> class="error" </c:when>
+                                          </c:choose>>
+                                          <td>${solicitacaoViagem.getNumeroPedido()}</td>
+                                          <td>${solicitacaoViagem.getSolicitante().getNome()}</td>
+                                          <td>${solicitacaoViagem.getTipoVeiculo().getTipoVeiculo()}</td>
+                                          <td>${solicitacaoViagem.getDataSaidaFormatada()}</td>
+                                          <td>${solicitacaoViagem.getDataRetornoFormatada()}</td>
+                                          <td>${solicitacaoViagem.getStatus()}</td>
+                                <input type="hidden" name="solicitacaoViagem${solicitacaoViagem.getIdSolicitacaoViagem()}" value="${solicitacaoViagem.getIdSolicitacaoViagem()}" />
+                                </tr>
+                            </r:if>
+                        </r:forEach>
+                        </tbody>
+                    </table>
+                    <br>
+                    <div id="legend">
+                        <legend class="">Passageiros</legend>
+                    </div>
+                    <input type="hidden" name="id_passageiro" id="id_passageiro" />
+                    <div class="control-group">
+                        <label class="control-label" for="nome_passageiro">Nome do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="nome_passageiro" id="nome_passageiro" onblur='completeFields($("#nome_passageiro").val());' onkeyup='completeFields($("#nome_passageiro").val());' /><a class="btn btn-primary" onclick='addPassageiro($("#id_passageiro").val(), $("#nome_passageiro").val(), $("#rg_passageiro").val(), $("#telefone_passageiro").val(), $("#endereco_passageiro").val());'><i class="icon-plus icon-white"></i> Adicionar Passageiro</a>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="rg_passageiro">RG do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="rg_passageiro" id="rg_passageiro" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="telefone_passageiro">Telefone do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="telefone_passageiro" id="telefone_passageiro" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="endereco_passageiro">Endereço do Passageiro</label>
+                        <div class="controls">
+                            <input class="input-xlarge" type="text" name="endereco_passageiro" id="endereco_passageiro" />
+                        </div>
+                    </div>
+                    <label class="" for="passageiros">Passageiros adicionados na reserva:</label>
+                    <table class="table table-bordered table-striped" id="passageiros">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>RG</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <r:forEach var="passageiro" items="${passageiros}">
+                                <tr>
+                                    <td>${passageiro.getNome()}</td>
+                                    <td>${passageiro.getRg()}</td>
+                                    <td>${passageiro.getTelefone()}</td>
+                                    <td>${passageiro.getEndereco()}</td>
+                                    <td class="opcoes"><a class="btn btn-danger" onclick="retirarPassageiros(${passageiro.getIdPassageiro()});"><i class="icon-remove icon-white"></i></a></td>
+                            <input type="hidden" name="passageiro${passageiro.getIdPassageiro()}" value="${passageiro.getIdPassageiro()}" />
+                            </tr>
+                        </r:forEach>
+                        </tbody>
+                    </table>
+                </div>
                 <div id="legend">
                     <legend class="">Criar Viagem</legend>
                 </div>

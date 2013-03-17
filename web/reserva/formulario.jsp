@@ -114,12 +114,12 @@
                         }
                     }
                     if (achou) {
-                        $("#id_passageiro").val(passageiros[x].idPassageiro);
-                        $("#rg_passageiro").val(passageiros[x].rg);
+                        $("#id_passageiro").val(passageiro.idPassageiro);
+                        $("#rg_passageiro").val(passageiro.rg);
                         $("#rg_passageiro").attr('disabled', "true");
-                        $("#telefone_passageiro").val(passageiros[x].telefone);
+                        $("#telefone_passageiro").val(passageiro.telefone);
                         $("#telefone_passageiro").attr('disabled', "true");
-                        $("#endereco_passageiro").val(passageiros[x].endereco);
+                        $("#endereco_passageiro").val(passageiro.endereco);
                         $("#endereco_passageiro").attr('disabled', "true");
                     } else {
                         $("#id_passageiro").val('');

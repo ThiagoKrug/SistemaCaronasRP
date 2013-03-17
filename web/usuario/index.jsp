@@ -54,6 +54,7 @@
                 </r:forEach>
             </tbody>
         </table>
+        <a href="./principal.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
         <script type="text/javascript">
                             function excluir(idUsuario) {
                                 event.preventDefault();

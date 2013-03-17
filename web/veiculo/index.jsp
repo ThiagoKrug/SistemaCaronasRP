@@ -64,5 +64,6 @@
                 </r:forEach>
             </tbody>
         </table>
+        <a href="./principal.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>
     </jsp:body>
 </layout:page>

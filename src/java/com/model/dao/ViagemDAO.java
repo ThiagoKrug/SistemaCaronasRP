@@ -80,6 +80,7 @@ public class ViagemDAO implements Dao {
             for (SolicitacaoViagem sol : viagem.getSolicitacoes(this.connection)) {
                 try {
                     sol.setStatus(StatusSolicitacaoViagem.EFETIVADO.toString());
+                    sol.setViagem(viagem);
                     svdao.alterar(sol);
                 } catch (Exception ex) {
                     ex.printStackTrace();
