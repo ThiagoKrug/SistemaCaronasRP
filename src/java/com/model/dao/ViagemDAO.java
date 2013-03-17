@@ -153,7 +153,22 @@ public class ViagemDAO implements Dao {
 
     @Override
     public Entity getById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement("select * from viagem where id_viagem=?");
+            stmt.setInt(1, id);
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+
+            rs.next();
+            Viagem viagem = this.setsFromDatabase(rs);
+
+            rs.close();
+            stmt.close();
+            return viagem;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Viagem> getViagens() {
