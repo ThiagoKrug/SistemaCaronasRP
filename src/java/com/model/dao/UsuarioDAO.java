@@ -97,6 +97,28 @@ public class UsuarioDAO implements Dao {
         return usuarios;
     }
     
+    public List<Usuario> getAdministradores() {
+        String sql = "select * from usuario where id_tipo_usuario = ?";
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        TipoUsuarioDAO tudao = new TipoUsuarioDAO(connection);
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setInt(1, tudao.getAdministrador().getIdTipoUsuario());
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario usuario = this.setsFromDatabase(rs);
+                usuarios.add(usuario);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+    
     private Usuario setsFromDatabase(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setEmail(rs.getString("email"));

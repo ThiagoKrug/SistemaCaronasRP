@@ -61,6 +61,26 @@ public class TipoUsuarioDAO implements Dao {
         }
         return tipoUsuario;
     }
+    
+    public TipoUsuario getAdministrador() {
+        String sql = "select * from tipo_usuario where tipo_usuario like ?";
+        TipoUsuario tipoUsuario = null;
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setString(1, "%Administrador%");
+            System.out.println(stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+
+            rs.next();
+            tipoUsuario = new TipoUsuario();
+            tipoUsuario.setIdTipoUsuario(rs.getInt("id_tipo_usuario"));
+            tipoUsuario.setTipoUsuario(rs.getString("tipo_usuario"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tipoUsuario;
+    }
 
     public List<TipoUsuario> getTiposUsuarios() {
         String sql = "select * from tipo_usuario";

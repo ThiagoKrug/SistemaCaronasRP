@@ -54,7 +54,8 @@
                               <td>${solicitacaoViagem.getDataRetornoFormatada()}</td>
                               <td>${solicitacaoViagem.getStatus()}</td>
                               <td class="opcoes">
-                                  <r:if test="${sessionScope.Clearance == admin}">
+                                  <r:if test="${solicitacaoViagem.getStatus() == solicitado and
+                                                sessionScope.Clearance == admin}">
                                       <a class="btn btn-warning" href="./reserva/formulario.jsp?id_solicitacao_viagem=${solicitacaoViagem.getIdSolicitacaoViagem()}"><i class="icon-edit icon-white"></i> Editar</a>
                                   </r:if>
                                   <r:if test="${solicitacaoViagem.getStatus() == efetivado
