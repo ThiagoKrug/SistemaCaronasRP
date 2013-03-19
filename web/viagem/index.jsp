@@ -44,7 +44,8 @@
                         <td>${viagem.getDataRetornoFormatada()}</td>
                         <td class="opcoes">
                             <a class="btn btn-danger" href="" onclick="excluir(${viagem.getIdViagem()});"><i class="icon-remove icon-white"></i> Excluir</a>
-                            <a class="btn btn-warning" href="./viagem/relat.jsp?id=${viagem.getIdViagem()}"><i class="icon-print icon-white"></i> Relatório</a>
+                            <a class="btn btn-primary" href="./viagem/relat.jsp?id=${viagem.getIdViagem()}"><i class="icon-print icon-white"></i> Relatório</a>
+                            <a class="btn btn-warning" href="./viagem/formulario2.jsp?id_viagem=${viagem.getIdViagem()}"><i class="icon-pencil icon-white"></i>Editar</a>
                         </td>
                     </tr>
                 </r:forEach>
