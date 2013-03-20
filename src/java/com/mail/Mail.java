@@ -80,6 +80,9 @@ public class Mail {
     
     
     private void sendMail(String to, Session session, String message) {
+        if (to == null) {
+            return;
+        }
         try {
             
             Message msg = new MimeMessage(session);

@@ -129,17 +129,18 @@ public class ViagemDAO implements Dao {
         Viagem viagem = (Viagem) entity;
         int result = 0;
         String sql = "update viagem set "
-                + "id_autorizante=?, id_motorista=?, id_veiculo=?, "
+                + "autorizante=?, id_motorista=?, id_veiculo=?, "
                 + "data_efetivacao=? "
                 + "where id_viagem=?";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setString(1, viagem.getAutorizante());
-            stmt.setInt(2, viagem.getMotorista(null).getIdUsuario());
-            stmt.setInt(3, viagem.getVeiculo(null).getIdVeiculo());
+            stmt.setInt(2, viagem.getMotorista(this.connection).getIdUsuario());
+            stmt.setInt(3, viagem.getVeiculo(this.connection).getIdVeiculo());
             stmt.setDate(4, new Date(viagem.getDataEfetivacao().getTime()));
             stmt.setInt(5, viagem.getIdViagem());
-
+            result = stmt.executeUpdate();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -32,10 +32,12 @@
     VeiculoDAO vdao = new VeiculoDAO(connection);
     request.setAttribute("vdao", vdao);
     String idViagem = request.getParameter("id_viagem");
+    Viagem viagem = null;
     if (idViagem != null) {
-        request.setAttribute("viagem", vidao.getById(Integer.parseInt(idViagem)));
+        viagem = (Viagem)vidao.getById(Integer.parseInt(idViagem));
+        request.setAttribute("viagem", viagem);
     } else {
-        Viagem viagem = new Viagem();
+        viagem = new Viagem();
         request.setAttribute("viagem", viagem);
     }
 
@@ -51,6 +53,14 @@
         }
         request.setAttribute("solicitacoes", solicitacoes);
         request.setAttribute("passageiros", passageiros);
+    }
+    
+    if (viagem != null) {
+        List<Passageiro> passageiros = new ArrayList<Passageiro>();
+        List<SolicitacaoViagem> solicitacoes = new ArrayList<SolicitacaoViagem>();
+        passageiros.addAll(viagem.getPassageiros(connection));
+        request.setAttribute("passageiros", passageiros);
+        request.setAttribute("solicitacoes", solicitacoes);
     }
 %>
 <layout:page description="" keywords="" title="Criar Viagem">
@@ -302,25 +312,25 @@
                 <div class="control-group">
                     <label class="control-label" for="data_retorno">Data de Retorno</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="data_retorno" id="datepicker_retorno" value="${solicitacaoViagem.getDataRetornoFormatada()}" />
+                        <input class="input-xlarge" type="text" name="data_retorno" id="datepicker_retorno" value="${viagem.getDataRetornoFormatada()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="data_saida">Hora de Retorno</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="time" name="hora_retorno" value="${solicitacaoViagem.getHoraRetornoFormatada()}" />
+                        <input class="input-xlarge" type="time" name="hora_retorno" value="${viagem.getHoraRetornoFormatada()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="local_saida">Local de Retorno</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="local_retorno" value="${solicitacaoViagem.getLocalRetorno()}" />
+                        <input class="input-xlarge" type="text" name="local_retorno" value="${viagem.getLocalRetorno()}" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="percurso">Percurso</label>
                     <div class="controls">
-                        <textarea name="percurso" class="input-xlarge" rows="4">${solicitacaoViagem.getPercurso()}</textarea>
+                        <textarea name="percurso" class="input-xlarge" rows="4">${viagem.getPercurso()}</textarea>
                     </div>
                 </div>
                 <div class="control-group">

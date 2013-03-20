@@ -26,13 +26,7 @@
 <layout:page title="Listagem de Reservas" description="" keywords="">
     <jsp:body>
         <h1>Reservas</h1>
-        <h4>Selecione as solicitações de viagem as quais o senhor ou senhora
-            deseja que sejam efetivamente efetivadas a fim de criar e confirmar
-            a viagem correspondente à intersecção das mesmas, ou seja, com
-            os mesmos parâmetros de saída e retorno, bem como todos os passageiros
-            envolvidos, incluindo, ou não, os solicitantes das tais solicitações de
-            reserva, os quais, a partir do momento da criação da viagem, estarão
-            incluídos ou não no conjunto de passageiros da viagem.</h4>
+        <h4>Selecione as solicitações de viagem para efetivar.</h4>
         <form action="./viagem/formulario2.jsp" method="post">
             <input type="submit" value="Criar Viagem" class="btn btn-primary"/>
             <table class="table table-bordered table-striped">
