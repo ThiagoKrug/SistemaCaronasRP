@@ -74,6 +74,7 @@
                 <h3>Sequencia: <%= i %> Nome: <%= pass.get(i).getNome() %> Rg: <%= pass.get(i).getRg() %></h3>
             <% }%>
             
+            <h3>Assinatura: __________________________  (<%= v.getAutorizante() %>)</h3>
         </section>
     </body>
 </html>
