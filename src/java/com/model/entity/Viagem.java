@@ -119,6 +119,7 @@ public class Viagem implements Entity {
             if (motorista.getNome() == null) {
                 UsuarioDAO udao = new UsuarioDAO(connection);
                 motorista = udao.getById(motorista.getIdUsuario());
+                System.out.println(motorista.getNome());
             }
         }
         return motorista;

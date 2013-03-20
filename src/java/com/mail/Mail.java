@@ -113,16 +113,19 @@ public class Mail {
         
     }
     
-    public void sendmail(String to, String template) {
+    public void sendmail(Usuario to, String template) {
         String html = template;
-        this.sendMail(to, this.getSession(), html);
+        if (!template.equals(Mail.CANCEL_TEMPLATE)) {
+            html = template.replace("{{solicitante}}", to.getNome());
+        }
+        this.sendMail(to.getEmail(), this.getSession(), html);
     }
     
     public void sendbatch(List<Usuario> recpts, String template) {
         for (Usuario user: recpts) {
             String fix = template.replace("{{solicitante}}",
                     user.getNome());
-            this.sendmail(user.getEmail(), fix);
+            this.sendmail(user, fix);
         }
     }
     

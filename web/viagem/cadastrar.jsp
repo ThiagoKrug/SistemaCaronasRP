@@ -25,18 +25,18 @@
                     if (vdao.alterar(viagem) == 1) {
                         Mail mail = new Mail();
                         if (!viagem.getVeiculo().getPlaca().equals(viagem2.getVeiculo().getPlaca())) {
-                            
-                            mail.sendmail(viagem2.getMotorista().getEmail(), Mail.CHARLIE_VICTOR_TEMPLATE);
-                            for (SolicitacaoViagem sv: viagem2.getSolicitacoes(connection)) {
-                                mail.sendmail(sv.getSolicitante().getEmail(), Mail.CHARLIE_VICTOR_TEMPLATE);
+                            System.out.println("ahsgdgdsgdhdhdshdh: " + viagem.getMotorista().getNome());
+                            mail.sendmail(viagem.getMotorista(), Mail.CHARLIE_VICTOR_TEMPLATE);
+                            for (SolicitacaoViagem sv: viagem.getSolicitacoes(connection)) {
+                                mail.sendmail(sv.getSolicitante(), Mail.CHARLIE_VICTOR_TEMPLATE);
                             }
                         }
                         
                         if (!viagem.getPercurso().equals(viagem2.getPercurso())) {
                             
-                            mail.sendmail(viagem2.getMotorista().getEmail(), Mail.CHARLIE_ROMEO_TEMPLATE);
+                            mail.sendmail(viagem2.getMotorista(), Mail.CHARLIE_ROMEO_TEMPLATE);
                             for (SolicitacaoViagem sv: viagem2.getSolicitacoes(connection)) {
-                                mail.sendmail(sv.getSolicitante().getEmail(), Mail.CHARLIE_ROMEO_TEMPLATE);
+                                mail.sendmail(sv.getSolicitante(), Mail.CHARLIE_ROMEO_TEMPLATE);
                             }
                         }
                         saida.print("Viagem atualizada com sucesso.");
