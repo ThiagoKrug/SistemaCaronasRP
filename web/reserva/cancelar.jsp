@@ -17,9 +17,9 @@
             int linhasAfetadas = svdao.alterar(solicitacaoViagem);
             if (linhasAfetadas == 1) {
                 Mail mail = new Mail();
-                mail.sendmail(solicitacaoViagem.getSolicitante().getEmail(), Mail.CANCEL_TEMPLATE);
+                mail.sendmail(solicitacaoViagem.getSolicitante(), Mail.CANCEL_TEMPLATE);
                 for (Usuario usuario : udao.getAdministradores()) {
-                    mail.sendmail(usuario.getEmail(), Mail.CANCEL_TEMPLATE);
+                    mail.sendmail(usuario, Mail.CANCEL_TEMPLATE);
                 }
                 saida.print("Reserva cancelada com sucesso.");
             } else {

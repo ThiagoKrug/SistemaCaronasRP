@@ -81,8 +81,9 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <div id='calendar'></div>
-        <br>
+        <h2 class="span10">Agenda dos Veículos</h2>
+        <div id='calendar'></div>        
+        <br>        
         <div class="control-group">
             <div class="controls">
                 <a href="./principal.jsp" class="btn btn-info"><i class="icon-arrow-left icon-white"></i> Voltar</a>

@@ -81,6 +81,7 @@
         </script>
     </jsp:attribute>
     <jsp:body>
+        <h2 class ="span10">Agenda dos Motoristas </h2>
         <div id='calendar'></div>
         <br>
         <div class="control-group">
